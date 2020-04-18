@@ -41,6 +41,8 @@ impl App {
             clear(GREEN, gl);
 
             let transform = c
+                .scale(1., -1.)
+                .trans(0., -args.window_size[1])
                 .transform;
 
             for step in steps.iter() {
