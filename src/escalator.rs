@@ -3,13 +3,14 @@ pub enum Direction {
     COUNTERCLOCKWISE,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Step {
     pub x: f64,
     pub y: f64,
     pub width: f64,
     pub height: f64,
 }
+
 
 impl Step {
     fn top(&self) -> f64 {
@@ -45,7 +46,7 @@ impl Escalator {
         let a: Vec<_> = (0..10).collect();
 
 
-        let left_edge: Vec<Step> = a.iter().map(|i| {
+        let left_edge: Vec<Step> = (0..10).collect::<Vec<i32>>().iter().map(|i| {
             Step {
                 x: 0.0,
                 y: *i as f64 * 10.,
@@ -53,12 +54,30 @@ impl Escalator {
                 height: 10.,
             }
         }).collect();
+        let down_bit: Vec<Step> = (0..9).collect::<Vec<i32>>().iter().map(|i| {
+            Step {
+                x: 10. * (*i as f64 + 1.),
+                y: 90. - 10. * (*i as f64 ),
+                width: 10.,
+                height: 10.,
+            }
+        }).collect();
+        let bottom_row: Vec<Step> = (1..10).collect::<Vec<i32>>().iter().map(|i| {
+            Step {
+                x: 10. * (*i as f64),
+                y: 0.,
+                width: 10.,
+                height: 10.,
+            }
+        }).collect();
+
+        let all_steps = [&left_edge[..], &down_bit[..], &bottom_row[..]].concat();
 
         Escalator {
             direction: Direction::CLOCKWISE,
             active: false,
-            steps: left_edge,
-            speed: 100.0,
+            steps: all_steps,
+            speed: 10.0,
             height: 100.,
             width: 100.,
             x: 0.,
