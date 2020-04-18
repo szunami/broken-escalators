@@ -31,7 +31,6 @@ fn draw_step(color: [f32; 4], gl: &mut GlGraphics, step: &escalator::Step, trans
 
 impl App {
     fn render(&mut self, args: &RenderArgs) {
-
         const GREEN: [f32; 4] = [0.0, 1.0, 0.0, 1.0];
         const RED: [f32; 4] = [1.0, 0.0, 0.0, 1.0];
 
@@ -43,8 +42,6 @@ impl App {
 
             let transform = c
                 .transform;
-
-
 
             for step in steps.iter() {
                 draw_step(RED, gl, step, transform);
