@@ -3,17 +3,17 @@ pub enum Direction {
     COUNTERCLOCKWISE,
 }
 
-struct Step {
-    x: f64,
-    y: f64,
-    width: f64,
-    height: f64,
+pub struct Step {
+    pub x: f64,
+    pub y: f64,
+    pub width: f64,
+    pub height: f64,
 }
 
 pub(crate) struct Escalator {
     direction: Direction,
     active: bool,
-    steps: Vec<Step>,
+    pub steps: Vec<Step>,
     speed: f64,
     height: f64,
     width: f64,

@@ -8,44 +8,53 @@ use opengl_graphics::{GlGraphics, OpenGL};
 use piston::event_loop::{EventSettings, Events};
 use piston::input::{RenderArgs, RenderEvent, UpdateArgs, UpdateEvent};
 use piston::window::WindowSettings;
+use graphics::types;
+use crate::escalator::{Escalator, Direction};
+use std::borrow::BorrowMut;
+use graphics::*;
+
+mod escalator;
 
 pub struct App {
     gl: GlGraphics,
-    // OpenGL drawing backend.
-    rotation: f64,  // Rotation for the square.
+    escalator: Escalator,
+}
+
+fn draw_step(color: [f32; 4], gl: &mut GlGraphics, step: &escalator::Step, transform: [[f64; 3]; 2]) {
+    let step_poly: types::Polygon = &[
+        [step.x, step.y + step.height],
+        [step.x + step.width, step.y + step.height],
+        [step.x + step.width, step.y]
+    ];
+    polygon(color, step_poly, transform, gl);
 }
 
 impl App {
     fn render(&mut self, args: &RenderArgs) {
-        use graphics::*;
 
         const GREEN: [f32; 4] = [0.0, 1.0, 0.0, 1.0];
         const RED: [f32; 4] = [1.0, 0.0, 0.0, 1.0];
 
-        let rotation = self.rotation;
-        let (x, y) = (args.window_size[0] / 2.0, args.window_size[1] / 2.0);
+        let steps = &self.escalator.steps;
 
         self.gl.draw(args.viewport(), |c, gl| {
             // Clear the screen.
             clear(GREEN, gl);
 
             let transform = c
-                .transform
-                .trans(x, y)
-                .rot_rad(rotation)
-                .trans(-25.0, -25.0);
+                .transform;
 
-            let step: types::Polygon = &[[0., 50.], [0., 0.], [50., 0.]];
 
-            // Draw a box rotating around the middle of the screen.
-//            rectangle(RED, square, transform, gl);
-            polygon(RED, step, transform, gl)
+
+            for step in steps.iter() {
+                draw_step(RED, gl, step, transform);
+            }
         });
     }
 
+
     fn update(&mut self, args: &UpdateArgs) {
-        // Rotate 2 radians per second.
-        self.rotation += 2.0 * args.dt;
+        self.escalator.update(args.dt);
     }
 }
 
@@ -63,7 +72,7 @@ fn main() {
     // Create a new game and run it.
     let mut app = App {
         gl: GlGraphics::new(opengl),
-        rotation: 0.0,
+        escalator: Escalator::new(),
     };
 
     let mut events = Events::new(EventSettings::new());
