@@ -13,6 +13,10 @@ pub struct Step {
 
 
 impl Step {
+    fn update(&self, x: f64, y: f64) -> Step {
+        return Step { x, y, ..*self };
+    }
+
     fn top(&self) -> f64 {
         self.y + self.height
     }
@@ -53,9 +57,9 @@ impl Escalator {
                 height: step_height,
             }
         }).collect();
-        let down_bit: Vec<Step> = (0..(num_units - 1)).collect::<Vec<i32>>().iter().map(|i| {
+        let down_bit: Vec<Step> = (1..(num_units - 1)).collect::<Vec<i32>>().iter().map(|i| {
             Step {
-                x: x + step_width * (*i as f64 + 1.),
+                x: x + step_width * (*i as f64),
                 y: y + step_height * ((num_units - 1 - *i) as f64),
                 width: step_width,
                 height: step_height,
@@ -76,7 +80,7 @@ impl Escalator {
             direction: Direction::CLOCKWISE,
             active: false,
             steps: all_steps,
-            speed: 10.0,
+            speed: 50.,
             height: height,
             width: width,
             x: x,
@@ -102,32 +106,20 @@ impl Escalator {
 
 
     pub fn update(&mut self, dt: f64) {
-        for step in self.steps.iter_mut() {
-//            println!("{:?}", step);
+        self.steps = self.compute_new_steps(dt);
+    }
 
-            // left edge
-            if step.left() <= self.x && step.top() <= self.y + self.height {
-//                println!("left edge");
-                step.y += self.speed * dt;
-                step.x = self.x;
-            } else if step.top() >= self.y + self.height && step.x <= step.width {
-//                println!("top edge");
-                step.x += self.speed * dt;
-                step.y = self.height - step.height;
-            } else if step.right() >= self.x + self.width && step.bottom() >= self.y {
-//                println!("right edge");
-                step.x = self.x + self.width - step.width;
-                step.y -= self.speed * dt;
-            } else if step.bottom() <= self.y {
-//                println!("bottom edge");
-                step.x -= self.speed * dt;
-                step.y = self.y;
-            } else {
-                // down bit
-//                println!("going down");
-                step.x += self.speed * dt;
-                step.y -= self.speed * dt;
+    fn compute_new_steps(&self, dt: f64) -> Vec<Step> {
+        return self.steps.iter().map(|step| {
+            let distance = dt * self.speed;
+            if step.left() <= self.left() && step.top() <= self.top() {
+                return step.update(self.left(), step.y + distance);
             }
-        }
+            if step.bottom() <= self.bottom() && step.left() >= self.left() {
+                return step.update(step.x - distance, step.y);
+            }
+            return step.update(step.x + distance, step.y - distance);
+        }).collect();
     }
 }
+
