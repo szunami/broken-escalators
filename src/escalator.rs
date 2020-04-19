@@ -1,3 +1,4 @@
+
 pub enum Direction {
     CLOCKWISE,
     COUNTERCLOCKWISE,
@@ -80,7 +81,7 @@ impl Escalator {
             direction: Direction::CLOCKWISE,
             active: false,
             steps: all_steps,
-            speed: 50.,
+            speed: 10.,
             height: height,
             width: width,
             x: x,
@@ -106,20 +107,35 @@ impl Escalator {
 
 
     pub fn update(&mut self, dt: f64) {
-        self.steps = self.compute_new_steps(dt);
+        let distance = self.speed * dt;
+        self.steps = self.steps.iter().map(|step| { self.compute_new_step(step, distance) })
+            .collect();
     }
 
-    fn compute_new_steps(&self, dt: f64) -> Vec<Step> {
-        return self.steps.iter().map(|step| {
-            let distance = dt * self.speed;
-            if step.left() <= self.left() && step.top() <= self.top() {
-                return step.update(self.left(), step.y + distance);
+    fn compute_new_step(&self, step: &Step, distance: f64) -> Step {
+        // left edge
+        if step.left() <= self.left() && step.top() <= self.top() {
+            let spare_movement: f64 = f64::max(step.top() + distance - self.top(), 0.);
+            if spare_movement > 0. {
+                return step.update(self.left() + spare_movement, self.top() - spare_movement - step.height);
             }
-            if step.bottom() <= self.bottom() && step.left() >= self.left() {
-                return step.update(step.x - distance, step.y);
+            return step.update(self.left(), step.y + distance);
+        }
+        // bottom edge
+        if step.bottom() <= self.bottom() && step.left() >= self.left() {
+            let spare_movement = f64::max(self.left() - (step.x - distance), 0.);
+            if spare_movement > 0. {
+                return step.update(self.left(), self.bottom() + spare_movement);
             }
-            return step.update(step.x + distance, step.y - distance);
-        }).collect();
+            return step.update(step.x - distance, step.y);
+        }
+        let spare_movement = f64::max(self.bottom() - step.bottom(), 0.);
+
+        if spare_movement > 0. {
+            return step.update(self.right() - spare_movement - step.width, self.bottom());
+        }
+
+        return step.update(step.x + distance, step.y - distance);
     }
 }
 
