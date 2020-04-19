@@ -1,10 +1,11 @@
+use getset::{CopyGetters, Getters, MutGetters, Setters};
 
 pub enum Direction {
     CLOCKWISE,
     COUNTERCLOCKWISE,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Getters)]
 pub struct Step {
     pub x: f64,
     pub y: f64,
