@@ -58,4 +58,13 @@ impl Item {
             color: [1.0, 1.0, 1.0, 1.0],
         }
     }
+
+    pub fn update(&self, dt: f64) -> Item {
+        let distance = dt;
+        return Item {
+            x: self.x - distance
+            ,
+            ..*self
+        };
+    }
 }

@@ -36,6 +36,8 @@ fn draw_item(gl: &mut GlGraphics, item: &item::Item, transform: [[f64; 3]; 2]) {
 
 impl App {
     fn render(&mut self, args: &RenderArgs) {
+
+
         const BLACK: [f32; 4] = [0.0, 0.0, 0.0, 1.0];
         const GREY: [f32; 4] = [0.5, 0.5, 0.5, 1.0];
 
@@ -60,6 +62,7 @@ impl App {
 
 
     fn update(&mut self, args: &UpdateArgs) {
+        self.item = self.item.update(args.dt);
         self.escalator.update(args.dt);
     }
 }
