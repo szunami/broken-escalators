@@ -17,19 +17,19 @@ impl Step {
         return Step { x, y, ..*self };
     }
 
-    fn top(&self) -> f64 {
+    pub fn top(&self) -> f64 {
         self.y + self.height
     }
 
-    fn bottom(&self) -> f64 {
+    pub fn bottom(&self) -> f64 {
         self.y
     }
 
-    fn left(&self) -> f64 {
+    pub fn left(&self) -> f64 {
         self.x
     }
 
-    fn right(&self) -> f64 {
+    pub fn right(&self) -> f64 {
         self.x + self.width
     }
 }
