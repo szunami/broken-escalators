@@ -21,12 +21,8 @@ pub struct App {
 }
 
 fn draw_step(color: [f32; 4], gl: &mut GlGraphics, step: &escalator::Step, transform: [[f64; 3]; 2]) {
-    let step_poly: types::Polygon = &[
-        [step.x, step.y + step.height],
-        [step.x + step.width, step.y + step.height],
-        [step.x + step.width, step.y]
-    ];
-    polygon(color, step_poly, transform, gl);
+    let rect = rectangle::rectangle_by_corners(step.left(), step.bottom(), step.right(), step.top());
+    rectangle(color, rect, transform, gl);
 }
 
 impl App {
