@@ -36,10 +36,10 @@ impl App {
 
         let steps = &self.escalator.steps;
 
+
         self.gl.draw(args.viewport(), |c, gl| {
             // Clear the screen.
             clear(GREEN, gl);
-
             let transform = c
                 .scale(1., -1.)
                 .trans(0., -args.window_size[1])
@@ -71,7 +71,7 @@ fn main() {
     // Create a new game and run it.
     let mut app = App {
         gl: GlGraphics::new(opengl),
-        escalator: Escalator::new(),
+        escalator: Escalator::new(100., 100., 10, 0., 0.),
     };
 
     let mut events = Events::new(EventSettings::new());

@@ -42,32 +42,31 @@ pub(crate) struct Escalator {
 }
 
 impl Escalator {
-    pub fn new() -> Escalator {
-        let a: Vec<_> = (0..10).collect();
-
-
-        let left_edge: Vec<Step> = (0..10).collect::<Vec<i32>>().iter().map(|i| {
+    pub fn new(height: f64, width: f64, num_units: i32, x: f64, y: f64) -> Escalator {
+        let step_height = height / num_units as f64;
+        let step_width = width / num_units as f64;
+        let left_edge: Vec<Step> = (0..num_units).collect::<Vec<i32>>().iter().map(|i| {
             Step {
-                x: 0.0,
-                y: *i as f64 * 10.,
-                width: 10.,
-                height: 10.,
+                x: x,
+                y: y + *i as f64 * 10.,
+                width: step_width,
+                height: step_height,
             }
         }).collect();
-        let down_bit: Vec<Step> = (0..9).collect::<Vec<i32>>().iter().map(|i| {
+        let down_bit: Vec<Step> = (0..(num_units - 1)).collect::<Vec<i32>>().iter().map(|i| {
             Step {
-                x: 10. * (*i as f64 + 1.),
-                y: 90. - 10. * (*i as f64 ),
-                width: 10.,
-                height: 10.,
+                x: x + step_width * (*i as f64 + 1.),
+                y: y + step_height * ((num_units - 1 - *i) as f64),
+                width: step_width,
+                height: step_height,
             }
         }).collect();
-        let bottom_row: Vec<Step> = (1..10).collect::<Vec<i32>>().iter().map(|i| {
+        let bottom_row: Vec<Step> = (1..num_units).collect::<Vec<i32>>().iter().map(|i| {
             Step {
-                x: 10. * (*i as f64),
-                y: 0.,
-                width: 10.,
-                height: 10.,
+                x: x + step_width * (*i as f64),
+                y: y,
+                width: step_width,
+                height: step_height,
             }
         }).collect();
 
@@ -78,10 +77,10 @@ impl Escalator {
             active: false,
             steps: all_steps,
             speed: 10.0,
-            height: 100.,
-            width: 100.,
-            x: 0.,
-            y: 0.,
+            height: height,
+            width: width,
+            x: x,
+            y: y,
         }
     }
 
@@ -129,8 +128,6 @@ impl Escalator {
                 step.x += self.speed * dt;
                 step.y -= self.speed * dt;
             }
-
-
         }
     }
 }
