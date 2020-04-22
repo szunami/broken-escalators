@@ -1,15 +1,15 @@
 use amethyst::{
-    assets::{AssetStorage, Loader, Handle},
-    core::transform::Transform,
+    assets::{AssetStorage, Handle, Loader},
     core::timing::Time,
+    core::transform::Transform,
     ecs::prelude::{Component, DenseVecStorage, Entity},
     prelude::*,
     renderer::{Camera, ImageFormat, SpriteRender, SpriteSheet, SpriteSheetFormat, Texture},
     ui::{Anchor, TtfFormat, UiText, UiTransform},
 };
 
-pub const ARENA_HEIGHT: f32 = 100.0;
-pub const ARENA_WIDTH: f32 = 100.0;
+pub const ARENA_HEIGHT: f32 = 1000.0;
+pub const ARENA_WIDTH: f32 = 1000.0;
 #[derive(Default)]
 pub struct BrokenEscalators {}
 
@@ -24,9 +24,33 @@ impl Component for Step {
 
 impl Step {
     fn new(width: f32, height: f32) -> Step {
-        Step {
+        Step { width, height }
+    }
+}
+
+pub enum Direction {
+    CLOCKWISE,
+    COUNTERCLOCKWISE,
+}
+
+pub struct Escalator {
+    pub width: f32,
+    pub height: f32,
+    pub speed: f32,
+    pub direction: Direction,
+}
+
+impl Component for Escalator {
+    type Storage = DenseVecStorage<Self>;
+}
+
+impl Escalator {
+    fn new(width: f32, height: f32, speed: f32, direction: Direction) -> Escalator {
+        Escalator {
             width,
-            height
+            height,
+            speed,
+            direction,
         }
     }
 }
@@ -34,9 +58,8 @@ impl Step {
 impl SimpleState for BrokenEscalators {
     fn on_start(&mut self, data: StateData<'_, GameData<'_, '_>>) {
         let world = data.world;
-
+        world.register::<Escalator>();
         initialise_camera(world);
-
 
         let sprite_sheet = load_sprite_sheet(world);
         let sprite_render = SpriteRender {
@@ -44,17 +67,42 @@ impl SimpleState for BrokenEscalators {
             sprite_number: 0,
         };
 
-        let mut transform = Transform::default();
-
-        transform.set_translation_xyz(0., 0., 0.);
-
-        world
-        .create_entity()
-        .with(Step::new(100., 100.))
-        .with(sprite_render.clone())
-        .with(transform)
-        .build();
+        initialize_escalator(world, sprite_render);
     }
+}
+
+fn initialize_escalator(world: &mut World, sprite_render: SpriteRender) {
+    let mut transform = Transform::default();
+    transform.set_translation_xyz(16., 16., 0.);
+    world
+        .create_entity()
+        .with(Step::new(32., 32.))
+        .with(sprite_render.clone())
+        .with(transform.clone())
+        .build();
+
+    transform.set_translation_xyz(48., 16., 0.);
+    world
+        .create_entity()
+        .with(Step::new(32., 32.))
+        .with(sprite_render.clone())
+        .with(transform.clone())
+        .build();
+
+    transform.set_translation_xyz(16., 48., 0.);
+    world
+        .create_entity()
+        .with(Step::new(32., 32.))
+        .with(sprite_render.clone())
+        .with(transform.clone())
+        .build();
+
+    transform.set_translation_xyz(16., 16., 0.);
+    world
+        .create_entity()
+        .with(Escalator::new(64., 64., 5., Direction::CLOCKWISE))
+        .with(transform.clone())
+        .build();
 }
 
 fn initialise_camera(world: &mut World) {
