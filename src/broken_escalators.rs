@@ -16,6 +16,8 @@ pub struct BrokenEscalators {}
 pub struct Step {
     pub width: f32,
     pub height: f32,
+    pub x_velocity: f32,
+    pub y_velocity: f32,
 }
 
 impl Component for Step {
@@ -23,8 +25,8 @@ impl Component for Step {
 }
 
 impl Step {
-    fn new(width: f32, height: f32) -> Step {
-        Step { width, height }
+    fn new(width: f32, height: f32, x_velocity: f32, y_velocity: f32) -> Step {
+        Step { width, height, x_velocity, y_velocity }
     }
 }
 
@@ -76,26 +78,26 @@ fn initialize_escalator(world: &mut World, sprite_render: SpriteRender) {
     transform.set_translation_xyz(16., 16., 0.);
     world
         .create_entity()
-        .with(Step::new(32., 32.))
+        .with(Step::new(32., 32., 0., 5.))
         .with(sprite_render.clone())
         .with(transform.clone())
         .build();
 
-    transform.set_translation_xyz(48., 16., 0.);
-    world
-        .create_entity()
-        .with(Step::new(32., 32.))
-        .with(sprite_render.clone())
-        .with(transform.clone())
-        .build();
+    // transform.set_translation_xyz(48., 16., 0.);
+    // world
+    //     .create_entity()
+    //     .with(Step::new(32., 32., 5., -5.))
+    //     .with(sprite_render.clone())
+    //     .with(transform.clone())
+    //     .build();
 
-    transform.set_translation_xyz(16., 48., 0.);
-    world
-        .create_entity()
-        .with(Step::new(32., 32.))
-        .with(sprite_render.clone())
-        .with(transform.clone())
-        .build();
+    // transform.set_translation_xyz(16., 48., 0.);
+    // world
+    //     .create_entity()
+    //     .with(Step::new(32., 32., -5., 0.))
+    //     .with(sprite_render.clone())
+    //     .with(transform.clone())
+    //     .build();
 
     transform.set_translation_xyz(16., 16., 0.);
     world

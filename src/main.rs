@@ -32,6 +32,7 @@ fn main() -> amethyst::Result<()> {
                 .with_plugin(RenderFlat2D::default()),
         )?
         .with_bundle(TransformBundle::new())?
+        .with(systems::CornerSystem, "corner_system", &[])
         .with(systems::EscalatorSystem, "escalator_system", &[]);
 
     let mut game = Application::new(assets_dir, BrokenEscalators::default(), game_data)?;
