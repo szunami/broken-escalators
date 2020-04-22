@@ -11,6 +11,7 @@ use amethyst::{
 use broken_escalators::BrokenEscalators;
 
 mod broken_escalators;
+mod systems;
 
 fn main() -> amethyst::Result<()> {
     amethyst::start_logger(Default::default());
@@ -30,7 +31,8 @@ fn main() -> amethyst::Result<()> {
                 )
                 .with_plugin(RenderFlat2D::default()),
         )?
-        .with_bundle(TransformBundle::new())?;
+        .with_bundle(TransformBundle::new())?
+        .with(systems::EscalatorSystem, "escalator_system", &[]);
 
     let mut game = Application::new(assets_dir, BrokenEscalators::default(), game_data)?;
     game.run();
