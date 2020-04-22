@@ -32,7 +32,7 @@ impl<'s> System<'s> for CornerSystem {
                     step.y_velocity = -escalator.speed;
                     continue
                 }
-                if step_local.translation().y - step.height * 0.5 <= escalator_local.translation().y - escalator.height * 0.5  {
+                if step_local.translation().x + step.width * 0.5 >= escalator_local.translation().x + escalator.width * 0.5  {
                     println!("Hit right corner");
                     step.x_velocity = - escalator.speed;
                     step.y_velocity = 0.;

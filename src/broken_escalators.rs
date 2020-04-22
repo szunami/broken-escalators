@@ -83,26 +83,26 @@ fn initialize_escalator(world: &mut World, sprite_render: SpriteRender) {
         .with(transform.clone())
         .build();
 
-    // transform.set_translation_xyz(48., 16., 0.);
-    // world
-    //     .create_entity()
-    //     .with(Step::new(32., 32., 5., -5.))
-    //     .with(sprite_render.clone())
-    //     .with(transform.clone())
-    //     .build();
+     transform.set_translation_xyz(48., 16., 0.);
+     world
+         .create_entity()
+         .with(Step::new(32., 32., 5., -5.))
+         .with(sprite_render.clone())
+         .with(transform.clone())
+         .build();
 
-    // transform.set_translation_xyz(16., 48., 0.);
-    // world
-    //     .create_entity()
-    //     .with(Step::new(32., 32., -5., 0.))
-    //     .with(sprite_render.clone())
-    //     .with(transform.clone())
-    //     .build();
+     transform.set_translation_xyz(16., 48., 0.);
+     world
+         .create_entity()
+         .with(Step::new(32., 32., -5., 0.))
+         .with(sprite_render.clone())
+         .with(transform.clone())
+         .build();
 
-    transform.set_translation_xyz(16., 16., 0.);
+    transform.set_translation_xyz(32., 32., 0.);
     world
         .create_entity()
-        .with(Escalator::new(64., 64., 5., Direction::CLOCKWISE))
+        .with(Escalator::new(64., 64., 1., Direction::CLOCKWISE))
         .with(transform.clone())
         .build();
 }
