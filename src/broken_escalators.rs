@@ -48,8 +48,6 @@ impl SimpleState for BrokenEscalators {
 
         transform.set_translation_xyz(0., 0., 0.);
 
-        world.register::<Step>();
-
         world
         .create_entity()
         .with(Step::new(100., 100.))
