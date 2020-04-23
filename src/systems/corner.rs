@@ -1,9 +1,7 @@
 use amethyst::{
     core::transform::Transform,
-    core::SystemDesc,
     derive::SystemDesc,
-    ecs::prelude::{Join, ReadExpect, ReadStorage, System, SystemData, World, Write, WriteStorage},
-    ui::UiText,
+    ecs::prelude::{Join, ReadStorage, System, SystemData, World, Write, WriteStorage},
 };
 use crate::components::{Escalator, Step};
 #[derive(SystemDesc)]

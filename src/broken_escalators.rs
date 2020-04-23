@@ -1,11 +1,8 @@
 use amethyst::{
     assets::{AssetStorage, Handle, Loader},
-    core::timing::Time,
     core::transform::Transform,
-    ecs::prelude::{Component, DenseVecStorage, Entity},
     prelude::*,
     renderer::{Camera, ImageFormat, SpriteRender, SpriteSheet, SpriteSheetFormat, Texture},
-    ui::{Anchor, TtfFormat, UiText, UiTransform},
 };
 
 use crate::components::{Step, Escalator, Direction};
