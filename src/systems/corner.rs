@@ -2,7 +2,7 @@ use crate::components::{Escalator, Step};
 use amethyst::{
     core::transform::Transform,
     derive::SystemDesc,
-    ecs::prelude::{Join, ReadStorage, System, SystemData, World, Write, WriteStorage},
+    ecs::prelude::{Join, ReadStorage, System, SystemData, WriteStorage},
 };
 #[derive(SystemDesc)]
 pub struct CornerSystem;

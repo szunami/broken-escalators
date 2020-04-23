@@ -10,9 +10,9 @@ use crate::components::{Direction, Escalator, Step};
 pub const ARENA_HEIGHT: f32 = 1000.0;
 pub const ARENA_WIDTH: f32 = 1000.0;
 #[derive(Default)]
-pub struct BrokenEscalators {}
+pub struct Game {}
 
-impl SimpleState for BrokenEscalators {
+impl SimpleState for Game {
     fn on_start(&mut self, data: StateData<'_, GameData<'_, '_>>) {
         let world = data.world;
         world.register::<Escalator>();

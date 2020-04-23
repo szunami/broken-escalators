@@ -8,9 +8,9 @@ use amethyst::{
     },
     utils::application_root_dir,
 };
-use broken_escalators::BrokenEscalators;
+use game::Game;
 
-mod broken_escalators;
+mod game;
 mod components;
 mod systems;
 
@@ -36,7 +36,7 @@ fn main() -> amethyst::Result<()> {
         .with(systems::CornerSystem, "corner_system", &[])
         .with(systems::EscalatorSystem, "escalator_system", &[]);
 
-    let mut game = Application::new(assets_dir, BrokenEscalators::default(), game_data)?;
+    let mut game = Application::new(assets_dir, Game::default(), game_data)?;
     game.run();
 
     Ok(())
