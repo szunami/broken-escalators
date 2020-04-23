@@ -20,13 +20,17 @@ impl SimpleState for Game {
         initialise_camera(world);
 
         let sprite_sheet = load_sprite_sheet(world);
-        let sprite_render = SpriteRender {
-            sprite_sheet: sprite_sheet,
+        let step_render = SpriteRender {
+            sprite_sheet: sprite_sheet.clone(),
             sprite_number: 0,
         };
+        let thing_render = SpriteRender {
+            sprite_sheet: sprite_sheet,
+            sprite_number: 1,
+        };
 
-        initialize_escalators(world, sprite_render.clone());
-        initialise_thing(world, sprite_render.clone());
+        initialize_escalators(world, step_render.clone());
+        initialise_thing(world, thing_render.clone());
     }
 }
 
@@ -146,7 +150,7 @@ fn load_sprite_sheet(world: &mut World) -> Handle<SpriteSheet> {
         let loader = world.read_resource::<Loader>();
         let texture_storage = world.read_resource::<AssetStorage<Texture>>();
         loader.load(
-            "texture/yellow_box.png",
+            "texture/spritesheet.png",
             ImageFormat::default(),
             (),
             &texture_storage,
