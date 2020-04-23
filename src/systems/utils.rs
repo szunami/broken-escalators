@@ -1,8 +1,7 @@
 use crate::components::{Direction, Escalator};
 use amethyst::{
     core::transform::Transform,
-    derive::SystemDesc,
-    ecs::prelude::{Join, ReadStorage, System, SystemData, WriteStorage},
+    ecs::prelude::{Join, ReadStorage, WriteStorage},
 };
 use std::collections::HashMap;
 
