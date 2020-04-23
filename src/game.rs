@@ -5,7 +5,7 @@ use amethyst::{
     renderer::{Camera, ImageFormat, SpriteRender, SpriteSheet, SpriteSheetFormat, Texture},
 };
 
-use crate::components::{Direction, Escalator, Step};
+use crate::components::{Direction, Escalator, Step, Thing};
 
 pub const ARENA_HEIGHT: f32 = 1000.0;
 pub const ARENA_WIDTH: f32 = 1000.0;
@@ -16,6 +16,7 @@ impl SimpleState for Game {
     fn on_start(&mut self, data: StateData<'_, GameData<'_, '_>>) {
         let world = data.world;
         world.register::<Escalator>();
+        world.register::<Thing>();
         initialise_camera(world);
 
         let sprite_sheet = load_sprite_sheet(world);
@@ -24,7 +25,8 @@ impl SimpleState for Game {
             sprite_number: 0,
         };
 
-        initialize_escalators(world, sprite_render);
+        initialize_escalators(world, sprite_render.clone());
+        initialise_thing(world , sprite_render.clone());
     }
 }
 
@@ -111,6 +113,17 @@ fn initialize_escalators(world: &mut World, sprite_render: SpriteRender) {
             .with(transform.clone())
             .build();
     }
+}
+
+fn initialise_thing(world: &mut World,  sprite_render: SpriteRender) {
+    let mut transform = Transform::default();
+    transform.set_translation_xyz(300., 300., 0.);
+    world
+    .create_entity()
+    .with(Thing::new())
+    .with(sprite_render.clone())
+    .with(transform.clone())
+    .build();
 }
 
 fn initialise_camera(world: &mut World) {
