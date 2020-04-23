@@ -26,7 +26,7 @@ impl SimpleState for Game {
         };
 
         initialize_escalators(world, sprite_render.clone());
-        initialise_thing(world , sprite_render.clone());
+        initialise_thing(world, sprite_render.clone());
     }
 }
 
@@ -115,15 +115,15 @@ fn initialize_escalators(world: &mut World, sprite_render: SpriteRender) {
     }
 }
 
-fn initialise_thing(world: &mut World,  sprite_render: SpriteRender) {
+fn initialise_thing(world: &mut World, sprite_render: SpriteRender) {
     let mut transform = Transform::default();
     transform.set_translation_xyz(300., 300., 0.);
     world
-    .create_entity()
-    .with(Thing::new())
-    .with(sprite_render.clone())
-    .with(transform.clone())
-    .build();
+        .create_entity()
+        .with(Thing::new())
+        .with(sprite_render.clone())
+        .with(transform.clone())
+        .build();
 }
 
 fn initialise_camera(world: &mut World) {

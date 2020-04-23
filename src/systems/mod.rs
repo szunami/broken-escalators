@@ -4,5 +4,5 @@ pub use self::gravity::GravitySystem;
 
 mod corner;
 mod escalator;
-mod utils;
 mod gravity;
+mod utils;
