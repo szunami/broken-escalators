@@ -5,13 +5,9 @@ use amethyst::{
     ecs::prelude::{Join, ReadStorage, System, SystemData, WriteStorage},
 };
 
-
 use crate::components::{Escalator, Step};
 #[derive(SystemDesc)]
 pub struct EscalatorSystem;
-
-
-
 
 impl<'s> System<'s> for EscalatorSystem {
     type SystemData = (

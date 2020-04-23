@@ -29,86 +29,87 @@ impl SimpleState for Game {
 }
 
 fn initialize_escalators(world: &mut World, sprite_render: SpriteRender) {
-{    let escalator_id = 0;
+    {
+        let escalator_id = 0;
 
-    let mut transform = Transform::default();
-    transform.set_translation_xyz(16., 16., 0.);
-    world
-        .create_entity()
-        .with(Step::new(escalator_id, 32., 32., 0., 5.))
-        .with(sprite_render.clone())
-        .with(transform.clone())
-        .build();
+        let mut transform = Transform::default();
+        transform.set_translation_xyz(16., 16., 0.);
+        world
+            .create_entity()
+            .with(Step::new(escalator_id, 32., 32., 0., 5.))
+            .with(sprite_render.clone())
+            .with(transform.clone())
+            .build();
 
-    transform.set_translation_xyz(48., 16., 0.);
-    world
-        .create_entity()
-        .with(Step::new(escalator_id, 32., 32., 5., -5.))
-        .with(sprite_render.clone())
-        .with(transform.clone())
-        .build();
+        transform.set_translation_xyz(48., 16., 0.);
+        world
+            .create_entity()
+            .with(Step::new(escalator_id, 32., 32., 5., -5.))
+            .with(sprite_render.clone())
+            .with(transform.clone())
+            .build();
 
-    transform.set_translation_xyz(16., 48., 0.);
-    world
-        .create_entity()
-        .with(Step::new(escalator_id, 32., 32., -5., 0.))
-        .with(sprite_render.clone())
-        .with(transform.clone())
-        .build();
+        transform.set_translation_xyz(16., 48., 0.);
+        world
+            .create_entity()
+            .with(Step::new(escalator_id, 32., 32., -5., 0.))
+            .with(sprite_render.clone())
+            .with(transform.clone())
+            .build();
 
-    transform.set_translation_xyz(32., 32., 0.);
-    world
-        .create_entity()
-        .with(Escalator::new(
-            escalator_id,
-            64.,
-            64.,
-            1.,
-            Direction::CLOCKWISE,
-        ))
-        .with(transform.clone())
-        .build();
+        transform.set_translation_xyz(32., 32., 0.);
+        world
+            .create_entity()
+            .with(Escalator::new(
+                escalator_id,
+                64.,
+                64.,
+                1.,
+                Direction::CLOCKWISE,
+            ))
+            .with(transform.clone())
+            .build();
     }
     {
         let escalator_id = 1;
 
-    let mut transform = Transform::default();
-    transform.set_translation_xyz(200., 16., 0.);
-    world
-        .create_entity()
-        .with(Step::new(escalator_id, 32., 32., 0., 5.))
-        .with(sprite_render.clone())
-        .with(transform.clone())
-        .build();
+        let mut transform = Transform::default();
+        transform.set_translation_xyz(200., 16., 0.);
+        world
+            .create_entity()
+            .with(Step::new(escalator_id, 32., 32., 0., 5.))
+            .with(sprite_render.clone())
+            .with(transform.clone())
+            .build();
 
-    transform.set_translation_xyz(232., 16., 0.);
-    world
-        .create_entity()
-        .with(Step::new(escalator_id, 32., 32., 5., -5.))
-        .with(sprite_render.clone())
-        .with(transform.clone())
-        .build();
+        transform.set_translation_xyz(232., 16., 0.);
+        world
+            .create_entity()
+            .with(Step::new(escalator_id, 32., 32., 5., -5.))
+            .with(sprite_render.clone())
+            .with(transform.clone())
+            .build();
 
-    transform.set_translation_xyz(200., 48., 0.);
-    world
-        .create_entity()
-        .with(Step::new(escalator_id, 32., 32., -5., 0.))
-        .with(sprite_render.clone())
-        .with(transform.clone())
-        .build();
+        transform.set_translation_xyz(200., 48., 0.);
+        world
+            .create_entity()
+            .with(Step::new(escalator_id, 32., 32., -5., 0.))
+            .with(sprite_render.clone())
+            .with(transform.clone())
+            .build();
 
-    transform.set_translation_xyz(216., 32., 0.);
-    world
-        .create_entity()
-        .with(Escalator::new(
-            escalator_id,
-            64.,
-            64.,
-            1.,
-            Direction::COUNTERCLOCKWISE,
-        ))
-        .with(transform.clone())
-        .build();
+        transform.set_translation_xyz(216., 32., 0.);
+        world
+            .create_entity()
+            .with(Escalator::new(
+                escalator_id,
+                64.,
+                64.,
+                1.,
+                Direction::COUNTERCLOCKWISE,
+            ))
+            .with(transform.clone())
+            .build();
     }
 }
 
