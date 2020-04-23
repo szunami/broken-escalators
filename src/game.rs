@@ -105,7 +105,7 @@ fn initialize_escalators(world: &mut World, sprite_render: SpriteRender) {
             64.,
             64.,
             1.,
-            Direction::CLOCKWISE,
+            Direction::COUNTERCLOCKWISE,
         ))
         .with(transform.clone())
         .build();

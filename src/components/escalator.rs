@@ -1,5 +1,6 @@
 use amethyst::ecs::prelude::{Component, DenseVecStorage};
 
+#[derive(Clone, Copy)]
 pub enum Direction {
     CLOCKWISE,
     COUNTERCLOCKWISE,

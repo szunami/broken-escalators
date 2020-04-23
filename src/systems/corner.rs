@@ -1,4 +1,4 @@
-use crate::components::{Escalator, Step};
+use crate::components::{Escalator, Step, Direction};
 use amethyst::{
     core::transform::Transform,
     derive::SystemDesc,
@@ -22,28 +22,55 @@ impl<'s> System<'s> for CornerSystem {
         for (step, step_local) in (&mut steps, &locals).join() {
             let escalator = escalator_map.get(&step.escalator_id).unwrap();
 
+
             if step_local.translation().y + step.height * 0.5
                 >= escalator.top
             {
-                println!("Hit top");
-                step.x_velocity = escalator.speed;
-                step.y_velocity = -escalator.speed;
+                info!("Hit top");
+                match escalator.direction {
+                    Direction::CLOCKWISE => {
+                        step.x_velocity = escalator.speed;
+                        step.y_velocity = -escalator.speed;
+                    },
+                    Direction::COUNTERCLOCKWISE => {
+                        step.x_velocity = 0.;
+                        step.y_velocity = -escalator.speed;
+                    }
+                }
                 continue;
             }
             if step_local.translation().x + step.width * 0.5
                 >= escalator.right
             {
-                println!("Hit right corner");
-                step.x_velocity = -escalator.speed;
-                step.y_velocity = 0.;
+                info!("Hit right corner");
+                match escalator.direction {
+                    Direction::CLOCKWISE => {
+                        step.x_velocity = -escalator.speed;
+                        step.y_velocity = 0.;
+                    },
+                    Direction::COUNTERCLOCKWISE => {
+                        step.x_velocity = -escalator.speed;
+                        step.y_velocity = escalator.speed;
+                    }
+                }
+
                 continue;
             }
-            if step_local.translation().x - step.width * 0.5
-                <= escalator.left
+            if (step_local.translation().x - step.width * 0.5
+                <= escalator.left) &&
+                (step_local.translation().y - step.height * 0.5 <= escalator.bottom)
             {
-                println!("Hit middle corner");
-                step.x_velocity = 0.;
-                step.y_velocity = escalator.speed;
+                info!("Hit middle corner");
+                match escalator.direction {
+                    Direction::CLOCKWISE => {
+                        step.x_velocity = 0.;
+                        step.y_velocity = escalator.speed;
+                    },
+                    Direction::COUNTERCLOCKWISE => {
+                        step.x_velocity = escalator.speed;
+                        step.y_velocity = 0.;
+                    }
+                }
             }
         }
     }

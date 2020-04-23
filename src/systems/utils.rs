@@ -1,4 +1,4 @@
-use crate::components::Escalator;
+use crate::components::{Direction, Escalator};
 use std::collections::HashMap;
 use amethyst::{
     core::transform::Transform,
@@ -8,6 +8,7 @@ use amethyst::{
 
 pub struct Box {
     pub speed: f32,
+    pub direction: Direction,
     pub left: f32,
     pub right: f32,
     pub top: f32,
@@ -23,6 +24,7 @@ pub fn escalator_bounds_read(
     for (escalator, escalator_local) in (escalators, locals).join() {
         escalator_map.insert(escalator.id,
         Box {
+            direction: escalator.direction,
             speed: escalator.speed,
             left: escalator_local.translation().x - escalator.width * 0.5,
             right: escalator_local.translation().x + escalator.width * 0.5,
@@ -39,11 +41,10 @@ pub fn escalator_bounds_write(
 ) -> HashMap<i32, Box> {
     let mut escalator_map = HashMap::new();
 
-    let z = (escalators, locals).join();
-
     for (escalator, escalator_local) in (escalators, locals).join() {
         escalator_map.insert(escalator.id,
         Box {
+            direction: escalator.direction,
             speed: escalator.speed,
             left: escalator_local.translation().x - escalator.width * 0.5,
             right: escalator_local.translation().x + escalator.width * 0.5,

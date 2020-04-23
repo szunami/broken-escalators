@@ -34,7 +34,7 @@ impl<'s> System<'s> for EscalatorSystem {
                 .min(escalator_box.top - step.height * 0.5);
 
             step_local.set_translation_y(y);
-            println!(
+            info!(
                 "{}, {}",
                 step_local.translation().x,
                 step_local.translation().y
