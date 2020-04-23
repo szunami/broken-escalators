@@ -1,4 +1,4 @@
-use amethyst::ecs::prelude::{Component, DenseVecStorage, Entity};
+use amethyst::ecs::prelude::{Component, DenseVecStorage};
 
 
 pub struct Step {
