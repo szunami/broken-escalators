@@ -8,54 +8,16 @@ use amethyst::{
     ui::{Anchor, TtfFormat, UiText, UiTransform},
 };
 
+use crate::components::{Step, Escalator, Direction};
+
 pub const ARENA_HEIGHT: f32 = 1000.0;
 pub const ARENA_WIDTH: f32 = 1000.0;
 #[derive(Default)]
 pub struct BrokenEscalators {}
 
-pub struct Step {
-    pub width: f32,
-    pub height: f32,
-    pub x_velocity: f32,
-    pub y_velocity: f32,
-}
 
-impl Component for Step {
-    type Storage = DenseVecStorage<Self>;
-}
 
-impl Step {
-    fn new(width: f32, height: f32, x_velocity: f32, y_velocity: f32) -> Step {
-        Step { width, height, x_velocity, y_velocity }
-    }
-}
 
-pub enum Direction {
-    CLOCKWISE,
-    COUNTERCLOCKWISE,
-}
-
-pub struct Escalator {
-    pub width: f32,
-    pub height: f32,
-    pub speed: f32,
-    pub direction: Direction,
-}
-
-impl Component for Escalator {
-    type Storage = DenseVecStorage<Self>;
-}
-
-impl Escalator {
-    fn new(width: f32, height: f32, speed: f32, direction: Direction) -> Escalator {
-        Escalator {
-            width,
-            height,
-            speed,
-            direction,
-        }
-    }
-}
 
 impl SimpleState for BrokenEscalators {
     fn on_start(&mut self, data: StateData<'_, GameData<'_, '_>>) {

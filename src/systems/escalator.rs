@@ -1,4 +1,3 @@
-use crate::broken_escalators::{Step, Escalator};
 use amethyst::{
     core::transform::Transform,
     core::SystemDesc,
@@ -7,6 +6,7 @@ use amethyst::{
     ui::UiText,
 };
 
+use crate::components::{Step, Escalator};
 #[derive(SystemDesc)]
 pub struct EscalatorSystem;
 

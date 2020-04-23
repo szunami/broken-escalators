@@ -1,4 +1,3 @@
-use crate::broken_escalators::{Step, Escalator};
 use amethyst::{
     core::transform::Transform,
     core::SystemDesc,
@@ -6,6 +5,7 @@ use amethyst::{
     ecs::prelude::{Join, ReadExpect, ReadStorage, System, SystemData, World, Write, WriteStorage},
     ui::UiText,
 };
+use crate::components::{Escalator, Step};
 #[derive(SystemDesc)]
 pub struct CornerSystem;
 

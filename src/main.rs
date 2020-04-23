@@ -10,6 +10,7 @@ use amethyst::{
 };
 use broken_escalators::BrokenEscalators;
 
+mod components;
 mod broken_escalators;
 mod systems;
 
