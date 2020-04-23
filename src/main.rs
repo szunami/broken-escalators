@@ -10,8 +10,8 @@ use amethyst::{
 };
 use game::Game;
 
-mod game;
 mod components;
+mod game;
 mod systems;
 
 fn main() -> amethyst::Result<()> {
