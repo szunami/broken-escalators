@@ -4,7 +4,7 @@ use amethyst::{
     ecs::prelude::{Join, ReadStorage, System, SystemData, WriteStorage},
 };
 
-use crate::components::{Step, Escalator};
+use crate::components::{Escalator, Step};
 #[derive(SystemDesc)]
 pub struct EscalatorSystem;
 
@@ -32,14 +32,7 @@ impl<'s> System<'s> for EscalatorSystem {
         ReadStorage<'s, Escalator>,
     );
 
-    fn run(
-        &mut self,
-        (
-            steps,
-            mut locals,
-            escalators
-        ): Self::SystemData,
-    ) {
+    fn run(&mut self, (steps, mut locals, escalators): Self::SystemData) {
         let (top, bottom, left, right) = EscalatorSystem::escalator_bounds(&locals, &escalators);
         for (step, step_local) in (&steps, &mut locals).join() {
             let x = (step_local.translation().x + step.x_velocity)
@@ -52,9 +45,11 @@ impl<'s> System<'s> for EscalatorSystem {
                 .min(top - step.height * 0.5);
 
             step_local.set_translation_y(y);
-            println!("{}, {}", step_local.translation().x, step_local.translation().y);
+            println!(
+                "{}, {}",
+                step_local.translation().x,
+                step_local.translation().y
+            );
         }
     }
 }
-
-

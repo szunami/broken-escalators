@@ -1,8 +1,6 @@
-mod step;
 mod escalator;
+mod step;
 
-pub use self::step::Step;
-pub use self::escalator::Escalator;
 pub use self::escalator::Direction;
-
-
+pub use self::escalator::Escalator;
+pub use self::step::Step;

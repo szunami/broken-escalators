@@ -1,5 +1,5 @@
-pub use self::escalator::EscalatorSystem;
 pub use self::corner::CornerSystem;
+pub use self::escalator::EscalatorSystem;
 
-mod escalator;
 mod corner;
+mod escalator;

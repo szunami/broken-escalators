@@ -5,16 +5,12 @@ use amethyst::{
     renderer::{Camera, ImageFormat, SpriteRender, SpriteSheet, SpriteSheetFormat, Texture},
 };
 
-use crate::components::{Step, Escalator, Direction};
+use crate::components::{Direction, Escalator, Step};
 
 pub const ARENA_HEIGHT: f32 = 1000.0;
 pub const ARENA_WIDTH: f32 = 1000.0;
 #[derive(Default)]
 pub struct BrokenEscalators {}
-
-
-
-
 
 impl SimpleState for BrokenEscalators {
     fn on_start(&mut self, data: StateData<'_, GameData<'_, '_>>) {
@@ -42,21 +38,21 @@ fn initialize_escalator(world: &mut World, sprite_render: SpriteRender) {
         .with(transform.clone())
         .build();
 
-     transform.set_translation_xyz(48., 16., 0.);
-     world
-         .create_entity()
-         .with(Step::new(32., 32., 5., -5.))
-         .with(sprite_render.clone())
-         .with(transform.clone())
-         .build();
+    transform.set_translation_xyz(48., 16., 0.);
+    world
+        .create_entity()
+        .with(Step::new(32., 32., 5., -5.))
+        .with(sprite_render.clone())
+        .with(transform.clone())
+        .build();
 
-     transform.set_translation_xyz(16., 48., 0.);
-     world
-         .create_entity()
-         .with(Step::new(32., 32., -5., 0.))
-         .with(sprite_render.clone())
-         .with(transform.clone())
-         .build();
+    transform.set_translation_xyz(16., 48., 0.);
+    world
+        .create_entity()
+        .with(Step::new(32., 32., -5., 0.))
+        .with(sprite_render.clone())
+        .with(transform.clone())
+        .build();
 
     transform.set_translation_xyz(32., 32., 0.);
     world

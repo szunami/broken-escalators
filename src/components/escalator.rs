@@ -1,4 +1,4 @@
-use amethyst::ecs::prelude::{DenseVecStorage, Component};
+use amethyst::ecs::prelude::{Component, DenseVecStorage};
 
 pub enum Direction {
     CLOCKWISE,

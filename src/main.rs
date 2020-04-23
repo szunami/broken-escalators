@@ -10,8 +10,8 @@ use amethyst::{
 };
 use broken_escalators::BrokenEscalators;
 
-mod components;
 mod broken_escalators;
+mod components;
 mod systems;
 
 fn main() -> amethyst::Result<()> {
