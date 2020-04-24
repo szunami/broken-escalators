@@ -1,6 +1,5 @@
 use amethyst::core::transform::Transform;
 
-
 pub struct BoundsProvider<'s> {
     pub width: f32,
     pub height: f32,
@@ -8,14 +7,16 @@ pub struct BoundsProvider<'s> {
 }
 
 impl<'s> BoundsProvider<'s> {
-    pub fn new(width: f32, height: f32,
-        transform: &'s Transform) -> BoundsProvider<'s> {
-            return BoundsProvider{ width, height, transform};
-        }
+    pub fn new(width: f32, height: f32, transform: &'s Transform) -> BoundsProvider<'s> {
+        return BoundsProvider {
+            width,
+            height,
+            transform,
+        };
+    }
 }
 
 impl<'s> BoundsProvider<'s> {
-
     pub fn top(&self) -> f32 {
         return self.transform.translation().y + 0.5 * self.height;
     }

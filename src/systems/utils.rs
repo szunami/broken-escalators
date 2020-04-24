@@ -5,7 +5,6 @@ use amethyst::{
 };
 use std::collections::HashMap;
 
-
 pub struct Box {
     pub speed: f32,
     pub direction: Direction,
@@ -58,5 +57,3 @@ pub fn escalator_bounds_write(
     }
     return escalator_map;
 }
-
-

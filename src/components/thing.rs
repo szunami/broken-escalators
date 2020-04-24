@@ -11,12 +11,12 @@ impl Component for Thing {
 }
 
 impl Thing {
-    pub fn new(    width: f32,
-        height: f32,
-        x_velocity: f32,
-        y_velocity: f32,) -> Thing {
+    pub fn new(width: f32, height: f32, x_velocity: f32, y_velocity: f32) -> Thing {
         Thing {
-            width, height, x_velocity, y_velocity
+            width,
+            height,
+            x_velocity,
+            y_velocity,
         }
     }
 }

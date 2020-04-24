@@ -112,21 +112,21 @@ fn initialize_escalators(world: &mut World, sprite_render: SpriteRender) {
         //     .with(transform.clone())
         //     .build();
 
-            transform.set_translation_xyz(168., 80., 0.);
-            world
-                .create_entity()
-                .with(Step::new(escalator_id, 32., 32., 0., 0.))
-                .with(sprite_render.clone())
-                .with(transform.clone())
-                .build();
+        transform.set_translation_xyz(168., 80., 0.);
+        world
+            .create_entity()
+            .with(Step::new(escalator_id, 32., 32., 0., 0.))
+            .with(sprite_render.clone())
+            .with(transform.clone())
+            .build();
 
-                // transform.set_translation_xyz(200., 48., 0.);
-                // world
-                //     .create_entity()
-                //     .with(Step::new(escalator_id, 32., 32., 0., 0.))
-                //     .with(sprite_render.clone())
-                //     .with(transform.clone())
-                //     .build();
+        // transform.set_translation_xyz(200., 48., 0.);
+        // world
+        //     .create_entity()
+        //     .with(Step::new(escalator_id, 32., 32., 0., 0.))
+        //     .with(sprite_render.clone())
+        //     .with(transform.clone())
+        //     .build();
         transform.set_translation_xyz(200., 48., 0.);
         world
             .create_entity()
