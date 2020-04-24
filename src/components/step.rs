@@ -1,3 +1,4 @@
+use crate::utils::Rectangle;
 use amethyst::ecs::prelude::{Component, DenseVecStorage};
 
 pub struct Step {
@@ -27,5 +28,15 @@ impl Step {
             x_velocity,
             y_velocity,
         }
+    }
+}
+
+impl Rectangle for Step {
+    fn width(&self) -> f32 {
+        return self.width;
+    }
+
+    fn height(&self) -> f32 {
+        return self.height;
     }
 }
