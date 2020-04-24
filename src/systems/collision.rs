@@ -50,7 +50,7 @@ impl<'s> System<'s> for CollisionSystem {
                 {
                     warn!("Side collision");
                     thing.x_velocity = step.x_velocity;
-                    any_collisions = false;
+                    // any_collisions = false;
                 }
             }
             if !any_collisions {
