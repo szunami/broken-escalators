@@ -1,39 +1,34 @@
 use amethyst::core::transform::Transform;
 
 
-pub trait Rectangle {
-    fn width(&self) -> f32;
-
-    fn height(&self) -> f32;
-}
-
-pub struct BoundsProvider<'s, T: Rectangle> {
-    pub rectangle: &'s T,
+pub struct BoundsProvider<'s> {
+    pub width: f32,
+    pub height: f32,
     pub transform: &'s Transform,
 }
 
-impl<'s, T: Rectangle> BoundsProvider<'s, T> {
-    pub fn new(rectangle: &'s T,
-        transform: &'s Transform) -> BoundsProvider<'s, T> {
-            return BoundsProvider{ rectangle, transform};
+impl<'s> BoundsProvider<'s> {
+    pub fn new(width: f32, height: f32,
+        transform: &'s Transform) -> BoundsProvider<'s> {
+            return BoundsProvider{ width, height, transform};
         }
 }
 
-impl<'s, T: Rectangle> BoundsProvider<'s, T> {
+impl<'s> BoundsProvider<'s> {
 
     pub fn top(&self) -> f32 {
-        return self.transform.translation().y + 0.5 * self.rectangle.height();
+        return self.transform.translation().y + 0.5 * self.height;
     }
 
     pub fn bottom(&self) -> f32 {
-        return self.transform.translation().y - 0.5 * self.rectangle.height();
+        return self.transform.translation().y - 0.5 * self.height;
     }
 
     pub fn left(&self) -> f32 {
-        return self.transform.translation().x - 0.5 * self.rectangle.width();
+        return self.transform.translation().x - 0.5 * self.width;
     }
 
     pub fn right(&self) -> f32 {
-        return self.transform.translation().x + 0.5 * self.rectangle.width();
+        return self.transform.translation().x + 0.5 * self.width;
     }
 }

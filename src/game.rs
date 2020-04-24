@@ -80,37 +80,60 @@ fn initialize_escalators(world: &mut World, sprite_render: SpriteRender) {
         let escalator_id = 1;
 
         let mut transform = Transform::default();
-        transform.set_translation_xyz(200., 16., 0.);
+        transform.set_translation_xyz(168., 16., 0.);
         world
             .create_entity()
-            .with(Step::new(escalator_id, 32., 32., 0., 5.))
+            .with(Step::new(escalator_id, 32., 32., 0., 0.))
             .with(sprite_render.clone())
             .with(transform.clone())
             .build();
+
+        // transform.set_translation_xyz(200., 16., 0.);
+        // world
+        //     .create_entity()
+        //     .with(Step::new(escalator_id, 32., 32., 0., 0.))
+        //     .with(sprite_render.clone())
+        //     .with(transform.clone())
+        //     .build();
 
         transform.set_translation_xyz(232., 16., 0.);
         world
             .create_entity()
-            .with(Step::new(escalator_id, 32., 32., 5., -5.))
+            .with(Step::new(escalator_id, 32., 32., 0., 0.))
             .with(sprite_render.clone())
             .with(transform.clone())
             .build();
 
+        // transform.set_translation_xyz(168., 48., 0.);
+        // world
+        //     .create_entity()
+        //     .with(Step::new(escalator_id, 32., 32., 0., 0.))
+        //     .with(sprite_render.clone())
+        //     .with(transform.clone())
+        //     .build();
+
+            transform.set_translation_xyz(168., 80., 0.);
+            world
+                .create_entity()
+                .with(Step::new(escalator_id, 32., 32., 0., 0.))
+                .with(sprite_render.clone())
+                .with(transform.clone())
+                .build();
+
+                // transform.set_translation_xyz(200., 48., 0.);
+                // world
+                //     .create_entity()
+                //     .with(Step::new(escalator_id, 32., 32., 0., 0.))
+                //     .with(sprite_render.clone())
+                //     .with(transform.clone())
+                //     .build();
         transform.set_translation_xyz(200., 48., 0.);
-        world
-            .create_entity()
-            .with(Step::new(escalator_id, 32., 32., -5., 0.))
-            .with(sprite_render.clone())
-            .with(transform.clone())
-            .build();
-
-        transform.set_translation_xyz(216., 32., 0.);
         world
             .create_entity()
             .with(Escalator::new(
                 escalator_id,
-                64.,
-                64.,
+                96.,
+                96.,
                 1.,
                 Direction::COUNTERCLOCKWISE,
             ))
@@ -121,10 +144,10 @@ fn initialize_escalators(world: &mut World, sprite_render: SpriteRender) {
 
 fn initialise_thing(world: &mut World, sprite_render: SpriteRender) {
     let mut transform = Transform::default();
-    transform.set_translation_xyz(300., 300., 0.);
+    transform.set_translation_xyz(232., 48., 0.);
     world
         .create_entity()
-        .with(Thing::new())
+        .with(Thing::new(32., 32., 0., 0.))
         .with(sprite_render.clone())
         .with(transform.clone())
         .build();

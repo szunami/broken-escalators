@@ -1,5 +1,4 @@
 use amethyst::ecs::prelude::{Component, DenseVecStorage};
-use crate::utils::Rectangle;
 pub struct Thing {
     pub width: f32,
     pub height: f32,
@@ -19,15 +18,5 @@ impl Thing {
         Thing {
             width, height, x_velocity, y_velocity
         }
-    }
-}
-
-impl Rectangle for Thing {
-    fn width(&self) -> f32 {
-        return self.width;
-    }
-
-    fn height(&self) -> f32 {
-        return self.height;
     }
 }
