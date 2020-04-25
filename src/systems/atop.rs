@@ -1,5 +1,6 @@
 use crate::components::Thing;
 use crate::{components::Step, components::Atop, utils::BoundsProvider};
+use amethyst::core::Named;
 use amethyst::{
     core::transform::Transform,
     derive::SystemDesc,
@@ -18,34 +19,38 @@ impl<'s> System<'s> for AtopSystem {
         ReadStorage<'s, Thing>,
         ReadStorage<'s, Transform>,
         ReadStorage<'s, Step>,
+        ReadStorage<'s, Named>,
     );
 
     fn run(&mut self, (
-        entities, mut atops, things, transforms, steps
+        entities, mut atops, things, transforms, steps, names
     ): Self::SystemData) {
         for (thing_entity, thing_atop, thing, thing_transform) in (&entities, &mut atops, &things, &transforms).join() {
             let mut max_atopness = 0.;
             let mut atop = None;
+            let mut atop_name = None;
 
-            for (step_entity, step, step_transform) in (&entities, &steps, &transforms).join() {
+            for (step_entity, step, step_transform, step_name) in (&entities, &steps, &transforms, &names).join() {
                 let atopness = calculate_atopness(&thing, &thing_transform, &step, &step_transform);
                 if atopness > max_atopness {
                     atop = Some([step.x_velocity, step.y_velocity]);
+                    atop_name = Some(step_name.name.to_string());
                     max_atopness = atopness;
                 }
             }
 
-            // should need to match / account for gravity
             match atop {
                 Some(vec) => {
                     warn!("Atop something.");
                     thing_atop.x_velocity = vec[0];
                     thing_atop.y_velocity = vec[1];
+                    thing_atop.atop_name = atop_name;
                 },
                 None => {
                     warn!("Atop nothing.");
                     thing_atop.x_velocity = 0.;
                     thing_atop.y_velocity = GRAVITY_VELOCITY;
+                    thing_atop.atop_name = None;
                 }
             }
         }

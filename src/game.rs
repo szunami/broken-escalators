@@ -99,6 +99,7 @@ fn initialize_escalators(world: &mut World, sprite_render: SpriteRender) {
         transform.set_translation_xyz(232., 16., 0.);
         world
             .create_entity()
+            .named("asdf")
             .with(Step::new(escalator_id, 32., 32., 0., 0.))
             .with(sprite_render.clone())
             .with(transform.clone())
