@@ -31,7 +31,7 @@ impl<'s> System<'s> for PushSystem {
 
             for (step_entity, step, step_transform, step_name) in (&entities, &steps, &transforms, &names).join() {
                 let pushness = calculate_pushness(&thing, &thing_transform, &step, &step_transform);
-
+                warn!("pushness with {} is {}", step_name.name.to_string(), pushness);
                 if pushness > max_pushness {
                     maybe_push_velocity = Some(step.x_velocity);
                     max_pushness = pushness;

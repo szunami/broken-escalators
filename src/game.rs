@@ -88,18 +88,19 @@ fn initialize_escalators(world: &mut World, sprite_render: SpriteRender) {
         //     .with(transform.clone())
         //     .build();
 
-        // transform.set_translation_xyz(200., 16., 0.);
-        // world
-        //     .create_entity()
-        //     .with(Step::new(escalator_id, 32., 32., 0., 0.))
-        //     .with(sprite_render.clone())
-        //     .with(transform.clone())
-        //     .build();
+        transform.set_translation_xyz(200., 16., 0.);
+        world
+            .create_entity()
+            .named("other")
+            .with(Step::new(escalator_id, 32., 32., 1., 0.))
+            .with(sprite_render.clone())
+            .with(transform.clone())
+            .build();
 
         transform.set_translation_xyz(232., 16., 0.);
         world
             .create_entity()
-            .named("asdf")
+            .named("carrier")
             .with(Step::new(escalator_id, 32., 32., 0., 0.))
             .with(sprite_render.clone())
             .with(transform.clone())

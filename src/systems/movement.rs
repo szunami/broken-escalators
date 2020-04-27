@@ -19,11 +19,6 @@ impl<'s> System<'s> for MoveSystem {
             }
             thing_local.prepend_translation_x(atop.x_velocity);
             thing_local.prepend_translation_y(atop.y_velocity);
-            warn!(
-                "location: {} {}",
-                thing_local.translation().x,
-                thing_local.translation().y
-            );
         }
     }
 }

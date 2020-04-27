@@ -41,13 +41,11 @@ impl<'s> System<'s> for AtopSystem {
 
             match atop {
                 Some(vec) => {
-                    warn!("Atop something.");
                     thing_atop.x_velocity = vec[0];
                     thing_atop.y_velocity = vec[1];
-                    thing_atop.atop_name = atop_name;
+                    thing_atop.atop_name = atop_name.clone();
                 },
                 None => {
-                    warn!("Atop nothing.");
                     thing_atop.x_velocity = 0.;
                     thing_atop.y_velocity = GRAVITY_VELOCITY;
                     thing_atop.atop_name = None;
@@ -62,17 +60,14 @@ fn calculate_atopness(thing: &Thing, thing_transform: &Transform, step: &Step, s
     let thing_bounds = BoundsProvider::new(thing.width, thing.height, thing_transform);
 
     if !overlaps(step_bounds.left(), step_bounds.right(), thing_bounds.left(), thing_bounds.right()) {
-        warn!("no left right overlap");
         return 0.;
     }
 
     if !overlaps(step_bounds.bottom(), step_bounds.top(), thing_bounds.bottom(), thing_bounds.top()) {
-        warn!("no top bottom overlap");
         return 0.;
     }
 
     let overlap =  f32::min(step_bounds.right() - thing_bounds.left(), thing_bounds.right() - step_bounds.left());
-    warn!("overlap: {}", overlap);
     return overlap;
 }
 
