@@ -5,8 +5,11 @@ authors = []
 edition = "2018"
 
 [dependencies]
-amethyst = "0.15.0"
-log = "0.4.8"
+log = "*"
+
+[dependencies.amethyst]
+version = "0.15.0"
+default-features = false
 
 [features]
 default = ["metal"]
