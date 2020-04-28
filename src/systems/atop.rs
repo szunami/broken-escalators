@@ -4,7 +4,7 @@ use amethyst::core::Named;
 use amethyst::{
     core::transform::Transform,
     derive::SystemDesc,
-    ecs::prelude::{Entities, Join, ReadStorage, System, SystemData, WriteStorage},
+    ecs::prelude::{Join, ReadStorage, System, SystemData, WriteStorage},
 };
 
 pub const GRAVITY_VELOCITY: f32 = -5.;
@@ -14,35 +14,33 @@ pub struct AtopSystem;
 
 impl<'s> System<'s> for AtopSystem {
     type SystemData = (
-        Entities<'s>,
         WriteStorage<'s, Atop>,
         ReadStorage<'s, Thing>,
         ReadStorage<'s, Transform>,
         ReadStorage<'s, Step>,
-        ReadStorage<'s, Named>,
     );
 
-    fn run(&mut self, (entities, mut atops, things, transforms, steps, names): Self::SystemData) {
-        for (thing_entity, thing_atop, thing, thing_transform) in
-            (&entities, &mut atops, &things, &transforms).join()
+    fn run(&mut self, (mut atops, things, transforms, steps, names): Self::SystemData) {
+        for (thing_atop, thing, thing_transform) in
+            (&mut atops, &things, &transforms).join()
         {
             warn!("Calculating atopness");
             let mut atop = None;
             let mut max_atopness = 0.;
-            for (step_entity, step, step_transform, step_name) in
-                (&entities, &steps, &transforms, &names).join()
+            for (step, step_transform) in
+                (&steps, &transforms).join()
             {
                 let atopness = calculate_atopness(&thing, &thing_transform, &step, &step_transform);
                 info!("Atopness: {}", atopness);
                 warn!("Atopness: {}", atopness);
                 if atopness > max_atopness {
-                    atop = Some((step.clone(), step_name.name.to_string().clone()));
+                    atop = Some(step.clone());
                     max_atopness = atopness;
                 }
             }
 
             match atop {
-                Some((step, step_name)) => {
+                Some(step) => {
                     match step.push_velocity != 0. {
                         true => thing_atop.x_velocity = step.push_velocity,
                         false => thing_atop.x_velocity = step.x_velocity,
