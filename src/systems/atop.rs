@@ -38,7 +38,6 @@ impl<'s> System<'s> for AtopSystem {
                 }
             }
 
-
             match atop {
                 Some((step, step_name)) => {
                     match step.push_velocity != 0. {
