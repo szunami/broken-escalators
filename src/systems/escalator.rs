@@ -3,7 +3,7 @@ use amethyst::{
     core::transform::Transform,
     core::timing::Time,
     derive::SystemDesc,
-    ecs::prelude::{Join, ReadStorage, System, SystemData, WriteStorage},
+    ecs::prelude::{Join, ReadStorage, System, SystemData, WriteStorage, Read},
 };
 
 use crate::components::{Escalator, Step};
