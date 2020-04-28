@@ -26,12 +26,15 @@ impl<'s> System<'s> for AtopSystem {
         for (thing_entity, thing_atop, thing, thing_transform) in
             (&entities, &mut atops, &things, &transforms).join()
         {
+            warn!("Calculating atopness");
             let mut atop = None;
             let mut max_atopness = 0.;
             for (step_entity, step, step_transform, step_name) in
                 (&entities, &steps, &transforms, &names).join()
             {
                 let atopness = calculate_atopness(&thing, &thing_transform, &step, &step_transform);
+                info!("Atopness: {}", atopness);
+                warn!("Atopness: {}", atopness);
                 if atopness > max_atopness {
                     atop = Some((step.clone(), step_name.name.to_string().clone()));
                     max_atopness = atopness;
