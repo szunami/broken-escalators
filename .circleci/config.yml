@@ -31,8 +31,8 @@ commands:
       - run:
           name: Install other dependencies
           command: |
-            apt-get update
-            apt-get install -y libsdl2-dev
+            apt-get update -qq
+            apt-get install -y -qq libsdl2-dev
       - run:
           name: Update toolchain
           command: |
