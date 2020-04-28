@@ -40,7 +40,10 @@ impl<'s> System<'s> for AtopSystem {
 
             match atop {
                 Some((step, step_name)) => {
-                    thing_atop.x_velocity = step.x_velocity;
+                    match step.is_pushing {
+                        true => {thing_atop.x_velocity = step.y_velocity},
+                        false => {thing_atop.x_velocity = step.x_velocity}
+                    }
                     thing_atop.y_velocity = step.y_velocity;
                     thing_atop.atop_name = Some(step_name.clone());
                 }

@@ -31,6 +31,7 @@ impl<'s> System<'s> for CornerSystem {
                     Direction::COUNTERCLOCKWISE => {
                         step.x_velocity = 0.;
                         step.y_velocity = -escalator.speed;
+                        step.is_pushing = true;
                     }
                 }
                 continue;
@@ -45,6 +46,7 @@ impl<'s> System<'s> for CornerSystem {
                     Direction::COUNTERCLOCKWISE => {
                         step.x_velocity = -escalator.speed;
                         step.y_velocity = escalator.speed;
+                        step.is_pushing = false;
                     }
                 }
 
@@ -62,6 +64,7 @@ impl<'s> System<'s> for CornerSystem {
                     Direction::COUNTERCLOCKWISE => {
                         step.x_velocity = escalator.speed;
                         step.y_velocity = 0.;
+                        step.is_pushing = false;
                     }
                 }
             }
