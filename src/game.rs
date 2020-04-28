@@ -92,7 +92,7 @@ fn initialize_escalators(world: &mut World, sprite_render: SpriteRender) {
         world
             .create_entity()
             .named("other")
-            .with(Step::new(escalator_id, 32., 32., 1., 0., false))
+            .with(Step::new(escalator_id, 32., 32., 1., 0., 0.))
             .with(sprite_render.clone())
             .with(transform.clone())
             .build();
@@ -101,7 +101,7 @@ fn initialize_escalators(world: &mut World, sprite_render: SpriteRender) {
         world
             .create_entity()
             .named("carrier")
-            .with(Step::new(escalator_id, 32., 32., 0., 0., false))
+            .with(Step::new(escalator_id, 32., 32., 0., 0., 0.))
             .with(sprite_render.clone())
             .with(transform.clone())
             .build();
