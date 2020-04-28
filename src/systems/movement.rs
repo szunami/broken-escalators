@@ -1,4 +1,4 @@
-use crate::components::{Thing, Atop, Push};
+use crate::components::{Atop, Push, Thing};
 use crate::{components::Step, utils::BoundsProvider};
 use amethyst::{
     core::transform::Transform,
@@ -10,7 +10,12 @@ use amethyst::{
 pub struct MoveSystem;
 
 impl<'s> System<'s> for MoveSystem {
-    type SystemData = (ReadStorage<'s, Thing>, WriteStorage<'s, Transform>, ReadStorage<'s, Atop>, ReadStorage<'s, Push>);
+    type SystemData = (
+        ReadStorage<'s, Thing>,
+        WriteStorage<'s, Transform>,
+        ReadStorage<'s, Atop>,
+        ReadStorage<'s, Push>,
+    );
 
     fn run(&mut self, (things, mut locals, atops, pushes): Self::SystemData) {
         for (thing, mut thing_local, atop, push) in (&things, &mut locals, &atops, &pushes).join() {

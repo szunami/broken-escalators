@@ -1,5 +1,5 @@
 use crate::components::Thing;
-use crate::{components::Step, components::Atop, utils::BoundsProvider};
+use crate::{components::Atop, components::Step, utils::BoundsProvider};
 use amethyst::core::Named;
 use amethyst::{
     core::transform::Transform,
@@ -22,29 +22,28 @@ impl<'s> System<'s> for AtopSystem {
         ReadStorage<'s, Named>,
     );
 
-    fn run(&mut self, (
-        entities, mut atops, things, transforms, steps, names
-    ): Self::SystemData) {
-        for (thing_entity, thing_atop, thing, thing_transform) in (&entities, &mut atops, &things, &transforms).join() {
-            let mut max_atopness = 0.;
+    fn run(&mut self, (entities, mut atops, things, transforms, steps, names): Self::SystemData) {
+        for (thing_entity, thing_atop, thing, thing_transform) in
+            (&entities, &mut atops, &things, &transforms).join()
+        {
             let mut atop = None;
-            let mut atop_name = None;
-
-            for (step_entity, step, step_transform, step_name) in (&entities, &steps, &transforms, &names).join() {
+            let mut max_atopness = 0.;
+            for (step_entity, step, step_transform, step_name) in
+                (&entities, &steps, &transforms, &names).join()
+            {
                 let atopness = calculate_atopness(&thing, &thing_transform, &step, &step_transform);
                 if atopness > max_atopness {
-                    atop = Some([step.x_velocity, step.y_velocity]);
-                    atop_name = Some(step_name.name.to_string());
+                    atop = Some((step.clone(), step_name.name.to_string().clone()));
                     max_atopness = atopness;
                 }
             }
 
             match atop {
-                Some(vec) => {
-                    thing_atop.x_velocity = vec[0];
-                    thing_atop.y_velocity = vec[1];
-                    thing_atop.atop_name = atop_name.clone();
-                },
+                Some((step, step_name)) => {
+                    thing_atop.x_velocity = step.x_velocity;
+                    thing_atop.y_velocity = step.y_velocity;
+                    thing_atop.atop_name = Some(step_name.clone());
+                }
                 None => {
                     thing_atop.x_velocity = 0.;
                     thing_atop.y_velocity = GRAVITY_VELOCITY;
@@ -55,19 +54,37 @@ impl<'s> System<'s> for AtopSystem {
     }
 }
 
-fn calculate_atopness(thing: &Thing, thing_transform: &Transform, step: &Step, step_transform: &Transform) -> f32 {
+fn calculate_atopness(
+    thing: &Thing,
+    thing_transform: &Transform,
+    step: &Step,
+    step_transform: &Transform,
+) -> f32 {
     let step_bounds = BoundsProvider::new(step.width, step.height, step_transform);
     let thing_bounds = BoundsProvider::new(thing.width, thing.height, thing_transform);
 
-    if !overlaps(step_bounds.left(), step_bounds.right(), thing_bounds.left(), thing_bounds.right()) {
+    if !overlaps(
+        step_bounds.left(),
+        step_bounds.right(),
+        thing_bounds.left(),
+        thing_bounds.right(),
+    ) {
         return 0.;
     }
 
-    if !overlaps(step_bounds.bottom(), step_bounds.top(), thing_bounds.bottom(), thing_bounds.top()) {
+    if !overlaps(
+        step_bounds.bottom(),
+        step_bounds.top(),
+        thing_bounds.bottom(),
+        thing_bounds.top(),
+    ) {
         return 0.;
     }
 
-    let overlap =  f32::min(step_bounds.right() - thing_bounds.left(), thing_bounds.right() - step_bounds.left());
+    let overlap = f32::min(
+        step_bounds.right() - thing_bounds.left(),
+        thing_bounds.right() - step_bounds.left(),
+    );
     return overlap;
 }
 

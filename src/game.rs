@@ -5,7 +5,7 @@ use amethyst::{
     renderer::{Camera, ImageFormat, SpriteRender, SpriteSheet, SpriteSheetFormat, Texture},
 };
 
-use crate::components::{Direction, Escalator, Step, Thing, Atop, Push};
+use crate::components::{Atop, Direction, Escalator, Push, Step, Thing};
 
 pub const ARENA_HEIGHT: f32 = 1000.0;
 pub const ARENA_WIDTH: f32 = 1000.0;

@@ -11,6 +11,9 @@ impl<'s> Component for Push {
 
 impl Push {
     pub fn default() -> Push {
-        Push { x_velocity: 0., pusher_name: None}
+        Push {
+            x_velocity: 0.,
+            pusher_name: None,
+        }
     }
 }
