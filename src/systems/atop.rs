@@ -1,6 +1,5 @@
 use crate::components::Thing;
 use crate::{components::Atop, components::Step, utils::BoundsProvider};
-use amethyst::core::Named;
 use amethyst::{
     core::transform::Transform,
     derive::SystemDesc,
@@ -20,16 +19,12 @@ impl<'s> System<'s> for AtopSystem {
         ReadStorage<'s, Step>,
     );
 
-    fn run(&mut self, (mut atops, things, transforms, steps, names): Self::SystemData) {
-        for (thing_atop, thing, thing_transform) in
-            (&mut atops, &things, &transforms).join()
-        {
+    fn run(&mut self, (mut atops, things, transforms, steps): Self::SystemData) {
+        for (thing_atop, thing, thing_transform) in (&mut atops, &things, &transforms).join() {
             warn!("Calculating atopness");
             let mut atop = None;
             let mut max_atopness = 0.;
-            for (step, step_transform) in
-                (&steps, &transforms).join()
-            {
+            for (step, step_transform) in (&steps, &transforms).join() {
                 let atopness = calculate_atopness(&thing, &thing_transform, &step, &step_transform);
                 info!("Atopness: {}", atopness);
                 warn!("Atopness: {}", atopness);
