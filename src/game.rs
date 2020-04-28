@@ -156,14 +156,14 @@ fn initialise_thing(world: &mut World, sprite_render: SpriteRender) {
     //     .with(transform.clone())
     //     .build();
 
-        transform.set_translation_xyz(16., 80., 0.);
-        world
-            .create_entity()
-            .with(Thing::new(32., 32., 0., 0.))
-            .with(Atop::default())
-            .with(sprite_render.clone())
-            .with(transform.clone())
-            .build();
+    transform.set_translation_xyz(16., 80., 0.);
+    world
+        .create_entity()
+        .with(Thing::new(32., 32., 0., 0.))
+        .with(Atop::default())
+        .with(sprite_render.clone())
+        .with(transform.clone())
+        .build();
 }
 
 fn initialise_camera(world: &mut World) {
