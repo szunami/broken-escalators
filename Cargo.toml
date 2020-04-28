@@ -12,7 +12,7 @@ version = "0.15.0"
 default-features = false
 
 [features]
-default = ["empty"]
+default = ["metal"]
 empty = ["amethyst/empty"]
 metal = ["amethyst/metal"]
 vulkan = ["amethyst/vulkan"]
