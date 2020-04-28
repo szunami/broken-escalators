@@ -16,7 +16,7 @@ impl<'s> System<'s> for MoveSystem {
     );
 
     fn run(&mut self, (things, mut locals, atops): Self::SystemData) {
-        for (_thing, mut thing_local, atop) in (&things, &mut locals, &atops).join() {
+        for (_thing, thing_local, atop) in (&things, &mut locals, &atops).join() {
             thing_local.prepend_translation_x(atop.x_velocity);
             thing_local.prepend_translation_y(atop.y_velocity);
         }
