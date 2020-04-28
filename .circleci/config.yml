@@ -29,6 +29,9 @@ commands:
         default: ""
     steps:
       - run:
+          name: Install other dependencies
+          command: sudo apt-get install libsdl2-dev
+      - run:
           name: Update toolchain
           command: |
             test -z "<<parameters.toolchain>>" || echo "<<parameters.toolchain>>" >rust-toolchain
