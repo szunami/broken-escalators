@@ -39,26 +39,25 @@ fn initialize_escalators(world: &mut World, sprite_render: SpriteRender) {
         let escalator_id = 0;
 
         let mut transform = Transform::default();
-        // transform.set_translation_xyz(16., 16., 0.);
-        // world
-        //     .create_entity()
-        //     .with(Step::new(escalator_id, 32., 32., 0., 5.))
-        //     .with(sprite_render.clone())
-        //     .with(transform.clone())
-        //     .build();
+        transform.set_translation_xyz(16., 16., 0.);
+        world
+            .create_entity()
+            .with(Step::new(escalator_id, 32., 32., 0., 5.))
+            .with(sprite_render.clone())
+            .with(transform.clone())
+            .build();
 
-        // transform.set_translation_xyz(48., 16., 0.);
-        // world
-        //     .create_entity()
-        //     .with(Step::new(escalator_id, 32., 32., 5., -5.))
-        //     .with(sprite_render.clone())
-        //     .with(transform.clone())
-        //     .build();
+        transform.set_translation_xyz(48., 16., 0.);
+        world
+            .create_entity()
+            .with(Step::new(escalator_id, 32., 32., 5., -5.))
+            .with(sprite_render.clone())
+            .with(transform.clone())
+            .build();
 
         transform.set_translation_xyz(16., 48., 0.);
         world
             .create_entity()
-            .named("doofus")
             .with(Step::new(escalator_id, 32., 32., 0., 0.))
             .with(sprite_render.clone())
             .with(transform.clone())
@@ -77,84 +76,82 @@ fn initialize_escalators(world: &mut World, sprite_render: SpriteRender) {
             .with(transform.clone())
             .build();
     }
-    // {
-    //     let escalator_id = 1;
+    {
+        let escalator_id = 1;
 
-    //     let mut transform = Transform::default();
-    //     transform.set_translation_xyz(168., 16., 0.);
-    //     world
-    //         .create_entity()
-    //         .with(Step::new(escalator_id, 32., 32., 0., 0.))
-    //         .with(sprite_render.clone())
-    //         .with(transform.clone())
-    //         .build();
+        let mut transform = Transform::default();
+        transform.set_translation_xyz(168., 16., 0.);
+        world
+            .create_entity()
+            .with(Step::new(escalator_id, 32., 32., 0., 0.))
+            .with(sprite_render.clone())
+            .with(transform.clone())
+            .build();
 
-    //     transform.set_translation_xyz(200., 16., 0.);
-    //     world
-    //         .create_entity()
-    //         .named("other")
-    //         .with(Step::new(escalator_id, 32., 32., 0., 0.))
-    //         .with(sprite_render.clone())
-    //         .with(transform.clone())
-    //         .build();
+        transform.set_translation_xyz(200., 16., 0.);
+        world
+            .create_entity()
+            .with(Step::new(escalator_id, 32., 32., 0., 0.))
+            .with(sprite_render.clone())
+            .with(transform.clone())
+            .build();
 
-    //     transform.set_translation_xyz(232., 16., 0.);
-    //     world
-    //         .create_entity()
-    //         .named("carrier")
-    //         .with(Step::new(escalator_id, 32., 32., 0., 0.))
-    //         .with(sprite_render.clone())
-    //         .with(transform.clone())
-    //         .build();
+        transform.set_translation_xyz(232., 16., 0.);
+        world
+            .create_entity()
+            .with(Step::new(escalator_id, 32., 32., 0., 0.))
+            .with(sprite_render.clone())
+            .with(transform.clone())
+            .build();
 
-    //     transform.set_translation_xyz(168., 48., 0.);
-    //     world
-    //         .create_entity()
-    //         .with(Step::new(escalator_id, 32., 32., 0., 0.))
-    //         .with(sprite_render.clone())
-    //         .with(transform.clone())
-    //         .build();
+        transform.set_translation_xyz(168., 48., 0.);
+        world
+            .create_entity()
+            .with(Step::new(escalator_id, 32., 32., 0., 0.))
+            .with(sprite_render.clone())
+            .with(transform.clone())
+            .build();
 
-    //     transform.set_translation_xyz(168., 80., 0.);
-    //     world
-    //         .create_entity()
-    //         .with(Step::new(escalator_id, 32., 32., 0., 0.))
-    //         .with(sprite_render.clone())
-    //         .with(transform.clone())
-    //         .build();
+        transform.set_translation_xyz(168., 80., 0.);
+        world
+            .create_entity()
+            .with(Step::new(escalator_id, 32., 32., 0., 0.))
+            .with(sprite_render.clone())
+            .with(transform.clone())
+            .build();
 
-    //     transform.set_translation_xyz(200., 48., 0.);
-    //     world
-    //         .create_entity()
-    //         .with(Step::new(escalator_id, 32., 32., 0., 0.))
-    //         .with(sprite_render.clone())
-    //         .with(transform.clone())
-    //         .build();
-    //     transform.set_translation_xyz(200., 48., 0.);
-    //     world
-    //         .create_entity()
-    //         .with(Escalator::new(
-    //             escalator_id,
-    //             96.,
-    //             96.,
-    //             1.,
-    //             Direction::COUNTERCLOCKWISE,
-    //         ))
-    //         .with(transform.clone())
-    //         .build();
-    // }
+        transform.set_translation_xyz(200., 48., 0.);
+        world
+            .create_entity()
+            .with(Step::new(escalator_id, 32., 32., 0., 0.))
+            .with(sprite_render.clone())
+            .with(transform.clone())
+            .build();
+        transform.set_translation_xyz(200., 48., 0.);
+        world
+            .create_entity()
+            .with(Escalator::new(
+                escalator_id,
+                96.,
+                96.,
+                1.,
+                Direction::COUNTERCLOCKWISE,
+            ))
+            .with(transform.clone())
+            .build();
+    }
 }
 
 fn initialise_thing(world: &mut World, sprite_render: SpriteRender) {
     let mut transform = Transform::default();
-    // transform.set_translation_xyz(232., 48., 0.);
-    // world
-    //     .create_entity()
-    //     .with(Thing::new(32., 32., 0., 0.))
-    //     .with(Atop::default())
-    //     .with(sprite_render.clone())
-    //     .with(transform.clone())
-    //     .build();
+    transform.set_translation_xyz(232., 48., 0.);
+    world
+        .create_entity()
+        .with(Thing::new(32., 32., 0., 0.))
+        .with(Atop::default())
+        .with(sprite_render.clone())
+        .with(transform.clone())
+        .build();
 
     transform.set_translation_xyz(16., 80., 0.);
     world
