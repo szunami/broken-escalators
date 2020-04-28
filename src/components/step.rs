@@ -28,7 +28,7 @@ impl Step {
             height,
             x_velocity,
             y_velocity,
-            is_pushing
+            is_pushing,
         }
     }
 }

@@ -5,7 +5,7 @@ use amethyst::{
     renderer::{Camera, ImageFormat, SpriteRender, SpriteSheet, SpriteSheetFormat, Texture},
 };
 
-use crate::components::{Atop, Direction, Escalator, Push, Step, Thing};
+use crate::components::{Atop, Direction, Escalator, Step, Thing};
 
 pub const ARENA_HEIGHT: f32 = 1000.0;
 pub const ARENA_WIDTH: f32 = 1000.0;
@@ -151,7 +151,6 @@ fn initialise_thing(world: &mut World, sprite_render: SpriteRender) {
         .create_entity()
         .with(Thing::new(32., 32., 0., 0.))
         .with(Atop::default())
-        .with(Push::default())
         .with(sprite_render.clone())
         .with(transform.clone())
         .build();

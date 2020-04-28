@@ -1,4 +1,4 @@
-use crate::components::{Atop, Push, Thing};
+use crate::components::{Atop, Thing};
 use crate::{components::Step, utils::BoundsProvider};
 use amethyst::{
     core::transform::Transform,
@@ -14,14 +14,10 @@ impl<'s> System<'s> for MoveSystem {
         ReadStorage<'s, Thing>,
         WriteStorage<'s, Transform>,
         ReadStorage<'s, Atop>,
-        ReadStorage<'s, Push>,
     );
 
-    fn run(&mut self, (things, mut locals, atops, pushes): Self::SystemData) {
-        for (thing, mut thing_local, atop, push) in (&things, &mut locals, &atops, &pushes).join() {
-            if atop.atop_name != push.pusher_name {
-                thing_local.prepend_translation_x(push.x_velocity);
-            }
+    fn run(&mut self, (things, mut locals, atops): Self::SystemData) {
+        for (thing, mut thing_local, atop) in (&things, &mut locals, &atops).join() {
             thing_local.prepend_translation_x(atop.x_velocity);
             thing_local.prepend_translation_y(atop.y_velocity);
         }
