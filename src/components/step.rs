@@ -6,6 +6,7 @@ pub struct Step {
     pub height: f32,
     pub x_velocity: f32,
     pub y_velocity: f32,
+    pub push_velocity: f32,
 }
 
 impl Component for Step {
@@ -26,6 +27,7 @@ impl Step {
             height,
             x_velocity,
             y_velocity,
+            push_velocity: 0.,
         }
     }
 }
