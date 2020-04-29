@@ -281,7 +281,7 @@ pub fn initialize_escalator(
                 push_velocity,
                 step_width,
                 step_height,
-                step_sprite.clone(),
+                step_sprite,
             );
         }
     }

@@ -49,11 +49,11 @@ impl SimpleState for Game {
             4,
             32.,
             Direction::COUNTERCLOCKWISE,
-            step_render.clone(),
+            step_render,
         );
 
         let thing_render = SpriteRender {
-            sprite_sheet: sprite_sheet,
+            sprite_sheet,
             sprite_number: 1,
         };
         initialize_thing(
@@ -64,7 +64,7 @@ impl SimpleState for Game {
             sprite_width,
             0.,
             0.,
-            thing_render.clone(),
+            thing_render,
         );
     }
 }

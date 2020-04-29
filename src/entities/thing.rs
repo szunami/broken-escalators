@@ -17,7 +17,7 @@ pub fn initialize_thing(
         .create_entity()
         .with(Thing::new(width, height, x_velocity, y_velocity))
         .with(Atop::default())
-        .with(sprite_render.clone())
-        .with(transform.clone())
+        .with(sprite_render)
+        .with(transform)
         .build();
 }

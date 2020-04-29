@@ -25,7 +25,7 @@ pub fn initialize_step(
             y_velocity,
             push_velocity,
         ))
-        .with(step_render.clone())
-        .with(transform.clone())
+        .with(step_render)
+        .with(transform)
         .build();
 }
