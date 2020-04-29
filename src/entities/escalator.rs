@@ -187,9 +187,32 @@ pub fn initialize_escalator(world: &mut World, escalator_id: i32, x: f32, y: f32
         initialize_step(world, escalator_id, step_x, bottom_arm_y, x_velocity, y_velocity, push_velocity, step_width, step_height, step_sprite.clone());
     }
     // create bottom
-    // {}
-    // create lower left corner
-    // {}
+    {
+        let x_velocity = match direction {
+            Direction::CLOCKWISE => -speed,
+            Direction::COUNTERCLOCKWISE => speed,
+        };
+        let y_velocity = 0.;
+        let push_velocity = 0.;
+        for step_index in 1..(num_steps - 1) {
+            let step_x = left_arm_x + (step_index as f32) * step_width;
+            initialize_step(world, escalator_id, step_x, bottom_arm_y, x_velocity, y_velocity, push_velocity, step_width, step_height, step_sprite.clone());
+        }
+    }    // create lower left corner
+    {
+        {
+            let x_velocity = match direction {
+                Direction::CLOCKWISE => 0.,
+                Direction::COUNTERCLOCKWISE => speed,
+            };
+            let y_velocity = match direction {
+                Direction::CLOCKWISE => speed,
+                Direction::COUNTERCLOCKWISE => 0.,
+            };
+            let push_velocity = 0.;
+            initialize_step(world, escalator_id, left_arm_x, bottom_arm_y, x_velocity, y_velocity, push_velocity, step_width, step_height, step_sprite.clone());
+        }
+    }
     let mut transform = Transform::default();
     transform.set_translation_xyz(x, y, 0.);
 

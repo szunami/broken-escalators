@@ -31,7 +31,8 @@ impl SimpleState for Game {
 
         let sprite_width = 32.;
 
-        initialize_escalator(world, 0, 2. * sprite_width, 2. * sprite_width, 4. * sprite_width, 4. * sprite_width, 4, 1., Direction::CLOCKWISE, step_render.clone());
+        initialize_escalator(world, 0, 2. * sprite_width, 2. * sprite_width, 4. * sprite_width, 4. * sprite_width, 4, 32., Direction::CLOCKWISE, step_render.clone());
+        initialize_escalator(world, 1, 8. * sprite_width, 2. * sprite_width, 4. * sprite_width, 4. * sprite_width, 4, 32., Direction::COUNTERCLOCKWISE, step_render.clone());
         // initialise_thing(world, thing_render.clone());
     }
 }
