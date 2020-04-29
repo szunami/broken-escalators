@@ -5,7 +5,7 @@ use amethyst::{
     renderer::{Camera, ImageFormat, SpriteRender, SpriteSheet, SpriteSheetFormat, Texture},
 };
 
-use crate::components::{Atop, Direction, Escalator, Step, Thing};
+use crate::{entities::initialize_escalator, components::{Atop, Direction, Escalator, Step, Thing}};
 
 pub const ARENA_HEIGHT: f32 = 1000.0;
 pub const ARENA_WIDTH: f32 = 1000.0;
@@ -29,118 +29,14 @@ impl SimpleState for Game {
             sprite_number: 1,
         };
 
-        initialize_escalators(world, step_render.clone());
-        initialise_thing(world, thing_render.clone());
+        let sprite_width = 32.;
+
+        initialize_escalator(world, 0, 2. * sprite_width, 2. * sprite_width, 4. * sprite_width, 4. * sprite_width, 4, 50., Direction::CLOCKWISE, step_render.clone());
+        // initialise_thing(world, thing_render.clone());
     }
 }
 
-fn initialize_escalators(world: &mut World, sprite_render: SpriteRender) {
-    {
-        let escalator_id = 0;
 
-        let mut transform = Transform::default();
-        transform.set_translation_xyz(16., 16., 0.);
-        world
-            .create_entity()
-            .with(Step::new(escalator_id, 32., 32., 0., 5.))
-            .with(sprite_render.clone())
-            .with(transform.clone())
-            .build();
-
-        transform.set_translation_xyz(48., 16., 0.);
-        world
-            .create_entity()
-            .with(Step::new(escalator_id, 32., 32., 5., -5.))
-            .with(sprite_render.clone())
-            .with(transform.clone())
-            .build();
-
-        transform.set_translation_xyz(16., 48., 0.);
-        world
-            .create_entity()
-            .with(Step::new(escalator_id, 32., 32., 0., 0.))
-            .with(sprite_render.clone())
-            .with(transform.clone())
-            .build();
-
-        transform.set_translation_xyz(32., 32., 0.);
-        world
-            .create_entity()
-            .with(Escalator::new(
-                escalator_id,
-                64.,
-                64.,
-                1.,
-                Direction::CLOCKWISE,
-            ))
-            .with(transform.clone())
-            .build();
-    }
-    {
-        let escalator_id = 1;
-
-        let mut transform = Transform::default();
-        transform.set_translation_xyz(168., 16., 0.);
-        world
-            .create_entity()
-            .with(Step::new(escalator_id, 32., 32., 0., 0.))
-            .with(sprite_render.clone())
-            .with(transform.clone())
-            .build();
-
-        transform.set_translation_xyz(200., 16., 0.);
-        world
-            .create_entity()
-            .with(Step::new(escalator_id, 32., 32., 0., 0.))
-            .with(sprite_render.clone())
-            .with(transform.clone())
-            .build();
-
-        transform.set_translation_xyz(232., 16., 0.);
-        world
-            .create_entity()
-            .with(Step::new(escalator_id, 32., 32., 0., 0.))
-            .with(sprite_render.clone())
-            .with(transform.clone())
-            .build();
-
-        transform.set_translation_xyz(168., 48., 0.);
-        world
-            .create_entity()
-            .with(Step::new(escalator_id, 32., 32., 0., 0.))
-            .with(sprite_render.clone())
-            .with(transform.clone())
-            .build();
-
-        transform.set_translation_xyz(168., 80., 0.);
-        world
-            .create_entity()
-            .with(Step::new(escalator_id, 32., 32., 0., 0.))
-            .with(sprite_render.clone())
-            .with(transform.clone())
-            .build();
-
-        transform.set_translation_xyz(200., 48., 0.);
-        world
-            .create_entity()
-            .with(Step::new(escalator_id, 32., 32., 0., 0.))
-            .with(sprite_render.clone())
-            .with(transform.clone())
-            .build();
-        transform.set_translation_xyz(200., 48., 0.);
-        world
-            .create_entity()
-            .with(Escalator::new(
-                escalator_id,
-                96.,
-                96.,
-                1.,
-                Direction::COUNTERCLOCKWISE,
-            ))
-            .with(transform.clone())
-            .build();
-    }
-}
 
 fn initialise_thing(world: &mut World, sprite_render: SpriteRender) {
     let mut transform = Transform::default();
