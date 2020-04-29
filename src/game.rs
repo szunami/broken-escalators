@@ -1,12 +1,11 @@
 use amethyst::{
     assets::{AssetStorage, Handle, Loader},
-    core::transform::Transform,
     prelude::*,
-    renderer::{Camera, ImageFormat, SpriteRender, SpriteSheet, SpriteSheetFormat, Texture},
+    renderer::{ImageFormat, SpriteRender, SpriteSheet, SpriteSheetFormat, Texture},
 };
 
 use crate::{
-    components::{Atop, Direction, Escalator, Step, Thing},
+    components::{Direction, Escalator, Thing},
     entities::{initialize_camera, initialize_escalator, initialize_thing},
 };
 

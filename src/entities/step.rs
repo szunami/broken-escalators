@@ -1,9 +1,8 @@
 use crate::components::Step;
 use amethyst::{
-    assets::{AssetStorage, Handle, Loader},
     core::transform::Transform,
     prelude::*,
-    renderer::{Camera, ImageFormat, SpriteRender, SpriteSheet, SpriteSheetFormat, Texture},
+    renderer::SpriteRender,
 };
 
 pub fn initialize_step(
