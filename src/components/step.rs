@@ -1,5 +1,6 @@
 use amethyst::ecs::prelude::{Component, DenseVecStorage};
 
+#[derive(Clone)]
 pub struct Step {
     pub escalator_id: i32,
     pub width: f32,

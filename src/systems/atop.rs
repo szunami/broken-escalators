@@ -29,7 +29,7 @@ impl<'s> System<'s> for AtopSystem {
                 info!("Atopness: {}", atopness);
                 warn!("Atopness: {}", atopness);
                 if atopness > max_atopness {
-                    atop = Some(&(*step).clone());
+                    atop = Some(step);
                     max_atopness = atopness;
                 }
             }
