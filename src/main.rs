@@ -14,10 +14,10 @@ use amethyst::{
 use game::Game;
 
 mod components;
+mod entities;
 mod game;
 mod systems;
 mod utils;
-mod entities;
 
 fn main() -> amethyst::Result<()> {
     amethyst::start_logger(Default::default());

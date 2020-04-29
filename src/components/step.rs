@@ -20,7 +20,7 @@ impl Step {
         height: f32,
         x_velocity: f32,
         y_velocity: f32,
-        push_velocity: f32
+        push_velocity: f32,
     ) -> Step {
         Step {
             escalator_id,

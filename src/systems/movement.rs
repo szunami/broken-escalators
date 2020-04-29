@@ -1,9 +1,9 @@
 use crate::components::{Atop, Thing};
 use amethyst::{
-    core::transform::Transform,
     core::timing::Time,
+    core::transform::Transform,
     derive::SystemDesc,
-    ecs::prelude::{Join, ReadStorage, System, SystemData, WriteStorage, Read},
+    ecs::prelude::{Join, Read, ReadStorage, System, SystemData, WriteStorage},
 };
 
 #[derive(SystemDesc)]

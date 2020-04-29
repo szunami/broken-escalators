@@ -5,8 +5,10 @@ use amethyst::{
     renderer::{Camera, ImageFormat, SpriteRender, SpriteSheet, SpriteSheetFormat, Texture},
 };
 
-use crate::{entities::{initialize_camera, initialize_escalator, initialize_thing}, components::{Atop, Direction, Escalator, Step, Thing}};
-
+use crate::{
+    components::{Atop, Direction, Escalator, Step, Thing},
+    entities::{initialize_camera, initialize_escalator, initialize_thing},
+};
 
 #[derive(Default)]
 pub struct Game {}
@@ -26,23 +28,47 @@ impl SimpleState for Game {
 
         let sprite_width = 32.;
 
-
-        initialize_escalator(world, 0, 2. * sprite_width, 2. * sprite_width, 4. * sprite_width, 4. * sprite_width, 4, 32., Direction::CLOCKWISE, step_render.clone());
-        initialize_escalator(world, 1, 8. * sprite_width, 2. * sprite_width, 4. * sprite_width, 4. * sprite_width, 4, 32., Direction::COUNTERCLOCKWISE, step_render.clone());
+        initialize_escalator(
+            world,
+            0,
+            2. * sprite_width,
+            2. * sprite_width,
+            4. * sprite_width,
+            4. * sprite_width,
+            4,
+            32.,
+            Direction::CLOCKWISE,
+            step_render.clone(),
+        );
+        initialize_escalator(
+            world,
+            1,
+            8. * sprite_width,
+            2. * sprite_width,
+            4. * sprite_width,
+            4. * sprite_width,
+            4,
+            32.,
+            Direction::COUNTERCLOCKWISE,
+            step_render.clone(),
+        );
 
         let thing_render = SpriteRender {
             sprite_sheet: sprite_sheet,
             sprite_number: 1,
         };
-        initialize_thing(world, sprite_width * 0.5, 4.5 * sprite_width, sprite_width, sprite_width, 0., 0., thing_render.clone());
+        initialize_thing(
+            world,
+            sprite_width * 0.5,
+            4.5 * sprite_width,
+            sprite_width,
+            sprite_width,
+            0.,
+            0.,
+            thing_render.clone(),
+        );
     }
 }
-
-
-
-
-
-
 
 fn load_sprite_sheet(world: &mut World) -> Handle<SpriteSheet> {
     // Load the sprite sheet necessary to render the graphics.
