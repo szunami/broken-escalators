@@ -1,10 +1,6 @@
 use super::initialize_step;
 use crate::components::{Direction, Escalator};
-use amethyst::{
-    core::transform::Transform,
-    prelude::*,
-    renderer::SpriteRender
-};
+use amethyst::{core::transform::Transform, prelude::*, renderer::SpriteRender};
 
 // pub fn initialize_escalator(world: &mut World, sprite_render: SpriteRender) {
 //     {

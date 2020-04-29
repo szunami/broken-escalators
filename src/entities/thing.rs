@@ -1,9 +1,5 @@
 use crate::components::{Atop, Thing};
-use amethyst::{
-    core::transform::Transform,
-    prelude::*,
-    renderer::SpriteRender,
-};
+use amethyst::{core::transform::Transform, prelude::*, renderer::SpriteRender};
 
 pub fn initialize_thing(
     world: &mut World,

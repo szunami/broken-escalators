@@ -1,8 +1,4 @@
-use amethyst::{
-    core::transform::Transform,
-    prelude::*,
-    renderer::{Camera},
-};
+use amethyst::{core::transform::Transform, prelude::*, renderer::Camera};
 
 pub const ARENA_HEIGHT: f32 = 1024.0;
 pub const ARENA_WIDTH: f32 = 1024.0;

@@ -1,9 +1,5 @@
 use crate::components::Step;
-use amethyst::{
-    core::transform::Transform,
-    prelude::*,
-    renderer::SpriteRender,
-};
+use amethyst::{core::transform::Transform, prelude::*, renderer::SpriteRender};
 
 pub fn initialize_step(
     world: &mut World,
