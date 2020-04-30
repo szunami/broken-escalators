@@ -3,6 +3,7 @@ extern crate log;
 
 use amethyst::{
     core::transform::TransformBundle,
+    input::{InputBundle, StringBindings},
     prelude::*,
     renderer::{
         plugins::{RenderFlat2D, RenderToWindow},
@@ -27,6 +28,7 @@ fn main() -> amethyst::Result<()> {
     let assets_dir = app_root.join("assets");
     let config_dir = app_root.join("config");
     let display_config_path = config_dir.join("display.ron");
+    let input_bundle = InputBundle::<StringBindings>::new();
 
     let game_data = GameDataBuilder::default()
         .with_bundle(
@@ -38,6 +40,7 @@ fn main() -> amethyst::Result<()> {
                 .with_plugin(RenderFlat2D::default()),
         )?
         .with_bundle(TransformBundle::new())?
+        .with_bundle(input_bundle)?
         .with(systems::CornerSystem, "corner_system", &[])
         .with(systems::EscalatorSystem, "escalator_system", &[])
         .with(systems::AtopSystem, "atop_system", &[])

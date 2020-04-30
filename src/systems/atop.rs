@@ -6,7 +6,7 @@ use amethyst::{
     ecs::prelude::{Join, ReadStorage, System, SystemData, WriteStorage},
 };
 
-pub const GRAVITY_VELOCITY: f32 = -5.;
+pub const GRAVITY_VELOCITY: f32 = -50.;
 
 #[derive(SystemDesc)]
 pub struct AtopSystem;
@@ -21,13 +21,10 @@ impl<'s> System<'s> for AtopSystem {
 
     fn run(&mut self, (mut atops, things, transforms, steps): Self::SystemData) {
         for (thing_atop, thing, thing_transform) in (&mut atops, &things, &transforms).join() {
-            warn!("Calculating atopness");
             let mut atop = None;
             let mut max_atopness = 0.;
             for (step, step_transform) in (&steps, &transforms).join() {
                 let atopness = calculate_atopness(&thing, &thing_transform, &step, &step_transform);
-                info!("Atopness: {}", atopness);
-                warn!("Atopness: {}", atopness);
                 if atopness > max_atopness {
                     atop = Some(step);
                     max_atopness = atopness;
