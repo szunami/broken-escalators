@@ -6,7 +6,7 @@ use amethyst::{
     ecs::prelude::{Join, ReadStorage, System, SystemData, WriteStorage},
 };
 
-pub const GRAVITY_VELOCITY: f32 = -5.;
+pub const GRAVITY_VELOCITY: f32 = -50.;
 
 #[derive(SystemDesc)]
 pub struct AtopSystem;

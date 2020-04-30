@@ -24,6 +24,10 @@ impl SimpleState for Game {
             sprite_sheet: sprite_sheet.clone(),
             sprite_number: 0,
         };
+        let thing_render = SpriteRender {
+            sprite_sheet,
+            sprite_number: 1,
+        };
 
         let sprite_width = 32.;
 
@@ -39,6 +43,17 @@ impl SimpleState for Game {
             Direction::CLOCKWISE,
             step_render.clone(),
         );
+        initialize_thing(
+            world,
+            sprite_width * 0.5,
+            4.5 * sprite_width,
+            sprite_width,
+            sprite_width,
+            0.,
+            0.,
+            thing_render.clone(),
+        );
+
         initialize_escalator(
             world,
             1,
@@ -51,20 +66,15 @@ impl SimpleState for Game {
             Direction::COUNTERCLOCKWISE,
             step_render,
         );
-
-        let thing_render = SpriteRender {
-            sprite_sheet,
-            sprite_number: 1,
-        };
         initialize_thing(
             world,
-            sprite_width * 0.5,
+            sprite_width * 10.,
             4.5 * sprite_width,
             sprite_width,
             sprite_width,
             0.,
             0.,
-            thing_render,
+            thing_render.clone(),
         );
     }
 }
