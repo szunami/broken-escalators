@@ -2,6 +2,8 @@ use amethyst::{
     assets::{AssetStorage, Handle, Loader},
     prelude::*,
     renderer::{ImageFormat, SpriteRender, SpriteSheet, SpriteSheetFormat, Texture},
+    input::{InputHandler, ControllerButton, VirtualKeyCode, StringBindings},
+
 };
 
 use crate::{
@@ -76,6 +78,15 @@ impl SimpleState for Game {
             0.,
             thing_render.clone(),
         );
+    }
+
+    fn update(&mut self, data: &mut StateData<'_, GameData<'_, '_>>) -> SimpleTrans {
+        let input_handler = data.world.fetch::<InputHandler<StringBindings>>();
+
+        if input_handler.key_is_down(VirtualKeyCode::R) {
+            info!("We got an R!");
+        }
+        Trans::None
     }
 }
 
