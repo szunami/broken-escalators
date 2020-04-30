@@ -29,7 +29,7 @@ impl<'s> System<'s> for AtopSystem {
                 info!("Atopness: {}", atopness);
                 warn!("Atopness: {}", atopness);
                 if atopness > max_atopness {
-                    atop = Some(step.clone());
+                    atop = Some(step);
                     max_atopness = atopness;
                 }
             }
@@ -78,13 +78,12 @@ fn calculate_atopness(
         return 0.;
     }
 
-    let overlap = f32::min(
+    f32::min(
         step_bounds.right() - thing_bounds.left(),
         thing_bounds.right() - step_bounds.left(),
-    );
-    return overlap;
+    )
 }
 
 fn overlaps(a: f32, b: f32, x: f32, y: f32) -> bool {
-    return (a <= x && b >= x) || (x <= a && y >= a);
+    (a <= x && b >= x) || (x <= a && y >= a)
 }

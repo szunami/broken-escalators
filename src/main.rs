@@ -14,6 +14,7 @@ use amethyst::{
 use game::Game;
 
 mod components;
+mod entities;
 mod game;
 mod systems;
 mod utils;

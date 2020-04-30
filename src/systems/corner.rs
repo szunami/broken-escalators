@@ -38,6 +38,8 @@ impl<'s> System<'s> for CornerSystem {
                 continue;
             }
             if step_local.translation().x + step.width * 0.5 >= escalator.right {
+                info!("escalator.right: {}", escalator.right);
+                info!("step x: {}", step_local.translation().x);
                 info!("Hit right corner");
                 match escalator.direction {
                     Direction::CLOCKWISE => {

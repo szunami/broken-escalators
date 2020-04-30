@@ -33,7 +33,7 @@ pub fn escalator_bounds_read(
             },
         );
     }
-    return escalator_map;
+    escalator_map
 }
 
 pub fn escalator_bounds_write(
@@ -55,5 +55,5 @@ pub fn escalator_bounds_write(
             },
         );
     }
-    return escalator_map;
+    escalator_map
 }

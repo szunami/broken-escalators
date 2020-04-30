@@ -1,9 +1,9 @@
 use crate::systems::utils::escalator_bounds_write;
 use amethyst::{
-    core::transform::Transform,
     core::timing::Time,
+    core::transform::Transform,
     derive::SystemDesc,
-    ecs::prelude::{Join, ReadStorage, System, SystemData, WriteStorage, Read},
+    ecs::prelude::{Join, Read, ReadStorage, System, SystemData, WriteStorage},
 };
 
 use crate::components::{Escalator, Step};
