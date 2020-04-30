@@ -3,6 +3,7 @@ extern crate log;
 
 use amethyst::{
     core::transform::TransformBundle,
+    input::{InputBundle, StringBindings},
     prelude::*,
     renderer::{
         plugins::{RenderFlat2D, RenderToWindow},
@@ -10,7 +11,6 @@ use amethyst::{
         RenderingBundle,
     },
     utils::application_root_dir,
-    input::{InputBundle, StringBindings},
 };
 use game::Game;
 

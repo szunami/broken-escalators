@@ -1,13 +1,12 @@
 use amethyst::{
     assets::{AssetStorage, Handle, Loader},
+    input::{InputHandler, StringBindings, VirtualKeyCode},
     prelude::*,
     renderer::{ImageFormat, SpriteRender, SpriteSheet, SpriteSheetFormat, Texture},
-    input::{InputHandler, ControllerButton, VirtualKeyCode, StringBindings},
-
 };
 
 use crate::{
-    components::{Direction, Escalator, Thing},
+    components::{Direction},
     entities::{initialize_camera, initialize_escalator, initialize_thing},
 };
 
@@ -21,7 +20,11 @@ impl SimpleState for Game {
     }
 
     fn update(&mut self, data: &mut StateData<'_, GameData<'_, '_>>) -> SimpleTrans {
-        if data.world.fetch::<InputHandler<StringBindings>>().key_is_down(VirtualKeyCode::R) {
+        if data
+            .world
+            .fetch::<InputHandler<StringBindings>>()
+            .key_is_down(VirtualKeyCode::R)
+        {
             reset_level(data.world);
         }
         Trans::None
@@ -87,7 +90,7 @@ fn reset_level(world: &mut World) {
         sprite_width,
         0.,
         0.,
-        thing_render.clone(),
+        thing_render,
     );
 }
 
