@@ -48,7 +48,11 @@ fn main() -> amethyst::Result<()> {
         .with(systems::MoveSystem, "move_system", &[])
         .with(systems::FPSSystem, "fps_system", &[])
         .with(systems::ThingTapeSystem, "thing_tape_system", &[])
-        .with(systems::RewindableClockSystem, "rewindable_clock_system", &[]);
+        .with(
+            systems::RewindableClockSystem,
+            "rewindable_clock_system",
+            &[],
+        );
 
     let mut game = Application::new(assets_dir, Game::default(), game_data)?;
     game.run();
