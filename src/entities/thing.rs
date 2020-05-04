@@ -1,4 +1,4 @@
-use crate::components::{Atop, Thing};
+use crate::components::{Atop, Thing, ThingTape};
 use amethyst::{core::transform::Transform, prelude::*, renderer::SpriteRender};
 
 pub fn initialize_thing(
@@ -16,6 +16,7 @@ pub fn initialize_thing(
     world
         .create_entity()
         .with(Thing::new(width, height, x_velocity, y_velocity))
+        .with(ThingTape::new())
         .with(Atop::default())
         .with(sprite_render)
         .with(transform)

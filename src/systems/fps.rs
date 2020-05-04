@@ -1,4 +1,3 @@
-
 use amethyst::{
     core::timing::Time,
     derive::SystemDesc,
