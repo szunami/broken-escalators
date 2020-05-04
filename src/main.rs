@@ -10,7 +10,7 @@ use amethyst::{
         types::DefaultBackend,
         RenderingBundle,
     },
-    utils::application_root_dir,
+    utils::{application_root_dir, fps_counter::FpsCounterBundle},
 };
 use game::Game;
 
@@ -41,10 +41,12 @@ fn main() -> amethyst::Result<()> {
         )?
         .with_bundle(TransformBundle::new())?
         .with_bundle(input_bundle)?
+        .with_bundle(FpsCounterBundle {})?
         .with(systems::CornerSystem, "corner_system", &[])
         .with(systems::EscalatorSystem, "escalator_system", &[])
         .with(systems::AtopSystem, "atop_system", &[])
-        .with(systems::MoveSystem, "move_system", &[]);
+        .with(systems::MoveSystem, "move_system", &[])
+        .with(systems::FPSSystem, "fps_system", &[]);
 
     let mut game = Application::new(assets_dir, Game::default(), game_data)?;
     game.run();
