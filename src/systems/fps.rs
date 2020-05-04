@@ -1,9 +1,8 @@
-use crate::systems::utils::escalator_bounds_write;
+
 use amethyst::{
     core::timing::Time,
-    core::transform::Transform,
     derive::SystemDesc,
-    ecs::prelude::{Join, Read, ReadStorage, System, SystemData, WriteStorage},
+    ecs::prelude::{Read, System, SystemData},
     utils::fps_counter::FpsCounter,
 };
 
