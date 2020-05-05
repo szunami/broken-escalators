@@ -25,23 +25,30 @@ impl<'s> System<'s> for StepTapeSystem {
         for clock in (&clocks).join() {
             for (step, local, step_tape) in (&mut steps, &mut locals, &mut step_tapes).join() {
                 if input.key_is_down(VirtualKeyCode::Z) {
-                    match step_tape.snapshots.pop() {
-                        Some(snapshot) => {
-                            info!("Found a previous state");
-                            local.set_translation(*snapshot.local.translation());
-                            step.x_velocity = snapshot.component.x_velocity;
-                            step.y_velocity = snapshot.component.y_velocity;
-                        }
-                        None => {}
-                    }
+                    move_tape_backwards(step_tape, local, step);
                 } else {
-                    step_tape.snapshots.push(Snapshot {
-                        component: step.clone(),
-                        timestamp: clock.current_time,
-                        local: local.clone(),
-                    })
+                    move_tape_forwards(step_tape, local, step, clock);
                 }
             }
         }
     }
+}
+
+fn move_tape_backwards(step_tape: &mut StepTape, local: &mut Transform, step: &mut Step) {
+    match step_tape.snapshots.pop() {
+        Some(snapshot) => {
+            info!("Found a previous state");
+            local.set_translation(*snapshot.local.translation());
+            step.x_velocity = snapshot.component.x_velocity;
+            step.y_velocity = snapshot.component.y_velocity;
+        }
+        None => {}
+    }
+}
+fn move_tape_forwards(step_tape: &mut StepTape, local: &mut Transform, step: &mut Step, clock: &RewindableClock) {
+    step_tape.snapshots.push(Snapshot {
+        component: step.clone(),
+        timestamp: clock.current_time,
+        local: local.clone(),
+    })
 }
