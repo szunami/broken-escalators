@@ -1,4 +1,6 @@
 use amethyst::ecs::prelude::{Component, DenseVecStorage};
+
+#[derive(Copy, Clone)]
 pub struct Thing {
     pub width: f32,
     pub height: f32,
