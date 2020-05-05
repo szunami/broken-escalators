@@ -13,4 +13,4 @@ pub use self::rewindable_clock::RewindableClock;
 pub use self::step::Step;
 pub use self::step_tape::{StepSnapshot, StepTape};
 pub use self::thing::Thing;
-pub use self::thing_tape::{ThingSnapshot, ThingTape};
+pub use self::thing_tape::{ThingTape};

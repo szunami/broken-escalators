@@ -1,4 +1,4 @@
-use crate::components::{RewindableClock, Thing, ThingSnapshot, ThingTape};
+use crate::{utils::Snapshot, components::{RewindableClock, Thing, ThingTape}};
 use amethyst::input::{InputHandler, StringBindings, VirtualKeyCode};
 use amethyst::{
     core::transform::Transform,
@@ -23,12 +23,12 @@ impl<'s> System<'s> for ThingTapeSystem {
             for (thing, local, thing_tape) in (&mut things, &mut locals, &mut thing_tapes).join() {
                 if input.key_is_down(VirtualKeyCode::Z) {
                     info!("Going backwards");
-                    match thing_tape.thing_snapshots.pop() {
+                    match thing_tape.snapshots.pop() {
                         Some(snapshot) => {
                             info!("Found a previous state");
                             local.set_translation(*snapshot.local.translation());
-                            thing.x_velocity = snapshot.thing.x_velocity;
-                            thing.y_velocity = snapshot.thing.y_velocity;
+                            thing.x_velocity = snapshot.component.x_velocity;
+                            thing.y_velocity = snapshot.component.y_velocity;
                         }
                         None => {
                             info!("At the end of the line");
@@ -36,8 +36,8 @@ impl<'s> System<'s> for ThingTapeSystem {
                     }
                 } else {
                     info!("Going forwards!");
-                    thing_tape.thing_snapshots.push(ThingSnapshot {
-                        thing: thing.clone(),
+                    thing_tape.snapshots.push(Snapshot {
+                        component: thing.clone(),
                         timestamp: clock.current_time,
                         local: local.clone(),
                     })
