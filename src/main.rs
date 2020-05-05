@@ -48,6 +48,7 @@ fn main() -> amethyst::Result<()> {
         .with(systems::MoveSystem, "move_system", &[])
         .with(systems::FPSSystem, "fps_system", &[])
         .with(systems::ThingTapeSystem, "thing_tape_system", &[])
+        .with(systems::StepTapeSystem, "step_tape_system", &[])
         .with(
             systems::RewindableClockSystem,
             "rewindable_clock_system",

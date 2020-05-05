@@ -1,21 +1,27 @@
 use crate::components::{Direction, Escalator, Step};
 use crate::systems::utils::escalator_bounds_read;
+use amethyst::input::{InputHandler, StringBindings, VirtualKeyCode};
 use amethyst::{
     core::transform::Transform,
     derive::SystemDesc,
-    ecs::prelude::{Join, ReadStorage, System, SystemData, WriteStorage},
+    ecs::prelude::{Join, Read, ReadStorage, System, SystemData, WriteStorage},
 };
+
 #[derive(SystemDesc)]
 pub struct CornerSystem;
 
 impl<'s> System<'s> for CornerSystem {
     type SystemData = (
+        Read<'s, InputHandler<StringBindings>>,
         WriteStorage<'s, Step>,
         ReadStorage<'s, Transform>,
         ReadStorage<'s, Escalator>,
     );
 
-    fn run(&mut self, (mut steps, locals, escalators): Self::SystemData) {
+    fn run(&mut self, (input, mut steps, locals, escalators): Self::SystemData) {
+        if input.key_is_down(VirtualKeyCode::Z) {
+            return;
+        }
         let escalator_map = escalator_bounds_read(&locals, &escalators);
 
         for (step, step_local) in (&mut steps, &locals).join() {
