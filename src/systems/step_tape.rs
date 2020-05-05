@@ -1,4 +1,4 @@
-use crate::components::{RewindableClock, Tape, StepTape, Step, StepSnapshot};
+use crate::components::{RewindableClock, StepTape, Step, StepSnapshot};
 use amethyst::input::{InputHandler, StringBindings, VirtualKeyCode};
 use amethyst::{
     core::transform::Transform,
