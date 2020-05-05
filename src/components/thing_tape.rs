@@ -1,6 +1,6 @@
 use super::Thing;
-use amethyst::ecs::prelude::{Component, DenseVecStorage};
 use crate::utils::Snapshot;
+use amethyst::ecs::prelude::{Component, DenseVecStorage};
 
 pub struct ThingTape {
     pub snapshots: Vec<Snapshot<Thing>>,
@@ -12,8 +12,6 @@ impl Component for ThingTape {
 
 impl ThingTape {
     pub fn new() -> ThingTape {
-        ThingTape {
-            snapshots: vec![],
-        }
+        ThingTape { snapshots: vec![] }
     }
 }
