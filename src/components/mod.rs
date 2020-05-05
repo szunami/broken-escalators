@@ -11,4 +11,4 @@ pub use self::escalator::Escalator;
 pub use self::rewindable_clock::RewindableClock;
 pub use self::step::Step;
 pub use self::thing::Thing;
-pub use self::thing_tape::ThingTape;
+pub use self::thing_tape::{ThingSnapshot, ThingTape};

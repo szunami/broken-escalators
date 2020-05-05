@@ -3,8 +3,13 @@ use amethyst::core::transform::Transform;
 use amethyst::ecs::prelude::{Component, DenseVecStorage};
 
 pub struct ThingTape {
-    things: Vec<Thing>,
-    locals: Vec<Transform>,
+    pub thing_snapshots: Vec<ThingSnapshot>,
+}
+
+pub struct ThingSnapshot {
+    pub timestamp: f32,
+    pub thing: Thing,
+    pub local: Transform,
 }
 
 impl Component for ThingTape {
@@ -14,13 +19,7 @@ impl Component for ThingTape {
 impl ThingTape {
     pub fn new() -> ThingTape {
         ThingTape {
-            things: vec![],
-            locals: vec![],
+            thing_snapshots: vec![],
         }
-    }
-
-    pub fn push(&mut self, thing: Thing, local: Transform) {
-        self.things.push(thing);
-        self.locals.push(local);
     }
 }
