@@ -1,15 +1,9 @@
 use super::Step;
-use amethyst::core::transform::Transform;
+use crate::utils::Snapshot;
 use amethyst::ecs::prelude::{Component, DenseVecStorage};
 
 pub struct StepTape {
-    pub snapshots: Vec<StepSnapshot>,
-}
-
-pub struct StepSnapshot {
-    pub timestamp: f32,
-    pub step: Step,
-    pub local: Transform,
+    pub snapshots: Vec<Snapshot<Step>>,
 }
 
 impl Component for StepTape {

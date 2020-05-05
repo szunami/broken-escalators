@@ -1,4 +1,7 @@
-use crate::components::{RewindableClock, Step, StepSnapshot, StepTape};
+use crate::{
+    components::{RewindableClock, Step, StepTape},
+    utils::Snapshot,
+};
 use amethyst::input::{InputHandler, StringBindings, VirtualKeyCode};
 use amethyst::{
     core::transform::Transform,
@@ -26,14 +29,14 @@ impl<'s> System<'s> for StepTapeSystem {
                         Some(snapshot) => {
                             info!("Found a previous state");
                             local.set_translation(*snapshot.local.translation());
-                            step.x_velocity = snapshot.step.x_velocity;
-                            step.y_velocity = snapshot.step.y_velocity;
+                            step.x_velocity = snapshot.component.x_velocity;
+                            step.y_velocity = snapshot.component.y_velocity;
                         }
                         None => {}
                     }
                 } else {
-                    step_tape.snapshots.push(StepSnapshot {
-                        step: step.clone(),
+                    step_tape.snapshots.push(Snapshot {
+                        component: step.clone(),
                         timestamp: clock.current_time,
                         local: local.clone(),
                     })
