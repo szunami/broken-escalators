@@ -1,11 +1,11 @@
 use crate::components::{Direction, Escalator, Step};
 use crate::systems::utils::escalator_bounds_read;
+use amethyst::input::{InputHandler, StringBindings, VirtualKeyCode};
 use amethyst::{
     core::transform::Transform,
     derive::SystemDesc,
     ecs::prelude::{Join, Read, ReadStorage, System, SystemData, WriteStorage},
 };
-use amethyst::input::{InputHandler, StringBindings, VirtualKeyCode};
 
 #[derive(SystemDesc)]
 pub struct CornerSystem;

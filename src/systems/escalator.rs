@@ -1,12 +1,11 @@
 use crate::systems::utils::escalator_bounds_write;
+use amethyst::input::{InputHandler, StringBindings, VirtualKeyCode};
 use amethyst::{
     core::timing::Time,
     core::transform::Transform,
     derive::SystemDesc,
     ecs::prelude::{Join, Read, ReadStorage, System, SystemData, WriteStorage},
 };
-use amethyst::input::{InputHandler, StringBindings, VirtualKeyCode};
-
 
 use crate::components::{Escalator, Step};
 #[derive(SystemDesc)]

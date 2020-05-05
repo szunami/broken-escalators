@@ -1,4 +1,4 @@
-use super::{Step};
+use super::Step;
 use amethyst::core::transform::Transform;
 use amethyst::ecs::prelude::{Component, DenseVecStorage};
 
@@ -18,8 +18,6 @@ impl Component for StepTape {
 
 impl StepTape {
     pub fn new() -> StepTape {
-        StepTape {
-            snapshots: vec![],
-        }
+        StepTape { snapshots: vec![] }
     }
 }

@@ -1,4 +1,4 @@
-use crate::components::{RewindableClock, StepTape, Step, StepSnapshot};
+use crate::components::{RewindableClock, Step, StepSnapshot, StepTape};
 use amethyst::input::{InputHandler, StringBindings, VirtualKeyCode};
 use amethyst::{
     core::transform::Transform,
@@ -29,8 +29,7 @@ impl<'s> System<'s> for StepTapeSystem {
                             step.x_velocity = snapshot.step.x_velocity;
                             step.y_velocity = snapshot.step.y_velocity;
                         }
-                        None => {
-                        }
+                        None => {}
                     }
                 } else {
                     step_tape.snapshots.push(StepSnapshot {
