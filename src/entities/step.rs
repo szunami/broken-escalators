@@ -1,9 +1,9 @@
 use crate::components::{Step, StepTape};
-use amethyst::{core::transform::Transform, prelude::*, renderer::SpriteRender};
+use amethyst::{ecs::Entity, core::transform::Transform, prelude::*, renderer::SpriteRender};
 
 pub fn initialize_step(
     world: &mut World,
-    escalator_id: i32,
+    escalator_entity: Entity,
     x: f32,
     y: f32,
     x_velocity: f32,
@@ -18,7 +18,7 @@ pub fn initialize_step(
     world
         .create_entity()
         .with(Step::new(
-            escalator_id,
+            escalator_entity,
             step_width,
             step_height,
             x_velocity,

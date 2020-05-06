@@ -14,6 +14,22 @@ pub fn initialize_escalator(
     direction: Direction,
     step_sprite: SpriteRender,
 ) {
+
+    let mut transform = Transform::default();
+    transform.set_translation_xyz(x, y, 0.);
+
+    let escalator_entity = world
+        .create_entity()
+        .with(Escalator::new(
+            escalator_id,
+            escalator_width,
+            escalator_height,
+            speed,
+            direction,
+        ))
+        .with(transform)
+        .build();
+
     let step_height = escalator_height / (num_steps as f32);
     let step_width = escalator_width / (num_steps as f32);
     let left_arm_x = x - 0.5 * escalator_width + 0.5 * step_width;
@@ -36,7 +52,7 @@ pub fn initialize_escalator(
             let step_y = bottom_arm_y + (step_index as f32) * step_height;
             initialize_step(
                 world,
-                escalator_id,
+                escalator_entity,
                 left_arm_x,
                 step_y,
                 x_velocity,
@@ -62,7 +78,7 @@ pub fn initialize_escalator(
         let step_y = bottom_arm_y + ((num_steps - 1) as f32) * step_height;
         initialize_step(
             world,
-            escalator_id,
+            escalator_entity,
             left_arm_x,
             step_y,
             x_velocity,
@@ -89,7 +105,7 @@ pub fn initialize_escalator(
             let step_y = bottom_arm_y + ((num_steps - step_index - 1) as f32) * step_height;
             initialize_step(
                 world,
-                escalator_id,
+                escalator_entity,
                 step_x,
                 step_y,
                 x_velocity,
@@ -115,7 +131,7 @@ pub fn initialize_escalator(
         let step_x = left_arm_x + ((num_steps - 1) as f32) * step_width;
         initialize_step(
             world,
-            escalator_id,
+            escalator_entity,
             step_x,
             bottom_arm_y,
             x_velocity,
@@ -138,7 +154,7 @@ pub fn initialize_escalator(
             let step_x = left_arm_x + (step_index as f32) * step_width;
             initialize_step(
                 world,
-                escalator_id,
+                escalator_entity,
                 step_x,
                 bottom_arm_y,
                 x_velocity,
@@ -163,7 +179,7 @@ pub fn initialize_escalator(
             let push_velocity = 0.;
             initialize_step(
                 world,
-                escalator_id,
+                escalator_entity,
                 left_arm_x,
                 bottom_arm_y,
                 x_velocity,
@@ -175,18 +191,4 @@ pub fn initialize_escalator(
             );
         }
     }
-    let mut transform = Transform::default();
-    transform.set_translation_xyz(x, y, 0.);
-
-    world
-        .create_entity()
-        .with(Escalator::new(
-            escalator_id,
-            escalator_width,
-            escalator_height,
-            speed,
-            direction,
-        ))
-        .with(transform)
-        .build();
 }

@@ -1,4 +1,3 @@
-use crate::systems::utils::escalator_bounds_write;
 use amethyst::{
     core::timing::Time,
     core::transform::Transform,
@@ -8,6 +7,7 @@ use amethyst::{
 
 use crate::components::{Escalator, Step};
 use crate::resources::RewindableClock;
+use super::utils::BoundingBox;
 #[derive(SystemDesc)]
 pub struct EscalatorSystem;
 
@@ -24,9 +24,12 @@ impl<'s> System<'s> for EscalatorSystem {
         if !clock.going_forwards() {
             return;
         }
-        let escalator_map = escalator_bounds_write(&locals, &escalators);
+        // let escalator_map = escalator_bounds_write(&locals, &escalators);
         for (step, step_local) in (&steps, &mut locals).join() {
-            let escalator_box = escalator_map.get(&step.escalator_id).unwrap();
+            let escalator = escalators.get(step.escalator).unwrap();
+            let escalator_local = locals.get(step.escalator).unwrap();
+            let escalator_box = BoundingBox::from_escalator(*escalator, *escalator_local);
+            // let escalator_box = escalator_map.get(&step.escalator_id).unwrap();
             let x = (step_local.translation().x + step.x_velocity * time.delta_seconds())
                 .max(escalator_box.left + step.width * 0.5)
                 .min(escalator_box.right - step.width * 0.5);
