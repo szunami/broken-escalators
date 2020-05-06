@@ -1,4 +1,3 @@
-use crate::utils::UpdateFrom;
 use amethyst::ecs::prelude::{Component, DenseVecStorage};
 
 #[derive(Clone)]
@@ -9,14 +8,6 @@ pub struct Step {
     pub x_velocity: f32,
     pub y_velocity: f32,
     pub push_velocity: f32,
-}
-
-impl UpdateFrom<Step> for Step {
-    fn update_from(&mut self, other: Step) {
-        self.x_velocity = other.x_velocity;
-        self.y_velocity = other.y_velocity;
-        self.push_velocity = other.y_velocity;
-    }
 }
 
 impl Component for Step {

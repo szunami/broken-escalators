@@ -1,8 +1,8 @@
-use super::{Snapshot, UpdateFrom};
+use super::{Snapshot };
 use crate::components::RewindableClock;
 use amethyst::core::transform::Transform;
 
-pub fn move_tape_backwards<T: UpdateFrom<T>>(
+pub fn move_tape_backwards<T>(
     snapshots: &mut Vec<Snapshot<T>>,
     local: &mut Transform,
     component: &mut T,
@@ -10,7 +10,7 @@ pub fn move_tape_backwards<T: UpdateFrom<T>>(
     match snapshots.pop() {
         Some(snapshot) => {
             local.set_translation(*snapshot.local.translation());
-            component.update_from(snapshot.component);
+            *component = snapshot.component;
         }
         None => {}
     }
