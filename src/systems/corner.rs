@@ -1,9 +1,9 @@
-use crate::components::{Direction, Escalator, RewindableClock, Step};
-use crate::{systems::utils::escalator_bounds_read, utils::backwards_clock_check};
+use crate::components::{Direction, Escalator, Step};
+use crate::{resources::RewindableClock, systems::utils::escalator_bounds_read};
 use amethyst::{
     core::transform::Transform,
     derive::SystemDesc,
-    ecs::prelude::{Join, ReadStorage, System, SystemData, WriteStorage},
+    ecs::prelude::{Join, Read, ReadStorage, System, SystemData, WriteStorage},
 };
 
 #[derive(SystemDesc)]
@@ -11,14 +11,14 @@ pub struct CornerSystem;
 
 impl<'s> System<'s> for CornerSystem {
     type SystemData = (
-        ReadStorage<'s, RewindableClock>,
+        Read<'s, RewindableClock>,
         WriteStorage<'s, Step>,
         ReadStorage<'s, Transform>,
         ReadStorage<'s, Escalator>,
     );
 
-    fn run(&mut self, (clocks, mut steps, locals, escalators): Self::SystemData) {
-        if backwards_clock_check(clocks) {
+    fn run(&mut self, (clock, mut steps, locals, escalators): Self::SystemData) {
+        if !clock.going_forwards() {
             return;
         }
 

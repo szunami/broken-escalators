@@ -1,6 +1,6 @@
 pub use self::rectangle::BoundsProvider;
 pub use self::snapshot::Snapshot;
-pub use self::tape::{backwards_clock_check, move_tape_backwards, move_tape_forwards};
+pub use self::tape::{move_tape_backwards, move_tape_forwards};
 
 mod rectangle;
 mod snapshot;
