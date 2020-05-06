@@ -1,5 +1,5 @@
 use crate::{
-    components::{RewindableClock, Step, StepTape},
+    components::{RewindableClock, Step, StepTape}, utils::{move_tape_forwards, move_tape_backwards},
 };
 use amethyst::input::{InputHandler, StringBindings, VirtualKeyCode};
 use amethyst::{
