@@ -1,5 +1,5 @@
-use amethyst::ecs::prelude::{Component, DenseVecStorage};
 use crate::utils::UpdateFrom;
+use amethyst::ecs::prelude::{Component, DenseVecStorage};
 
 #[derive(Copy, Clone)]
 pub struct Thing {
@@ -8,7 +8,6 @@ pub struct Thing {
     pub x_velocity: f32,
     pub y_velocity: f32,
 }
-
 
 impl UpdateFrom<Thing> for Thing {
     fn update_from(&mut self, other: Thing) {

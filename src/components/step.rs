@@ -1,5 +1,5 @@
-use amethyst::ecs::prelude::{Component, DenseVecStorage};
 use crate::utils::UpdateFrom;
+use amethyst::ecs::prelude::{Component, DenseVecStorage};
 
 #[derive(Clone)]
 pub struct Step {
