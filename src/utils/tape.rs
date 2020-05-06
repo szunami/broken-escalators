@@ -8,7 +8,7 @@ pub fn backwards_clock_check(clocks: ReadStorage<RewindableClock>) -> bool {
     for clock in (&clocks).join() {
         return clock.velocity < 0.;
     }
-    return false;
+    false
 }
 
 pub fn move_tape_backwards<T>(
