@@ -6,22 +6,22 @@ use amethyst::{
     ecs::prelude::{Join, Read, ReadStorage, System, SystemData, WriteStorage},
 };
 
-use crate::components::{Escalator, RewindableClock, Step};
-use crate::utils::backwards_clock_check;
+use crate::components::{Escalator, Step};
+use crate::resources::RewindableClock;
 #[derive(SystemDesc)]
 pub struct EscalatorSystem;
 
 impl<'s> System<'s> for EscalatorSystem {
     type SystemData = (
-        ReadStorage<'s, RewindableClock>,
+        Read<'s, RewindableClock>,
         ReadStorage<'s, Step>,
         WriteStorage<'s, Transform>,
         ReadStorage<'s, Escalator>,
         Read<'s, Time>,
     );
 
-    fn run(&mut self, (clocks, steps, mut locals, escalators, time): Self::SystemData) {
-        if backwards_clock_check(clocks) {
+    fn run(&mut self, (clock, steps, mut locals, escalators, time): Self::SystemData) {
+        if !clock.going_forwards() {
             return;
         }
         let escalator_map = escalator_bounds_write(&locals, &escalators);

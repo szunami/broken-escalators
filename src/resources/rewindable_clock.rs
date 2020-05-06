@@ -10,6 +10,10 @@ impl RewindableClock {
         self.velocity = velocity;
         self.current_time = f32::max(0., self.current_time + delta_seconds);
     }
+
+    pub fn going_forwards(&self) -> bool {
+        self.velocity > 0.
+    }
 }
 
 impl Default for RewindableClock {
@@ -19,5 +23,4 @@ impl Default for RewindableClock {
             velocity: 1.,
         }
     }
-
 }

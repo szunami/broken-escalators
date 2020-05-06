@@ -17,9 +17,9 @@ use game::Game;
 mod components;
 mod entities;
 mod game;
+mod resources;
 mod systems;
 mod utils;
-mod resources;
 
 fn main() -> amethyst::Result<()> {
     amethyst::start_logger(Default::default());

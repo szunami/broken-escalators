@@ -1,15 +1,8 @@
 use super::Snapshot;
-use crate::components::RewindableClock;
 use amethyst::core::transform::Transform;
 
-use amethyst::ecs::prelude::{Join, ReadStorage};
-
-pub fn backwards_clock_check(clocks: ReadStorage<RewindableClock>) -> bool {
-    for clock in (&clocks).join() {
-        return clock.velocity < 0.;
-    }
-    false
-}
+use crate::resources::RewindableClock;
+use amethyst::ecs::prelude::Read;
 
 pub fn move_tape_backwards<T>(
     snapshots: &mut Vec<Snapshot<T>>,
@@ -26,7 +19,7 @@ pub fn move_tape_forwards<T: Clone>(
     snapshots: &mut Vec<Snapshot<T>>,
     local: &mut Transform,
     component: &mut T,
-    clock: &RewindableClock,
+    clock: &Read<RewindableClock>,
 ) {
     snapshots.push(Snapshot {
         component: component.clone(),
