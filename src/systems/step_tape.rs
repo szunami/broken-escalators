@@ -24,8 +24,10 @@ impl<'s> System<'s> for StepTapeSystem {
     fn run(&mut self, (input, clocks, mut steps, mut locals, mut step_tapes): Self::SystemData) {
         for clock in (&clocks).join() {
             for (step, local, step_tape) in (&mut steps, &mut locals, &mut step_tapes).join() {
+                step_tape.snapshots.pop();
+                let snapshots = &mut step_tape.snapshots;
                 if input.key_is_down(VirtualKeyCode::Z) {
-                    move_tape_backwards(step_tape, local, step);
+                    move_tape_backwards(snapshots, local, step);
                 } else {
                     move_tape_forwards(step_tape, local, step, clock);
                 }
@@ -34,8 +36,8 @@ impl<'s> System<'s> for StepTapeSystem {
     }
 }
 
-fn move_tape_backwards(step_tape: &mut StepTape, local: &mut Transform, step: &mut Step) {
-    match step_tape.snapshots.pop() {
+fn move_tape_backwards(step_tape: &mut Vec<Snapshot<Step>>, local: &mut Transform, step: &mut Step) {
+    match step_tape.pop() {
         Some(snapshot) => {
             info!("Found a previous state");
             local.set_translation(*snapshot.local.translation());
