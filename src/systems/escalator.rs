@@ -1,5 +1,4 @@
 use crate::systems::utils::escalator_bounds_write;
-use amethyst::input::{InputHandler, StringBindings, VirtualKeyCode};
 use amethyst::{
     core::timing::Time,
     core::transform::Transform,
@@ -7,21 +6,22 @@ use amethyst::{
     ecs::prelude::{Join, Read, ReadStorage, System, SystemData, WriteStorage},
 };
 
-use crate::components::{Escalator, Step};
+use crate::components::{Escalator, RewindableClock, Step};
+use crate::utils::backwards_clock_check;
 #[derive(SystemDesc)]
 pub struct EscalatorSystem;
 
 impl<'s> System<'s> for EscalatorSystem {
     type SystemData = (
-        Read<'s, InputHandler<StringBindings>>,
+        ReadStorage<'s, RewindableClock>,
         ReadStorage<'s, Step>,
         WriteStorage<'s, Transform>,
         ReadStorage<'s, Escalator>,
         Read<'s, Time>,
     );
 
-    fn run(&mut self, (input, steps, mut locals, escalators, time): Self::SystemData) {
-        if input.key_is_down(VirtualKeyCode::Z) {
+    fn run(&mut self, (clocks, steps, mut locals, escalators, time): Self::SystemData) {
+        if backwards_clock_check(clocks) {
             return;
         }
         let escalator_map = escalator_bounds_write(&locals, &escalators);
