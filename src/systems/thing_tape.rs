@@ -1,6 +1,6 @@
 use crate::{
     components::{RewindableClock, Thing, ThingTape},
-    utils::Snapshot,
+    utils::{move_tape_backwards, move_tape_forwards},
 };
 use amethyst::input::{InputHandler, StringBindings, VirtualKeyCode};
 use amethyst::{
@@ -24,26 +24,11 @@ impl<'s> System<'s> for ThingTapeSystem {
     fn run(&mut self, (input, clocks, mut things, mut locals, mut thing_tapes): Self::SystemData) {
         for clock in (&clocks).join() {
             for (thing, local, thing_tape) in (&mut things, &mut locals, &mut thing_tapes).join() {
+                let snapshots = &mut thing_tape.snapshots;
                 if input.key_is_down(VirtualKeyCode::Z) {
-                    info!("Going backwards");
-                    match thing_tape.snapshots.pop() {
-                        Some(snapshot) => {
-                            info!("Found a previous state");
-                            local.set_translation(*snapshot.local.translation());
-                            thing.x_velocity = snapshot.component.x_velocity;
-                            thing.y_velocity = snapshot.component.y_velocity;
-                        }
-                        None => {
-                            info!("At the end of the line");
-                        }
-                    }
+                    move_tape_backwards(snapshots, local, thing);
                 } else {
-                    info!("Going forwards!");
-                    thing_tape.snapshots.push(Snapshot {
-                        component: thing.clone(),
-                        timestamp: clock.current_time,
-                        local: local.clone(),
-                    })
+                    move_tape_forwards(snapshots, local, thing, clock);
                 }
             }
         }
