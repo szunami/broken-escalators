@@ -14,7 +14,6 @@ pub fn initialize_escalator(
     direction: Direction,
     step_sprite: SpriteRender,
 ) {
-
     let mut transform = Transform::default();
     transform.set_translation_xyz(x, y, 0.);
 

@@ -1,8 +1,5 @@
-use crate::components::{Escalator};
-use amethyst::{
-    core::transform::Transform,
-};
-
+use crate::components::Escalator;
+use amethyst::core::transform::Transform;
 
 pub struct BoundingBox {
     pub left: f32,

@@ -1,3 +1,4 @@
+use super::utils::BoundingBox;
 use crate::components::{Direction, Escalator, Step};
 use crate::resources::RewindableClock;
 use amethyst::{
@@ -5,7 +6,6 @@ use amethyst::{
     derive::SystemDesc,
     ecs::prelude::{Join, Read, ReadStorage, System, SystemData, WriteStorage},
 };
-use super::utils::BoundingBox;
 
 #[derive(SystemDesc)]
 pub struct CornerSystem;
@@ -44,6 +44,7 @@ impl<'s> System<'s> for CornerSystem {
                 }
                 continue;
             }
+
             if step_local.translation().x + step.width * 0.5 >= escalator_box.right {
                 info!("escalator.right: {}", escalator_box.right);
                 info!("step x: {}", step_local.translation().x);

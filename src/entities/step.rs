@@ -1,5 +1,5 @@
 use crate::components::{Step, StepTape};
-use amethyst::{ecs::Entity, core::transform::Transform, prelude::*, renderer::SpriteRender};
+use amethyst::{core::transform::Transform, ecs::Entity, prelude::*, renderer::SpriteRender};
 
 pub fn initialize_step(
     world: &mut World,
