@@ -7,12 +7,9 @@ pub fn move_tape_backwards<T>(
     local: &mut Transform,
     component: &mut T,
 ) {
-    match snapshots.pop() {
-        Some(snapshot) => {
-            local.set_translation(*snapshot.local.translation());
-            *component = snapshot.component;
-        }
-        None => {}
+    if let Some(snapshot) = snapshots.pop() {
+        local.set_translation(*snapshot.local.translation());
+        *component = snapshot.component;
     }
 }
 
