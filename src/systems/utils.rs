@@ -12,7 +12,7 @@ pub struct BoundingBox {
 }
 
 impl BoundingBox {
-    pub fn from_escalator(escalator: Escalator, local: Transform) -> BoundingBox {
+    pub fn from_escalator(escalator: &Escalator, local: &Transform) -> BoundingBox {
         BoundingBox {
             left: local.translation().x - escalator.width * 0.5,
             right: local.translation().x + escalator.width * 0.5,

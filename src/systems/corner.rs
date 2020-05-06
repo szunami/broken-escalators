@@ -26,7 +26,7 @@ impl<'s> System<'s> for CornerSystem {
         for (step, step_local) in (&mut steps, &locals).join() {
             let escalator = escalators.get(step.escalator).unwrap();
             let escalator_local = locals.get(step.escalator).unwrap();
-            let escalator_box = BoundingBox::from_escalator(*escalator, *escalator_local);
+            let escalator_box = BoundingBox::from_escalator(escalator, escalator_local);
 
             if step_local.translation().y + step.height * 0.5 >= escalator_box.top {
                 info!("Hit top");

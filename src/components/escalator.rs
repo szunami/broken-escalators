@@ -5,6 +5,8 @@ pub enum Direction {
     CLOCKWISE,
     COUNTERCLOCKWISE,
 }
+
+#[derive(Clone, Copy)]
 pub struct Escalator {
     pub id: i32,
     pub width: f32,

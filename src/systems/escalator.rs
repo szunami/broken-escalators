@@ -28,7 +28,7 @@ impl<'s> System<'s> for EscalatorSystem {
         for (step, step_local) in (&steps, &mut locals).join() {
             let escalator = escalators.get(step.escalator).unwrap();
             let escalator_local = locals.get(step.escalator).unwrap();
-            let escalator_box = BoundingBox::from_escalator(*escalator, *escalator_local);
+            let escalator_box = BoundingBox::from_escalator(escalator, escalator_local);
             // let escalator_box = escalator_map.get(&step.escalator_id).unwrap();
             let x = (step_local.translation().x + step.x_velocity * time.delta_seconds())
                 .max(escalator_box.left + step.width * 0.5)
