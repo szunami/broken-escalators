@@ -19,6 +19,7 @@ mod entities;
 mod game;
 mod systems;
 mod utils;
+mod resources;
 
 fn main() -> amethyst::Result<()> {
     amethyst::start_logger(Default::default());
