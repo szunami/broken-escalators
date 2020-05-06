@@ -1,6 +1,6 @@
 use crate::{
     components::{RewindableClock, Step, StepTape},
-    utils::Snapshot,
+    utils::{UpdateFrom, Snapshot},
 };
 use amethyst::input::{InputHandler, StringBindings, VirtualKeyCode};
 use amethyst::{
@@ -24,7 +24,6 @@ impl<'s> System<'s> for StepTapeSystem {
     fn run(&mut self, (input, clocks, mut steps, mut locals, mut step_tapes): Self::SystemData) {
         for clock in (&clocks).join() {
             for (step, local, step_tape) in (&mut steps, &mut locals, &mut step_tapes).join() {
-                step_tape.snapshots.pop();
                 let snapshots = &mut step_tape.snapshots;
                 if input.key_is_down(VirtualKeyCode::Z) {
                     move_tape_backwards(snapshots, local, step);
@@ -36,13 +35,11 @@ impl<'s> System<'s> for StepTapeSystem {
     }
 }
 
-fn move_tape_backwards(step_tape: &mut Vec<Snapshot<Step>>, local: &mut Transform, step: &mut Step) {
-    match step_tape.pop() {
+fn move_tape_backwards<T: UpdateFrom<T>>(snapshots: &mut Vec<Snapshot<T>>, local: &mut Transform, component: &mut T) {
+    match snapshots.pop() {
         Some(snapshot) => {
-            info!("Found a previous state");
             local.set_translation(*snapshot.local.translation());
-            step.x_velocity = snapshot.component.x_velocity;
-            step.y_velocity = snapshot.component.y_velocity;
+            component.update_from(snapshot.component);
         }
         None => {}
     }
