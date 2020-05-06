@@ -1,5 +1,5 @@
-use crate::components::{Atop, Thing};
-use amethyst::input::{InputHandler, StringBindings, VirtualKeyCode};
+use crate::components::{Atop, RewindableClock, Thing};
+use crate::utils::backwards_clock_check;
 use amethyst::{
     core::timing::Time,
     core::transform::Transform,
@@ -12,15 +12,15 @@ pub struct MoveSystem;
 
 impl<'s> System<'s> for MoveSystem {
     type SystemData = (
-        Read<'s, InputHandler<StringBindings>>,
+        ReadStorage<'s, RewindableClock>,
         ReadStorage<'s, Thing>,
         WriteStorage<'s, Transform>,
         ReadStorage<'s, Atop>,
         Read<'s, Time>,
     );
 
-    fn run(&mut self, (input, things, mut locals, atops, time): Self::SystemData) {
-        if input.key_is_down(VirtualKeyCode::Z) {
+    fn run(&mut self, (clocks, things, mut locals, atops, time): Self::SystemData) {
+        if backwards_clock_check(clocks) {
             return;
         }
         for (_thing, thing_local, atop) in (&things, &mut locals, &atops).join() {

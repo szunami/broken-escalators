@@ -23,7 +23,7 @@ impl<'s> System<'s> for RewindableClockSystem {
             1.
         };
         for clock in (&mut clocks).join() {
-            clock.update_clock(clock_velocity,clock_velocity * time.delta_seconds());
+            clock.update_clock(clock_velocity, clock_velocity * time.delta_seconds());
             info!("Clock: {}", clock.current_time);
         }
     }

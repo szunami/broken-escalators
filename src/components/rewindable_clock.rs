@@ -11,7 +11,10 @@ impl Component for RewindableClock {
 
 impl RewindableClock {
     pub fn new() -> RewindableClock {
-        RewindableClock { current_time: 0., velocity: 1. }
+        RewindableClock {
+            current_time: 0.,
+            velocity: 1.,
+        }
     }
 
     pub fn update_clock(&mut self, velocity: f32, delta_seconds: f32) {
