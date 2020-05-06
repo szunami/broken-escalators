@@ -1,4 +1,4 @@
-use super::{Snapshot };
+use super::Snapshot;
 use crate::components::RewindableClock;
 use amethyst::core::transform::Transform;
 
