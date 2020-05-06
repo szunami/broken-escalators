@@ -1,5 +1,6 @@
+use super::utils::BoundingBox;
 use crate::components::{Direction, Escalator, Step};
-use crate::{resources::RewindableClock, systems::utils::escalator_bounds_read};
+use crate::resources::RewindableClock;
 use amethyst::{
     core::transform::Transform,
     derive::SystemDesc,
@@ -22,12 +23,12 @@ impl<'s> System<'s> for CornerSystem {
             return;
         }
 
-        let escalator_map = escalator_bounds_read(&locals, &escalators);
-
         for (step, step_local) in (&mut steps, &locals).join() {
-            let escalator = escalator_map.get(&step.escalator_id).unwrap();
+            let escalator = escalators.get(step.escalator).unwrap();
+            let escalator_local = locals.get(step.escalator).unwrap();
+            let escalator_box = BoundingBox::from_escalator(escalator, escalator_local);
 
-            if step_local.translation().y + step.height * 0.5 >= escalator.top {
+            if step_local.translation().y + step.height * 0.5 >= escalator_box.top {
                 info!("Hit top");
                 match escalator.direction {
                     Direction::CLOCKWISE => {
@@ -43,8 +44,9 @@ impl<'s> System<'s> for CornerSystem {
                 }
                 continue;
             }
-            if step_local.translation().x + step.width * 0.5 >= escalator.right {
-                info!("escalator.right: {}", escalator.right);
+
+            if step_local.translation().x + step.width * 0.5 >= escalator_box.right {
+                info!("escalator.right: {}", escalator_box.right);
                 info!("step x: {}", step_local.translation().x);
                 info!("Hit right corner");
                 match escalator.direction {
@@ -62,8 +64,8 @@ impl<'s> System<'s> for CornerSystem {
 
                 continue;
             }
-            if (step_local.translation().x - step.width * 0.5 <= escalator.left)
-                && (step_local.translation().y - step.height * 0.5 <= escalator.bottom)
+            if (step_local.translation().x - step.width * 0.5 <= escalator_box.left)
+                && (step_local.translation().y - step.height * 0.5 <= escalator_box.bottom)
             {
                 info!("Hit middle corner");
                 match escalator.direction {
