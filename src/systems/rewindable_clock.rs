@@ -17,13 +17,13 @@ impl<'s> System<'s> for RewindableClockSystem {
     );
 
     fn run(&mut self, (input, time, mut clocks): Self::SystemData) {
-        let clock_direction = if input.key_is_down(VirtualKeyCode::Z) {
+        let clock_velocity = if input.key_is_down(VirtualKeyCode::Z) {
             -1.
         } else {
             1.
         };
         for clock in (&mut clocks).join() {
-            clock.update_clock(clock_direction * time.delta_seconds());
+            clock.update_clock(clock_velocity,clock_velocity * time.delta_seconds());
             info!("Clock: {}", clock.current_time);
         }
     }
