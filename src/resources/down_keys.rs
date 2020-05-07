@@ -15,8 +15,8 @@ impl DownKeys {
         }
     }
 
-    pub fn key_ups(&self) {
-        self.old_keys.difference(&self.new_keys)
+    pub fn key_ups(&self) -> HashSet<&VirtualKeyCode> {
+        self.old_keys.difference(&self.new_keys).collect()
     }
 }
 

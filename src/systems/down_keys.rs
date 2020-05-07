@@ -1,7 +1,6 @@
 use crate::resources::DownKeys;
-use amethyst::input::{InputHandler, StringBindings, VirtualKeyCode};
+use amethyst::input::{InputHandler, StringBindings};
 use amethyst::{
-    core::timing::Time,
     derive::SystemDesc,
     ecs::prelude::{Read, System, SystemData, Write},
 };
@@ -12,8 +11,9 @@ pub struct DownKeysSystem;
 impl<'s> System<'s> for DownKeysSystem {
     type SystemData = (Read<'s, InputHandler<StringBindings>>, Write<'s, DownKeys>);
 
-    fn run(&mut self, (input, down_keys): Self::SystemData) {
-        let x = input.keys_that_are_down();
+    fn run(&mut self, (input, mut down_keys): Self::SystemData) {
         down_keys.update(input.keys_that_are_down());
+        info!("Keys that are down: {}", down_keys.new_keys.len());
+        info!("Keys that are up: {}", down_keys.key_ups().len());
     }
 }
