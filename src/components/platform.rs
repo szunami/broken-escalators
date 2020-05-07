@@ -11,8 +11,6 @@ impl<'s> Component for Platform {
 
 impl<'s> Platform {
     pub fn default(width: f32, height: f32) -> Platform {
-        Platform {
-            width, height
-        }
+        Platform { width, height }
     }
 }
