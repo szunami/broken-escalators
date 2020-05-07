@@ -14,6 +14,7 @@ pub fn initialize_escalator(
     speed: f32,
     direction: Direction,
     step_sprite: SpriteRender,
+    toggle_key: VirtualKeyCode,
 ) {
     let mut transform = Transform::default();
     transform.set_translation_xyz(x, y, 0.);
@@ -26,7 +27,7 @@ pub fn initialize_escalator(
             escalator_height,
             speed,
             direction,
-            VirtualKeyCode::Y,
+            toggle_key,
         ))
         .with(transform)
         .build();

@@ -61,6 +61,7 @@ fn reset_level(world: &mut World) {
         32.,
         Direction::CLOCKWISE,
         step_render.clone(),
+        VirtualKeyCode::Y,
     );
     initialize_thing(
         world,
@@ -84,6 +85,7 @@ fn reset_level(world: &mut World) {
         32.,
         Direction::COUNTERCLOCKWISE,
         step_render,
+        VirtualKeyCode::T,
     );
     initialize_thing(
         world,
