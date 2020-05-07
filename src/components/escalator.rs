@@ -36,7 +36,7 @@ impl Escalator {
     pub fn toggle_direction(&mut self) {
         match self.direction {
             Direction::CLOCKWISE => { self.direction = Direction::COUNTERCLOCKWISE}
-            Direction::COUNTERCLOCKWISE => { self.direction = Direction::COUNTERCLOCKWISE}
+            Direction::COUNTERCLOCKWISE => { self.direction = Direction::CLOCKWISE}
         }
     }
 }
