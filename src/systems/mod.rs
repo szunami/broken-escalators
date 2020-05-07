@@ -8,6 +8,9 @@ mod rewindable_clock;
 mod step_tape;
 mod thing_tape;
 mod utils;
+mod toggle;
+
+pub use self::toggle::ToggleSystem;
 
 pub use self::atop::AtopSystem;
 pub use self::corner::CornerSystem;

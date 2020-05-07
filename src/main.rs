@@ -51,6 +51,7 @@ fn main() -> amethyst::Result<()> {
         .with(systems::ThingTapeSystem, "thing_tape_system", &[])
         .with(systems::StepTapeSystem, "step_tape_system", &[])
         .with(systems::DownKeysSystem, "down_key_system", &[])
+        .with(systems::ToggleSystem, "toggle_system", &[])
         .with(
             systems::RewindableClockSystem,
             "rewindable_clock_system",
