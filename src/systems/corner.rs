@@ -28,9 +28,6 @@ impl<'s> System<'s> for CornerSystem {
             let escalator_box = BoundingBox::new(escalator.width, escalator.height, escalator_local);
             let step_box = BoundingBox::new(step.width, step.height, step_local);
 
-            // top left corner
-            // bottom right corner
-            // middle corner
             // left edge
             if step_box.left <= escalator_box.left && step_box.top < escalator_box.top && step_box.bottom > escalator_box.bottom {
                 match escalator.direction {
@@ -54,7 +51,6 @@ impl<'s> System<'s> for CornerSystem {
                     }
                 }
             }
-            
             // bottom edge
             else if step_box.bottom <= escalator_box.bottom && step_box.left > escalator_box.left && step_box.right < escalator_box.right {
                 match escalator.direction {
@@ -66,54 +62,40 @@ impl<'s> System<'s> for CornerSystem {
                     }
                 }
             }
-            
-
-            if step_local.translation().y + step.height * 0.5 >= escalator_box.top {
-                info!("Hit top");
+            // top left corner
+            else if step_box.top >= escalator_box.top {
                 match escalator.direction {
                     Direction::CLOCKWISE => {
-                        step.x_velocity = escalator.speed;
-                        step.y_velocity = -escalator.speed;
-                        step.push_velocity = 0.;
+                        down_right_diag(step, escalator.speed);
                     }
                     Direction::COUNTERCLOCKWISE => {
                         down_left(step, escalator.speed)
                     }
                 }
-                continue;
             }
-
-            if step_local.translation().x + step.width * 0.5 >= escalator_box.right {
-                info!("escalator.right: {}", escalator_box.right);
-                info!("step x: {}", step_local.translation().x);
-                info!("Hit right corner");
+            // bottom right corner
+            else if step_box.right >= escalator_box.right {
                 match escalator.direction {
                     Direction::CLOCKWISE => {
-                        step.x_velocity = -escalator.speed;
-                        step.y_velocity = 0.;
-                        step.push_velocity = escalator.speed;
+                        left_bottom(step, escalator.speed);
+
                     }
                     Direction::COUNTERCLOCKWISE => {
-                        step.x_velocity = -escalator.speed;
-                        step.y_velocity = escalator.speed;
-                        step.push_velocity = 0.;
+                        up_left_diag(step, escalator.speed);
+
                     }
                 }
-
-                continue;
             }
-            if (step_local.translation().x - step.width * 0.5 <= escalator_box.left)
-                && (step_local.translation().y - step.height * 0.5 <= escalator_box.bottom)
+            // middle corner
+            else if (step_box.left <= escalator_box.left)
+                && (step_box.bottom <= escalator_box.bottom)
             {
-                info!("Hit middle corner");
                 match escalator.direction {
                     Direction::CLOCKWISE => {
                         up_left(step, escalator.speed);
                     }
                     Direction::COUNTERCLOCKWISE => {
-                        step.x_velocity = escalator.speed;
-                        step.y_velocity = 0.;
-                        step.push_velocity = 0.;
+                        right_bottom(step, escalator.speed);
                     }
                 }
             }
@@ -133,11 +115,27 @@ fn down_left(step: &mut Step, speed: f32) {
     step.push_velocity = -speed;
 }
 
-fn left_bottom(step: &mut Step, speed: f32) {}
+fn left_bottom(step: &mut Step, speed: f32) {
+    step.x_velocity = -speed;
+    step.y_velocity = 0.;
+    step.push_velocity = speed;
+}
 
-fn right_bottom(step: &mut Step, speed: f32) {}
+fn right_bottom(step: &mut Step, speed: f32) {
+    step.x_velocity = speed;
+    step.y_velocity = 0.;
+    step.push_velocity = 0.;
+}
 
-fn up_left_diag(step: &mut Step, speed: f32) {}
+fn up_left_diag(step: &mut Step, speed: f32) {
+    step.x_velocity = -speed;
+    step.y_velocity = speed;
+    step.push_velocity = 0.;
+}
 
-fn down_right_diag(step: &mut Step, speed: f32) {}
+fn down_right_diag(step: &mut Step, speed: f32) {
+    step.x_velocity = speed;
+    step.y_velocity = -speed;
+    step.push_velocity = 0.;
+}
 
