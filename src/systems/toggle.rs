@@ -20,7 +20,6 @@ impl<'s> System<'s> for ToggleSystem {
 
         for escalator in (&mut escalators).join() {
             if key_changes.contains(&escalator.toggle_key) {
-                info!("Toggling escalator: {}", escalator.id);
                 escalator.toggle_direction();
             }
         }
