@@ -1,6 +1,6 @@
-use crate::resources::RewindableClock as tmp;
+use crate::resources::RewindableClock;
 use amethyst::prelude::*;
 
 pub fn initialize_clock(world: &mut World) {
-    world.insert(tmp::default());
+    world.insert(RewindableClock::default());
 }

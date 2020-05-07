@@ -7,7 +7,7 @@ use amethyst::{
 
 use crate::{
     components::Direction,
-    entities::{initialize_camera, initialize_clock, initialize_escalator, initialize_thing},
+    entities::{initialize_camera, initialize_clock, initialize_escalator, initialize_thing, initialize_down_keys},
 };
 
 #[derive(Default)]
@@ -94,6 +94,7 @@ fn reset_level(world: &mut World) {
     );
 
     initialize_clock(world);
+    initialize_down_keys(world);
 }
 
 fn load_sprite_sheet(world: &mut World) -> Handle<SpriteSheet> {

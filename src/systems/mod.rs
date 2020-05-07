@@ -7,7 +7,9 @@ mod rewindable_clock;
 mod step_tape;
 mod thing_tape;
 mod utils;
+mod down_keys;
 
+pub use self::down_keys::DownKeysSystem;
 pub use self::atop::AtopSystem;
 pub use self::corner::CornerSystem;
 pub use self::escalator::EscalatorSystem;
