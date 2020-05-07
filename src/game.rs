@@ -52,7 +52,6 @@ fn reset_level(world: &mut World) {
 
     initialize_escalator(
         world,
-        0,
         2. * sprite_width,
         2. * sprite_width,
         4. * sprite_width,
@@ -76,7 +75,6 @@ fn reset_level(world: &mut World) {
 
     initialize_escalator(
         world,
-        1,
         8. * sprite_width,
         2. * sprite_width,
         4. * sprite_width,
