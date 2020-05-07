@@ -4,7 +4,9 @@ mod step;
 mod step_tape;
 mod thing;
 mod thing_tape;
+mod platform;
 
+pub use self::platform::Platform;
 pub use self::atop::Atop;
 pub use self::escalator::Direction;
 pub use self::escalator::Escalator;
