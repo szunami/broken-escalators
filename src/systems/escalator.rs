@@ -6,7 +6,7 @@ use amethyst::{
 };
 
 use crate::components::{Escalator, Step};
-use crate::{utils::BoundingBox, resources::RewindableClock};
+use crate::{resources::RewindableClock, utils::BoundingBox};
 use std::collections::HashMap;
 #[derive(SystemDesc)]
 pub struct EscalatorSystem;
@@ -32,7 +32,8 @@ impl<'s> System<'s> for EscalatorSystem {
             let step_local = locals.get(step_entity).unwrap();
             let escalator = escalators.get(step.escalator).unwrap();
             let escalator_local = locals.get(step.escalator).unwrap().clone();
-            let escalator_box = BoundingBox::new(escalator.width, escalator.height, &escalator_local);
+            let escalator_box =
+                BoundingBox::new(escalator.width, escalator.height, &escalator_local);
             let x = (step_local.translation().x + step.x_velocity * time.delta_seconds())
                 .max(escalator_box.left + step.width * 0.5)
                 .min(escalator_box.right - step.width * 0.5);

@@ -1,7 +1,7 @@
 use super::initialize_step;
 use crate::components::{Direction, Escalator};
+use amethyst::input::VirtualKeyCode;
 use amethyst::{core::transform::Transform, prelude::*, renderer::SpriteRender};
-use amethyst::input::{VirtualKeyCode};
 
 pub fn initialize_escalator(
     world: &mut World,

@@ -1,5 +1,5 @@
 use crate::components::{Direction, Escalator, Step};
-use crate::{utils::BoundingBox, resources::RewindableClock};
+use crate::{resources::RewindableClock, utils::BoundingBox};
 use amethyst::{
     core::transform::Transform,
     derive::SystemDesc,
@@ -25,11 +25,15 @@ impl<'s> System<'s> for CornerSystem {
         for (step, step_local) in (&mut steps, &locals).join() {
             let escalator = escalators.get(step.escalator).unwrap();
             let escalator_local = locals.get(step.escalator).unwrap();
-            let escalator_box = BoundingBox::new(escalator.width, escalator.height, escalator_local);
+            let escalator_box =
+                BoundingBox::new(escalator.width, escalator.height, escalator_local);
             let step_box = BoundingBox::new(step.width, step.height, step_local);
 
             // left edge
-            if step_box.left <= escalator_box.left && step_box.top < escalator_box.top && step_box.bottom > escalator_box.bottom {
+            if step_box.left <= escalator_box.left
+                && step_box.top < escalator_box.top
+                && step_box.bottom > escalator_box.bottom
+            {
                 match escalator.direction {
                     Direction::CLOCKWISE => {
                         up_left(step, escalator.speed);
@@ -39,24 +43,30 @@ impl<'s> System<'s> for CornerSystem {
                     }
                 }
             }
-
             // diagonal edge
-            else if step_box.left > escalator_box.left && step_box.right < escalator_box.right && step_box.top < escalator_box.top && step_box.bottom > escalator_box.bottom {
+            else if step_box.left > escalator_box.left
+                && step_box.right < escalator_box.right
+                && step_box.top < escalator_box.top
+                && step_box.bottom > escalator_box.bottom
+            {
                 match escalator.direction {
                     Direction::CLOCKWISE => {
                         down_right_diag(step, escalator.speed);
-                    },
+                    }
                     Direction::COUNTERCLOCKWISE => {
                         up_left_diag(step, escalator.speed);
                     }
                 }
             }
             // bottom edge
-            else if step_box.bottom <= escalator_box.bottom && step_box.left > escalator_box.left && step_box.right < escalator_box.right {
+            else if step_box.bottom <= escalator_box.bottom
+                && step_box.left > escalator_box.left
+                && step_box.right < escalator_box.right
+            {
                 match escalator.direction {
                     Direction::CLOCKWISE => {
                         left_bottom(step, escalator.speed);
-                    },
+                    }
                     Direction::COUNTERCLOCKWISE => {
                         right_bottom(step, escalator.speed);
                     }
@@ -68,9 +78,7 @@ impl<'s> System<'s> for CornerSystem {
                     Direction::CLOCKWISE => {
                         down_right_diag(step, escalator.speed);
                     }
-                    Direction::COUNTERCLOCKWISE => {
-                        down_left(step, escalator.speed)
-                    }
+                    Direction::COUNTERCLOCKWISE => down_left(step, escalator.speed),
                 }
             }
             // bottom right corner
@@ -78,11 +86,9 @@ impl<'s> System<'s> for CornerSystem {
                 match escalator.direction {
                     Direction::CLOCKWISE => {
                         left_bottom(step, escalator.speed);
-
                     }
                     Direction::COUNTERCLOCKWISE => {
                         up_left_diag(step, escalator.speed);
-
                     }
                 }
             }
@@ -138,4 +144,3 @@ fn down_right_diag(step: &mut Step, speed: f32) {
     step.y_velocity = -speed;
     step.push_velocity = 0.;
 }
-

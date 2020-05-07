@@ -12,7 +12,7 @@ impl BoundingBox {
         BoundingBox {
             left: local.translation().x - width * 0.5,
             right: local.translation().x + width * 0.5,
-            top: local.translation().y +  height * 0.5,
+            top: local.translation().y + height * 0.5,
             bottom: local.translation().y - height * 0.5,
         }
     }
