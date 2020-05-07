@@ -1,5 +1,6 @@
 use super::initialize_step;
 use crate::components::{Direction, Escalator};
+use amethyst::input::VirtualKeyCode;
 use amethyst::{core::transform::Transform, prelude::*, renderer::SpriteRender};
 
 pub fn initialize_escalator(
@@ -13,6 +14,7 @@ pub fn initialize_escalator(
     speed: f32,
     direction: Direction,
     step_sprite: SpriteRender,
+    toggle_key: VirtualKeyCode,
 ) {
     let mut transform = Transform::default();
     transform.set_translation_xyz(x, y, 0.);
@@ -25,6 +27,7 @@ pub fn initialize_escalator(
             escalator_height,
             speed,
             direction,
+            toggle_key,
         ))
         .with(transform)
         .build();

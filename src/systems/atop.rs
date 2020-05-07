@@ -1,5 +1,5 @@
 use crate::components::Thing;
-use crate::{components::Atop, components::Step, utils::BoundsProvider};
+use crate::{components::Atop, components::Step, utils::BoundingBox};
 use amethyst::{
     core::transform::Transform,
     derive::SystemDesc,
@@ -54,30 +54,30 @@ fn calculate_atopness(
     step: &Step,
     step_transform: &Transform,
 ) -> f32 {
-    let step_bounds = BoundsProvider::new(step.width, step.height, step_transform);
-    let thing_bounds = BoundsProvider::new(thing.width, thing.height, thing_transform);
+    let step_bounds = BoundingBox::new(step.width, step.height, step_transform);
+    let thing_bounds = BoundingBox::new(thing.width, thing.height, thing_transform);
 
     if !overlaps(
-        step_bounds.left(),
-        step_bounds.right(),
-        thing_bounds.left(),
-        thing_bounds.right(),
+        step_bounds.left,
+        step_bounds.right,
+        thing_bounds.left,
+        thing_bounds.right,
     ) {
         return 0.;
     }
 
     if !overlaps(
-        step_bounds.bottom(),
-        step_bounds.top(),
-        thing_bounds.bottom(),
-        thing_bounds.top(),
+        step_bounds.bottom,
+        step_bounds.top,
+        thing_bounds.bottom,
+        thing_bounds.top,
     ) {
         return 0.;
     }
 
     f32::min(
-        step_bounds.right() - thing_bounds.left(),
-        thing_bounds.right() - step_bounds.left(),
+        step_bounds.right - thing_bounds.left,
+        thing_bounds.right - step_bounds.left,
     )
 }
 

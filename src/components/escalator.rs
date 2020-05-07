@@ -1,4 +1,5 @@
 use amethyst::ecs::prelude::{Component, DenseVecStorage};
+use amethyst::input::VirtualKeyCode;
 
 #[derive(Clone, Copy)]
 pub enum Direction {
@@ -13,6 +14,7 @@ pub struct Escalator {
     pub height: f32,
     pub speed: f32,
     pub direction: Direction,
+    pub toggle_key: VirtualKeyCode,
 }
 
 impl Component for Escalator {
@@ -20,13 +22,28 @@ impl Component for Escalator {
 }
 
 impl Escalator {
-    pub fn new(id: i32, width: f32, height: f32, speed: f32, direction: Direction) -> Escalator {
+    pub fn new(
+        id: i32,
+        width: f32,
+        height: f32,
+        speed: f32,
+        direction: Direction,
+        toggle_key: VirtualKeyCode,
+    ) -> Escalator {
         Escalator {
             id,
             width,
             height,
             speed,
             direction,
+            toggle_key,
+        }
+    }
+
+    pub fn toggle_direction(&mut self) {
+        match self.direction {
+            Direction::CLOCKWISE => self.direction = Direction::COUNTERCLOCKWISE,
+            Direction::COUNTERCLOCKWISE => self.direction = Direction::CLOCKWISE,
         }
     }
 }
