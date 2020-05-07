@@ -7,7 +7,10 @@ use amethyst::{
 
 use crate::{
     components::Direction,
-    entities::{initialize_camera, initialize_clock, initialize_escalator, initialize_thing, initialize_down_keys},
+    entities::{
+        initialize_camera, initialize_clock, initialize_down_keys, initialize_escalator,
+        initialize_thing,
+    },
 };
 
 #[derive(Default)]

@@ -1,13 +1,13 @@
+use amethyst::input::VirtualKeyCode;
 use std::collections::HashSet;
-use amethyst::input::{VirtualKeyCode};
 
 pub struct DownKeys {
     pub old_keys: HashSet<VirtualKeyCode>,
-    pub new_keys: HashSet<VirtualKeyCode>
+    pub new_keys: HashSet<VirtualKeyCode>,
 }
 
 impl DownKeys {
-    pub fn update(&mut self, key_iter: impl Iterator<Item=VirtualKeyCode>) {
+    pub fn update(&mut self, key_iter: impl Iterator<Item = VirtualKeyCode>) {
         self.old_keys = self.new_keys.clone();
         self.new_keys = HashSet::new();
         for key in key_iter {
