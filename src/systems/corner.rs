@@ -1,6 +1,5 @@
-use super::utils::BoundingBox;
 use crate::components::{Direction, Escalator, Step};
-use crate::resources::RewindableClock;
+use crate::{utils::BoundingBox, resources::RewindableClock};
 use amethyst::{
     core::transform::Transform,
     derive::SystemDesc,
@@ -26,7 +25,16 @@ impl<'s> System<'s> for CornerSystem {
         for (step, step_local) in (&mut steps, &locals).join() {
             let escalator = escalators.get(step.escalator).unwrap();
             let escalator_local = locals.get(step.escalator).unwrap();
-            let escalator_box = BoundingBox::from_escalator(escalator, escalator_local);
+            let escalator_box = BoundingBox::new(escalator.width, escalator.height, escalator_local);
+
+            let step_box = BoundingBox::new(step.width, step.height, step_local);
+
+            // top left corner
+            // bottom right corner
+            // middle corner
+            // left edge
+            // diagonal edge
+            // bottom edge
 
             if step_local.translation().y + step.height * 0.5 >= escalator_box.top {
                 info!("Hit top");

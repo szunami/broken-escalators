@@ -7,7 +7,6 @@ mod movement;
 mod rewindable_clock;
 mod step_tape;
 mod thing_tape;
-mod utils;
 mod toggle;
 
 pub use self::toggle::ToggleSystem;

@@ -13,7 +13,7 @@ impl<'s> System<'s> for DownKeysSystem {
 
     fn run(&mut self, (input, mut down_keys): Self::SystemData) {
         down_keys.update(input.keys_that_are_down());
-        info!("Keys that are down: {}", down_keys.new_keys.len());
-        info!("Keys that are up: {}", down_keys.key_ups().len());
+        // info!("Keys that are down: {}", down_keys.new_keys.len());
+        // info!("Keys that are up: {}", down_keys.key_ups().len());
     }
 }
