@@ -26,15 +26,47 @@ impl<'s> System<'s> for CornerSystem {
             let escalator = escalators.get(step.escalator).unwrap();
             let escalator_local = locals.get(step.escalator).unwrap();
             let escalator_box = BoundingBox::new(escalator.width, escalator.height, escalator_local);
-
             let step_box = BoundingBox::new(step.width, step.height, step_local);
 
             // top left corner
             // bottom right corner
             // middle corner
             // left edge
+            if step_box.left <= escalator_box.left && step_box.top < escalator_box.top && step_box.bottom > escalator_box.bottom {
+                match escalator.direction {
+                    Direction::CLOCKWISE => {
+                        up_left(step, escalator.speed);
+                    }
+                    Direction::COUNTERCLOCKWISE => {
+                        down_left(step, escalator.speed);
+                    }
+                }
+            }
+
             // diagonal edge
+            else if step_box.left > escalator_box.left && step_box.right < escalator_box.right && step_box.top < escalator_box.top && step_box.bottom > escalator_box.bottom {
+                match escalator.direction {
+                    Direction::CLOCKWISE => {
+                        down_right_diag(step, escalator.speed);
+                    },
+                    Direction::COUNTERCLOCKWISE => {
+                        up_left_diag(step, escalator.speed);
+                    }
+                }
+            }
+            
             // bottom edge
+            else if step_box.bottom <= escalator_box.bottom && step_box.left > escalator_box.left && step_box.right < escalator_box.right {
+                match escalator.direction {
+                    Direction::CLOCKWISE => {
+                        left_bottom(step, escalator.speed);
+                    },
+                    Direction::COUNTERCLOCKWISE => {
+                        right_bottom(step, escalator.speed);
+                    }
+                }
+            }
+            
 
             if step_local.translation().y + step.height * 0.5 >= escalator_box.top {
                 info!("Hit top");
@@ -45,9 +77,7 @@ impl<'s> System<'s> for CornerSystem {
                         step.push_velocity = 0.;
                     }
                     Direction::COUNTERCLOCKWISE => {
-                        step.x_velocity = 0.;
-                        step.y_velocity = -escalator.speed;
-                        step.push_velocity = -escalator.speed;
+                        down_left(step, escalator.speed)
                     }
                 }
                 continue;
@@ -78,8 +108,7 @@ impl<'s> System<'s> for CornerSystem {
                 info!("Hit middle corner");
                 match escalator.direction {
                     Direction::CLOCKWISE => {
-                        step.x_velocity = 0.;
-                        step.y_velocity = escalator.speed;
+                        up_left(step, escalator.speed);
                     }
                     Direction::COUNTERCLOCKWISE => {
                         step.x_velocity = escalator.speed;
@@ -91,3 +120,24 @@ impl<'s> System<'s> for CornerSystem {
         }
     }
 }
+
+fn up_left(step: &mut Step, speed: f32) {
+    step.x_velocity = 0.;
+    step.y_velocity = speed;
+    step.push_velocity = 0.;
+}
+
+fn down_left(step: &mut Step, speed: f32) {
+    step.x_velocity = 0.;
+    step.y_velocity = -speed;
+    step.push_velocity = -speed;
+}
+
+fn left_bottom(step: &mut Step, speed: f32) {}
+
+fn right_bottom(step: &mut Step, speed: f32) {}
+
+fn up_left_diag(step: &mut Step, speed: f32) {}
+
+fn down_right_diag(step: &mut Step, speed: f32) {}
+
