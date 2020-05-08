@@ -1,8 +1,8 @@
 use amethyst::ecs::prelude::{Component, DenseVecStorage};
 
 pub struct Rectangle {
-    width: f32,
-    height: f32,
+    pub width: f32,
+    pub height: f32,
 }
 
 impl<'s> Component for Rectangle {

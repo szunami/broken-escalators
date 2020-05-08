@@ -3,6 +3,7 @@ use crate::{
     components::Platform,
     components::Step,
     components::Thing,
+    components::Rectangle,
     utils::{is_atop, BoundingBox},
 };
 use amethyst::{
@@ -23,11 +24,12 @@ impl<'s> System<'s> for AtopSystem {
         ReadStorage<'s, Transform>,
         ReadStorage<'s, Step>,
         ReadStorage<'s, Platform>,
+        ReadStorage<'s, Rectangle>
     );
 
-    fn run(&mut self, (mut atops, things, transforms, steps, platforms): Self::SystemData) {
-        for (thing_atop, thing, thing_transform) in (&mut atops, &things, &transforms).join() {
-            let thing_bounds = BoundingBox::new(thing.width, thing.height, thing_transform);
+    fn run(&mut self, (mut atops, things, transforms, steps, platforms, rectangles): Self::SystemData) {
+        for (thing_atop, _thing, thing_transform, thing_rectangle) in (&mut atops, &things, &transforms, &rectangles).join() {
+            let thing_bounds = BoundingBox::new(thing_rectangle.width, thing_rectangle.height, thing_transform);
 
             let mut atop_step: Option<Step> = None;
             let mut atop_platform: Option<Platform> = None;
