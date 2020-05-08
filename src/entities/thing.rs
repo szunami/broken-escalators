@@ -1,4 +1,4 @@
-use crate::components::{Atop, Rectangle, Thing, ThingTape};
+use crate::components::{Rectangle, Thing, ThingTape};
 use amethyst::{core::transform::Transform, prelude::*, renderer::SpriteRender};
 
 pub fn initialize_thing(
@@ -18,7 +18,7 @@ pub fn initialize_thing(
         .with(Thing::new(x_velocity, y_velocity))
         .with(Rectangle::default(width, height))
         .with(ThingTape::new())
-        .with(Atop::default())
+        // .with(Atop::default())
         .with(sprite_render)
         .with(transform)
         .build();

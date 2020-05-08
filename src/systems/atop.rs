@@ -1,5 +1,4 @@
 use crate::{
-    components::Atop,
     components::Platform,
     components::Rectangle,
     components::Step,
@@ -19,7 +18,6 @@ pub struct AtopSystem;
 
 impl<'s> System<'s> for AtopSystem {
     type SystemData = (
-        WriteStorage<'s, Atop>,
         ReadStorage<'s, Thing>,
         ReadStorage<'s, Transform>,
         ReadStorage<'s, Step>,
@@ -29,10 +27,10 @@ impl<'s> System<'s> for AtopSystem {
 
     fn run(
         &mut self,
-        (mut atops, things, transforms, steps, platforms, rectangles): Self::SystemData,
+        (things, transforms, steps, platforms, rectangles): Self::SystemData,
     ) {
-        for (thing_atop, _thing, thing_transform, thing_rectangle) in
-            (&mut atops, &things, &transforms, &rectangles).join()
+        for (_thing, thing_transform, thing_rectangle) in
+            (&things, &transforms, &rectangles).join()
         {
             let thing_bounds = BoundingBox::new(
                 thing_rectangle.width,
@@ -70,19 +68,19 @@ impl<'s> System<'s> for AtopSystem {
                 }
             }
 
-            if let Some(step) = atop_step {
-                match step.push_velocity != 0. {
-                    true => thing_atop.x_velocity = step.push_velocity,
-                    false => thing_atop.x_velocity = step.x_velocity,
-                }
-                thing_atop.y_velocity = step.y_velocity;
-            } else if let Some(_platform) = atop_platform {
-                thing_atop.x_velocity = 0.;
-                thing_atop.y_velocity = 0.;
-            } else {
-                thing_atop.x_velocity = 0.;
-                thing_atop.y_velocity = GRAVITY_VELOCITY;
-            }
+            // if let Some(step) = atop_step {
+            //     match step.push_velocity != 0. {
+            //         true => thing_atop.x_velocity = step.push_velocity,
+            //         false => thing_atop.x_velocity = step.x_velocity,
+            //     }
+            //     thing_atop.y_velocity = step.y_velocity;
+            // } else if let Some(_platform) = atop_platform {
+            //     thing_atop.x_velocity = 0.;
+            //     thing_atop.y_velocity = 0.;
+            // } else {
+            //     thing_atop.x_velocity = 0.;
+            //     thing_atop.y_velocity = GRAVITY_VELOCITY;
+            // }
         }
     }
 }

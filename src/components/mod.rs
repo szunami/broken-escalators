@@ -1,4 +1,3 @@
-mod atop;
 mod escalator;
 mod platform;
 mod rectangle;
@@ -6,8 +5,9 @@ mod step;
 mod step_tape;
 mod thing;
 mod thing_tape;
+mod velocity;
 
-pub use self::atop::Atop;
+pub use self::velocity::Velocity;
 pub use self::escalator::Direction;
 pub use self::escalator::Escalator;
 pub use self::platform::Platform;
