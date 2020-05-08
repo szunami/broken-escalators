@@ -1,4 +1,4 @@
-use crate::components::{Direction, Escalator, Step};
+use crate::components::{Direction, Escalator, Rectangle, Step};
 use crate::{resources::RewindableClock, utils::BoundingBox};
 use amethyst::{
     core::transform::Transform,
@@ -15,19 +15,21 @@ impl<'s> System<'s> for CornerSystem {
         WriteStorage<'s, Step>,
         ReadStorage<'s, Transform>,
         ReadStorage<'s, Escalator>,
+        ReadStorage<'s, Rectangle>,
     );
 
-    fn run(&mut self, (clock, mut steps, locals, escalators): Self::SystemData) {
+    fn run(&mut self, (clock, mut steps, locals, escalators, rectangles): Self::SystemData) {
         if !clock.going_forwards() {
             return;
         }
 
-        for (step, step_local) in (&mut steps, &locals).join() {
+        for (step, step_local, step_rectangle) in (&mut steps, &locals, &rectangles).join() {
             let escalator = escalators.get(step.escalator).unwrap();
             let escalator_local = locals.get(step.escalator).unwrap();
             let escalator_box =
                 BoundingBox::new(escalator.width, escalator.height, escalator_local);
-            let step_box = BoundingBox::new(step.width, step.height, step_local);
+            let step_box =
+                BoundingBox::new(step_rectangle.width, step_rectangle.height, step_local);
 
             // left edge
             if step_box.left <= escalator_box.left

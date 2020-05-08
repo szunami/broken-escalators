@@ -1,4 +1,4 @@
-use crate::components::{Step, StepTape};
+use crate::components::{Rectangle, Step, StepTape};
 use amethyst::{core::transform::Transform, ecs::Entity, prelude::*, renderer::SpriteRender};
 
 pub fn initialize_step(
@@ -19,12 +19,11 @@ pub fn initialize_step(
         .create_entity()
         .with(Step::new(
             escalator_entity,
-            step_width,
-            step_height,
             x_velocity,
             y_velocity,
             push_velocity,
         ))
+        .with(Rectangle::default(step_width, step_height))
         .with(step_render)
         .with(StepTape::new())
         .with(transform)

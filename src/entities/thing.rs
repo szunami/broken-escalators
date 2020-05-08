@@ -1,4 +1,4 @@
-use crate::components::{Atop, Thing, ThingTape};
+use crate::components::{Atop, Rectangle, Thing, ThingTape};
 use amethyst::{core::transform::Transform, prelude::*, renderer::SpriteRender};
 
 pub fn initialize_thing(
@@ -15,7 +15,8 @@ pub fn initialize_thing(
     transform.set_translation_xyz(x, y, 0.);
     world
         .create_entity()
-        .with(Thing::new(width, height, x_velocity, y_velocity))
+        .with(Thing::new(x_velocity, y_velocity))
+        .with(Rectangle::default(width, height))
         .with(ThingTape::new())
         .with(Atop::default())
         .with(sprite_render)

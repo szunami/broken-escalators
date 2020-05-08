@@ -1,6 +1,7 @@
 use crate::{
     components::Atop,
     components::Platform,
+    components::Rectangle,
     components::Step,
     components::Thing,
     utils::{is_atop, BoundingBox},
@@ -23,17 +24,29 @@ impl<'s> System<'s> for AtopSystem {
         ReadStorage<'s, Transform>,
         ReadStorage<'s, Step>,
         ReadStorage<'s, Platform>,
+        ReadStorage<'s, Rectangle>,
     );
 
-    fn run(&mut self, (mut atops, things, transforms, steps, platforms): Self::SystemData) {
-        for (thing_atop, thing, thing_transform) in (&mut atops, &things, &transforms).join() {
-            let thing_bounds = BoundingBox::new(thing.width, thing.height, thing_transform);
+    fn run(
+        &mut self,
+        (mut atops, things, transforms, steps, platforms, rectangles): Self::SystemData,
+    ) {
+        for (thing_atop, _thing, thing_transform, thing_rectangle) in
+            (&mut atops, &things, &transforms, &rectangles).join()
+        {
+            let thing_bounds = BoundingBox::new(
+                thing_rectangle.width,
+                thing_rectangle.height,
+                thing_transform,
+            );
 
             let mut atop_step: Option<Step> = None;
             let mut atop_platform: Option<Platform> = None;
             let mut max_atopness = 0.;
-            for (step, step_transform) in (&steps, &transforms).join() {
-                let step_bounds = BoundingBox::new(step.width, step.height, step_transform);
+            for (step, step_transform, step_rectangle) in (&steps, &transforms, &rectangles).join()
+            {
+                let step_bounds =
+                    BoundingBox::new(step_rectangle.width, step_rectangle.height, step_transform);
                 let atopness = is_atop(&thing_bounds, &step_bounds);
                 if atopness && step_bounds.top > max_atopness {
                     atop_step = Some(step.clone());
@@ -41,9 +54,14 @@ impl<'s> System<'s> for AtopSystem {
                 }
             }
 
-            for (platform, platform_transform) in (&platforms, &transforms).join() {
-                let platform_bounds =
-                    BoundingBox::new(platform.width, platform.height, platform_transform);
+            for (platform, platform_transform, platform_rectangle) in
+                (&platforms, &transforms, &rectangles).join()
+            {
+                let platform_bounds = BoundingBox::new(
+                    platform_rectangle.width,
+                    platform_rectangle.height,
+                    platform_transform,
+                );
                 let atopness = is_atop(&thing_bounds, &platform_bounds);
                 if atopness && platform_bounds.top > max_atopness {
                     atop_step = None;

@@ -19,6 +19,9 @@ impl BoundingBox {
 }
 
 pub fn is_atop(atop_candidate: &BoundingBox, base_candidate: &BoundingBox) -> bool {
+    if atop_candidate.top < base_candidate.top {
+        return false;
+    }
     if !overlaps(
         base_candidate.left,
         base_candidate.right,
