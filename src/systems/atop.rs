@@ -54,9 +54,14 @@ impl<'s> System<'s> for AtopSystem {
                 }
             }
 
-            for (platform, platform_transform, platform_rectangle) in (&platforms, &transforms, &rectangles).join() {
-                let platform_bounds =
-                    BoundingBox::new(platform_rectangle.width, platform_rectangle.height, platform_transform);
+            for (platform, platform_transform, platform_rectangle) in
+                (&platforms, &transforms, &rectangles).join()
+            {
+                let platform_bounds = BoundingBox::new(
+                    platform_rectangle.width,
+                    platform_rectangle.height,
+                    platform_transform,
+                );
                 let atopness = is_atop(&thing_bounds, &platform_bounds);
                 if atopness && platform_bounds.top > max_atopness {
                     atop_step = None;

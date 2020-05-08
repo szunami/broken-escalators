@@ -1,4 +1,4 @@
-use crate::components::{Rectangle, Platform};
+use crate::components::{Platform, Rectangle};
 use amethyst::{core::transform::Transform, prelude::*, renderer::SpriteRender};
 
 pub fn initialize_platform(
