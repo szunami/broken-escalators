@@ -5,7 +5,6 @@ use amethyst::{core::transform::Transform, prelude::*, renderer::SpriteRender};
 
 pub fn initialize_escalator(
     world: &mut World,
-    escalator_id: i32,
     x: f32,
     y: f32,
     escalator_width: f32,
@@ -22,7 +21,6 @@ pub fn initialize_escalator(
     let escalator_entity = world
         .create_entity()
         .with(Escalator::new(
-            escalator_id,
             escalator_width,
             escalator_height,
             speed,

@@ -17,3 +17,29 @@ impl BoundingBox {
         }
     }
 }
+
+pub fn is_atop(atop_candidate: &BoundingBox, base_candidate: &BoundingBox) -> bool {
+    if !overlaps(
+        base_candidate.left,
+        base_candidate.right,
+        atop_candidate.left,
+        atop_candidate.right,
+    ) {
+        return false;
+    }
+
+    if !overlaps(
+        base_candidate.bottom,
+        base_candidate.top,
+        atop_candidate.bottom,
+        atop_candidate.top,
+    ) {
+        return false;
+    }
+
+    return true;
+}
+
+fn overlaps(a: f32, b: f32, x: f32, y: f32) -> bool {
+    (a <= x && b >= x) || (x <= a && y >= a)
+}

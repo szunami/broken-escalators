@@ -9,7 +9,6 @@ pub enum Direction {
 
 #[derive(Clone, Copy)]
 pub struct Escalator {
-    pub id: i32,
     pub width: f32,
     pub height: f32,
     pub speed: f32,
@@ -23,7 +22,6 @@ impl Component for Escalator {
 
 impl Escalator {
     pub fn new(
-        id: i32,
         width: f32,
         height: f32,
         speed: f32,
@@ -31,7 +29,6 @@ impl Escalator {
         toggle_key: VirtualKeyCode,
     ) -> Escalator {
         Escalator {
-            id,
             width,
             height,
             speed,

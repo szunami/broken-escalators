@@ -4,11 +4,13 @@ mod down_keys;
 mod escalator;
 mod fps;
 mod movement;
+mod platform;
 mod rewindable_clock;
 mod step_tape;
 mod thing_tape;
 mod toggle;
 
+pub use self::platform::PlatformSystem;
 pub use self::toggle::ToggleSystem;
 
 pub use self::atop::AtopSystem;
