@@ -26,12 +26,14 @@ impl<'s> System<'s> for PlatformSystem {
                 warn!("You lose!");
             }
 
+            let mut atop_some = false;
             for (platform, platform_transform) in (&platforms, &transforms).join() {
                 let platform_bounds =
                     BoundingBox::new(platform.width, platform.height, platform_transform);
-                let atopness = is_atop(&thing_box, &platform_bounds);
-                all_atop = all_atop && atopness;
+                atop_some = atop_some || is_atop(&thing_box, &platform_bounds);
             }
+            all_atop = all_atop && atop_some;
+
         }
 
         if all_atop {
