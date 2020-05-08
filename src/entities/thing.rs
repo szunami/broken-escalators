@@ -15,7 +15,8 @@ pub fn initialize_thing(
     transform.set_translation_xyz(x, y, 0.);
     world
         .create_entity()
-        .with(Thing::new(x_velocity, y_velocity))
+        .with(Thing::new())
+        .with(Velocity::new(x_velocity, y_velocity))
         .with(Rectangle::default(width, height))
         .with(ThingTape::new())
         .with(Velocity::default())
