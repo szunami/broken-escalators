@@ -1,5 +1,5 @@
 use crate::{
-    components::Atop, components::Platform, components::Step, components::Thing, utils::BoundingBox,
+    components::Atop, components::Platform, components::Step, components::Thing, utils::{is_atop, BoundingBox},
 };
 use amethyst::{
     core::transform::Transform,
@@ -25,7 +25,6 @@ impl<'s> System<'s> for AtopSystem {
         for (thing_atop, thing, thing_transform) in (&mut atops, &things, &transforms).join() {
             let thing_bounds = BoundingBox::new(thing.width, thing.height, thing_transform);
 
-            // this can now be a Step or a Platform
             let mut atop_step: Option<Step> = None;
             let mut atop_platform: Option<Platform> = None;
             let mut max_atopness = 0.;
@@ -66,28 +65,3 @@ impl<'s> System<'s> for AtopSystem {
     }
 }
 
-fn is_atop(atop_candidate: &BoundingBox, base_candidate: &BoundingBox) -> bool {
-    if !overlaps(
-        base_candidate.left,
-        base_candidate.right,
-        atop_candidate.left,
-        atop_candidate.right,
-    ) {
-        return false;
-    }
-
-    if !overlaps(
-        base_candidate.bottom,
-        base_candidate.top,
-        atop_candidate.bottom,
-        atop_candidate.top,
-    ) {
-        return false;
-    }
-
-    return true;
-}
-
-fn overlaps(a: f32, b: f32, x: f32, y: f32) -> bool {
-    (a <= x && b >= x) || (x <= a && y >= a)
-}
