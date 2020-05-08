@@ -5,7 +5,9 @@ mod step;
 mod step_tape;
 mod thing;
 mod thing_tape;
+mod rectangle;
 
+pub use self::rectangle::Rectangle;
 pub use self::atop::Atop;
 pub use self::escalator::Direction;
 pub use self::escalator::Escalator;
