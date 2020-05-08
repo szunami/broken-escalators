@@ -19,13 +19,13 @@ impl<'s> System<'s> for MoveSystem {
         Read<'s, Time>,
     );
 
-    fn run(&mut self, (clock, things, mut locals, atops, time): Self::SystemData) {
+    fn run(&mut self, (clock, things, mut transforms, atops, time): Self::SystemData) {
         if !clock.going_forwards() {
             return;
         }
-        for (_thing, thing_local, atop) in (&things, &mut locals, &atops).join() {
-            thing_local.prepend_translation_x(atop.x_velocity * time.delta_seconds());
-            thing_local.prepend_translation_y(atop.y_velocity * time.delta_seconds());
+        for (_thing, thing_transform, atop) in (&things, &mut transforms, &atops).join() {
+            thing_transform.prepend_translation_x(atop.x_velocity * time.delta_seconds());
+            thing_transform.prepend_translation_y(atop.y_velocity * time.delta_seconds());
         }
     }
 }

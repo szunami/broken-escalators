@@ -18,18 +18,18 @@ impl<'s> System<'s> for CornerSystem {
         ReadStorage<'s, Rectangle>,
     );
 
-    fn run(&mut self, (clock, mut steps, locals, escalators, rectangles): Self::SystemData) {
+    fn run(&mut self, (clock, mut steps, transforms, escalators, rectangles): Self::SystemData) {
         if !clock.going_forwards() {
             return;
         }
 
-        for (step, step_local, step_rectangle) in (&mut steps, &locals, &rectangles).join() {
+        for (step, step_transform, step_rectangle) in (&mut steps, &transforms, &rectangles).join() {
             let escalator = escalators.get(step.escalator).unwrap();
-            let escalator_local = locals.get(step.escalator).unwrap();
+            let escalator_transform = transforms.get(step.escalator).unwrap();
             let escalator_box =
-                BoundingBox::new(escalator.width, escalator.height, escalator_local);
+                BoundingBox::new(escalator.width, escalator.height, escalator_transform);
             let step_box =
-                BoundingBox::new(step_rectangle.width, step_rectangle.height, step_local);
+                BoundingBox::new(step_rectangle.width, step_rectangle.height, step_transform);
 
             // left edge
             if step_box.left <= escalator_box.left

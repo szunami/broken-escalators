@@ -21,13 +21,13 @@ impl<'s> System<'s> for StepTapeSystem {
         WriteStorage<'s, StepTape>,
     );
 
-    fn run(&mut self, (clock, mut steps, mut locals, mut step_tapes): Self::SystemData) {
-        for (step, local, step_tape) in (&mut steps, &mut locals, &mut step_tapes).join() {
+    fn run(&mut self, (clock, mut steps, mut transforms, mut step_tapes): Self::SystemData) {
+        for (step, transform, step_tape) in (&mut steps, &mut transforms, &mut step_tapes).join() {
             let snapshots = &mut step_tape.snapshots;
             if clock.velocity < 0. {
-                move_tape_backwards(snapshots, local, step);
+                move_tape_backwards(snapshots, transform, step);
             } else {
-                move_tape_forwards(snapshots, local, step, &clock);
+                move_tape_forwards(snapshots, transform, step, &clock);
             }
         }
     }

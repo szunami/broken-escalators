@@ -24,7 +24,7 @@ impl<'s> System<'s> for EscalatorSystem {
 
     fn run(
         &mut self,
-        (entities, clock, steps, mut locals, escalators, rectangles, time): Self::SystemData,
+        (entities, clock, steps, mut transforms, escalators, rectangles, time): Self::SystemData,
     ) {
         if !clock.going_forwards() {
             return;
@@ -33,27 +33,27 @@ impl<'s> System<'s> for EscalatorSystem {
         let mut map = HashMap::new();
 
         for (step_entity, step, step_rectangle) in (&entities, &steps, &rectangles).join() {
-            let step_local = locals.get(step_entity).unwrap();
+            let step_transform = transforms.get(step_entity).unwrap();
             let escalator = escalators.get(step.escalator).unwrap();
-            let escalator_local = locals.get(step.escalator).unwrap().clone();
+            let escalator_transform = transforms.get(step.escalator).unwrap().clone();
             let escalator_box =
-                BoundingBox::new(escalator.width, escalator.height, &escalator_local);
-            let x = (step_local.translation().x + step.x_velocity * time.delta_seconds())
+                BoundingBox::new(escalator.width, escalator.height, &escalator_transform);
+            let x = (step_transform.translation().x + step.x_velocity * time.delta_seconds())
                 .max(escalator_box.left + step_rectangle.width * 0.5)
                 .min(escalator_box.right - step_rectangle.width * 0.5);
 
-            let y = (step_local.translation().y + step.y_velocity * time.delta_seconds())
+            let y = (step_transform.translation().y + step.y_velocity * time.delta_seconds())
                 .max(escalator_box.bottom + step_rectangle.height * 0.5)
                 .min(escalator_box.top - step_rectangle.height * 0.5);
 
-            let mut new_local = Transform::default();
-            new_local.append_translation_xyz(x, y, 0.);
-            map.insert(step_entity, new_local);
+            let mut new_transform = Transform::default();
+            new_transform.append_translation_xyz(x, y, 0.);
+            map.insert(step_entity, new_transform);
         }
 
-        for (step_entity, _step, step_local) in (&entities, &steps, &mut locals).join() {
-            let new_local = map.get(&step_entity).unwrap();
-            step_local.set_translation(*new_local.translation());
+        for (step_entity, _step, step_transform) in (&entities, &steps, &mut transforms).join() {
+            let new_transform = map.get(&step_entity).unwrap();
+            step_transform.set_translation(*new_transform.translation());
         }
     }
 }

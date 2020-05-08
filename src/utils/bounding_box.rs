@@ -8,12 +8,12 @@ pub struct BoundingBox {
 }
 
 impl BoundingBox {
-    pub fn new(width: f32, height: f32, local: &Transform) -> BoundingBox {
+    pub fn new(width: f32, height: f32, transform: &Transform) -> BoundingBox {
         BoundingBox {
-            left: local.translation().x - width * 0.5,
-            right: local.translation().x + width * 0.5,
-            top: local.translation().y + height * 0.5,
-            bottom: local.translation().y - height * 0.5,
+            left: transform.translation().x - width * 0.5,
+            right: transform.translation().x + width * 0.5,
+            top: transform.translation().y + height * 0.5,
+            bottom: transform.translation().y - height * 0.5,
         }
     }
 }
