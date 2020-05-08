@@ -10,7 +10,7 @@ use amethyst::{
     ecs::Entity,
     core::transform::Transform,
     derive::SystemDesc,
-    ecs::prelude::{Entities, Join, Read, ReadStorage, System, SystemData, WriteStorage},
+    ecs::prelude::{Entities, Join, ReadStorage, System, SystemData, WriteStorage},
 };
 use std::collections::HashMap;
 
@@ -57,7 +57,7 @@ impl<'s> System<'s> for AtopSystem {
             let mut atop_step: Option<Entity> = None;
             let mut atop_platform = false;
             let mut max_atopness = 0.;
-            for (step, step_entity, step_transform, step_rectangle) in (&steps, &entities, &transforms, &rectangles).join()
+            for (_step, step_entity, step_transform, step_rectangle) in (&steps, &entities, &transforms, &rectangles).join()
             {
                 let step_bounds =
                     BoundingBox::new(step_rectangle.width, step_rectangle.height, step_transform);
@@ -68,7 +68,7 @@ impl<'s> System<'s> for AtopSystem {
                 }
             }
 
-            for (platform, platform_entity, platform_transform, platform_rectangle) in
+            for (_platform, platform_transform, platform_rectangle) in
                 (&platforms, &transforms, &rectangles).join()
             {
                 let platform_bounds = BoundingBox::new(

@@ -1,4 +1,4 @@
-use crate::components::{Direction, Escalator, Rectangle, Step};
+use crate::components::{Direction, Escalator, Rectangle, Step, Velocity};
 use crate::{resources::RewindableClock, utils::BoundingBox};
 use amethyst::{
     core::transform::Transform,
@@ -13,17 +13,18 @@ impl<'s> System<'s> for CornerSystem {
     type SystemData = (
         Read<'s, RewindableClock>,
         WriteStorage<'s, Step>,
+        WriteStorage<'s, Velocity>,
         ReadStorage<'s, Transform>,
         ReadStorage<'s, Escalator>,
         ReadStorage<'s, Rectangle>,
     );
 
-    fn run(&mut self, (clock, mut steps, transforms, escalators, rectangles): Self::SystemData) {
+    fn run(&mut self, (clock, mut steps, mut velocities, transforms, escalators, rectangles): Self::SystemData) {
         if !clock.going_forwards() {
             return;
         }
 
-        for (step, step_transform, step_rectangle) in (&mut steps, &transforms, &rectangles).join()
+        for (step, step_velocity, step_transform, step_rectangle) in (&mut steps, &mut velocities, &transforms, &rectangles).join()
         {
             let escalator = escalators.get(step.escalator).unwrap();
             let escalator_transform = transforms.get(step.escalator).unwrap();
@@ -39,10 +40,10 @@ impl<'s> System<'s> for CornerSystem {
             {
                 match escalator.direction {
                     Direction::CLOCKWISE => {
-                        up_left(step, escalator.speed);
+                        up_left(step, step_velocity, escalator.speed);
                     }
                     Direction::COUNTERCLOCKWISE => {
-                        down_left(step, escalator.speed);
+                        down_left(step, step_velocity, escalator.speed);
                     }
                 }
             }
@@ -54,10 +55,10 @@ impl<'s> System<'s> for CornerSystem {
             {
                 match escalator.direction {
                     Direction::CLOCKWISE => {
-                        down_right_diag(step, escalator.speed);
+                        down_right_diag(step, step_velocity, escalator.speed);
                     }
                     Direction::COUNTERCLOCKWISE => {
-                        up_left_diag(step, escalator.speed);
+                        up_left_diag(step, step_velocity, escalator.speed);
                     }
                 }
             }
@@ -68,10 +69,10 @@ impl<'s> System<'s> for CornerSystem {
             {
                 match escalator.direction {
                     Direction::CLOCKWISE => {
-                        left_bottom(step, escalator.speed);
+                        left_bottom(step, step_velocity, escalator.speed);
                     }
                     Direction::COUNTERCLOCKWISE => {
-                        right_bottom(step, escalator.speed);
+                        right_bottom(step, step_velocity, escalator.speed);
                     }
                 }
             }
@@ -79,19 +80,19 @@ impl<'s> System<'s> for CornerSystem {
             else if step_box.top >= escalator_box.top {
                 match escalator.direction {
                     Direction::CLOCKWISE => {
-                        down_right_diag(step, escalator.speed);
+                        down_right_diag(step, step_velocity, escalator.speed);
                     }
-                    Direction::COUNTERCLOCKWISE => down_left(step, escalator.speed),
+                    Direction::COUNTERCLOCKWISE => down_left(step, step_velocity, escalator.speed),
                 }
             }
             // bottom right corner
             else if step_box.right >= escalator_box.right {
                 match escalator.direction {
                     Direction::CLOCKWISE => {
-                        left_bottom(step, escalator.speed);
+                        left_bottom(step, step_velocity, escalator.speed);
                     }
                     Direction::COUNTERCLOCKWISE => {
-                        up_left_diag(step, escalator.speed);
+                        up_left_diag(step, step_velocity, escalator.speed);
                     }
                 }
             }
@@ -101,10 +102,10 @@ impl<'s> System<'s> for CornerSystem {
             {
                 match escalator.direction {
                     Direction::CLOCKWISE => {
-                        up_left(step, escalator.speed);
+                        up_left(step, step_velocity, escalator.speed);
                     }
                     Direction::COUNTERCLOCKWISE => {
-                        right_bottom(step, escalator.speed);
+                        right_bottom(step, step_velocity, escalator.speed);
                     }
                 }
             }
@@ -112,38 +113,38 @@ impl<'s> System<'s> for CornerSystem {
     }
 }
 
-fn up_left(step: &mut Step, speed: f32) {
-    step.x_velocity = 0.;
-    step.y_velocity = speed;
+fn up_left(step: &mut Step, velocity: &mut Velocity, speed: f32) {
+    velocity.x = 0.;
+    velocity.y = speed;
     step.push_velocity = 0.;
 }
 
-fn down_left(step: &mut Step, speed: f32) {
-    step.x_velocity = 0.;
-    step.y_velocity = -speed;
+fn down_left(step: &mut Step, velocity:  &mut Velocity, speed: f32) {
+    velocity.x = 0.;
+    velocity.y = -speed;
     step.push_velocity = -speed;
 }
 
-fn left_bottom(step: &mut Step, speed: f32) {
-    step.x_velocity = -speed;
-    step.y_velocity = 0.;
+fn left_bottom(step: &mut Step, velocity: &mut Velocity, speed: f32) {
+    velocity.x = -speed;
+    velocity.y = 0.;
     step.push_velocity = speed;
 }
 
-fn right_bottom(step: &mut Step, speed: f32) {
-    step.x_velocity = speed;
-    step.y_velocity = 0.;
+fn right_bottom(step: &mut Step, velocity: &mut Velocity, speed: f32) {
+    velocity.x = speed;
+    velocity.y = 0.;
     step.push_velocity = 0.;
 }
 
-fn up_left_diag(step: &mut Step, speed: f32) {
-    step.x_velocity = -speed;
-    step.y_velocity = speed;
+fn up_left_diag(step: &mut Step, velocity: &mut Velocity, speed: f32) {
+    velocity.x = -speed;
+    velocity.y = speed;
     step.push_velocity = 0.;
 }
 
-fn down_right_diag(step: &mut Step, speed: f32) {
-    step.x_velocity = speed;
-    step.y_velocity = -speed;
+fn down_right_diag(step: &mut Step, velocity: &mut Velocity, speed: f32) {
+    velocity.x = speed;
+    velocity.y = -speed;
     step.push_velocity = 0.;
 }
