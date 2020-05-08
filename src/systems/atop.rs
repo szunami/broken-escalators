@@ -3,6 +3,7 @@ use crate::{
     components::Rectangle,
     components::Step,
     components::Thing,
+    components::Velocity,
     utils::{is_atop, BoundingBox},
 };
 use amethyst::{
@@ -23,14 +24,15 @@ impl<'s> System<'s> for AtopSystem {
         ReadStorage<'s, Step>,
         ReadStorage<'s, Platform>,
         ReadStorage<'s, Rectangle>,
+        WriteStorage<'s, Velocity>,
     );
 
     fn run(
         &mut self,
-        (things, transforms, steps, platforms, rectangles): Self::SystemData,
+        (things, transforms, steps, platforms, rectangles, mut velocities): Self::SystemData,
     ) {
-        for (_thing, thing_transform, thing_rectangle) in
-            (&things, &transforms, &rectangles).join()
+        for (_thing, thing_transform, thing_rectangle, thing_velocity) in
+            (&things, &transforms, &rectangles, &mut velocities).join()
         {
             let thing_bounds = BoundingBox::new(
                 thing_rectangle.width,
@@ -68,19 +70,19 @@ impl<'s> System<'s> for AtopSystem {
                 }
             }
 
-            // if let Some(step) = atop_step {
-            //     match step.push_velocity != 0. {
-            //         true => thing_atop.x_velocity = step.push_velocity,
-            //         false => thing_atop.x_velocity = step.x_velocity,
-            //     }
-            //     thing_atop.y_velocity = step.y_velocity;
-            // } else if let Some(_platform) = atop_platform {
-            //     thing_atop.x_velocity = 0.;
-            //     thing_atop.y_velocity = 0.;
-            // } else {
-            //     thing_atop.x_velocity = 0.;
-            //     thing_atop.y_velocity = GRAVITY_VELOCITY;
-            // }
+            if let Some(step) = atop_step {
+                match step.push_velocity != 0. {
+                    true => thing_velocity.x = step.push_velocity,
+                    false => thing_velocity.x = step.x_velocity,
+                }
+                thing_velocity.y = step.y_velocity;
+            } else if let Some(_platform) = atop_platform {
+                thing_velocity.x = 0.;
+                thing_velocity.y = 0.;
+            } else {
+                thing_velocity.x = 0.;
+                thing_velocity.y = GRAVITY_VELOCITY;
+            }
         }
     }
 }
