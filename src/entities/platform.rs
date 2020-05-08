@@ -1,5 +1,7 @@
 use crate::components::Platform;
-use amethyst::{core::transform::Transform, prelude::*, renderer::SpriteRender, core::math::Vector3};
+use amethyst::{
+    core::transform::Transform, prelude::*, renderer::SpriteRender,
+};
 
 pub fn initialize_platform(
     world: &mut World,

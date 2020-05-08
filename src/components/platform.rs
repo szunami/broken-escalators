@@ -1,8 +1,9 @@
 use amethyst::ecs::prelude::{Component, DenseVecStorage};
 
+#[derive(Copy, Clone)]
 pub struct Platform {
-    width: f32,
-    height: f32,
+    pub width: f32,
+    pub height: f32,
 }
 
 impl<'s> Component for Platform {

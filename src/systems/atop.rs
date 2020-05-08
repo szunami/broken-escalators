@@ -1,5 +1,6 @@
-use crate::components::Thing;
-use crate::{components::Atop, components::Step, utils::BoundingBox};
+use crate::{
+    components::Atop, components::Platform, components::Step, components::Thing, utils::BoundingBox,
+};
 use amethyst::{
     core::transform::Transform,
     derive::SystemDesc,
@@ -17,68 +18,74 @@ impl<'s> System<'s> for AtopSystem {
         ReadStorage<'s, Thing>,
         ReadStorage<'s, Transform>,
         ReadStorage<'s, Step>,
+        ReadStorage<'s, Platform>,
     );
 
-    fn run(&mut self, (mut atops, things, transforms, steps): Self::SystemData) {
+    fn run(&mut self, (mut atops, things, transforms, steps, platforms): Self::SystemData) {
         for (thing_atop, thing, thing_transform) in (&mut atops, &things, &transforms).join() {
-            let mut atop = None;
+            let thing_bounds = BoundingBox::new(thing.width, thing.height, thing_transform);
+
+            // this can now be a Step or a Platform
+            let mut atop_step: Option<Step> = None;
+            let mut atop_platform: Option<Platform> = None;
             let mut max_atopness = 0.;
             for (step, step_transform) in (&steps, &transforms).join() {
-                let atopness = calculate_atopness(&thing, &thing_transform, &step, &step_transform);
-                if atopness > max_atopness {
-                    atop = Some(step);
-                    max_atopness = atopness;
+                let step_bounds = BoundingBox::new(step.width, step.height, step_transform);
+                let atopness = is_atop(&thing_bounds, &step_bounds);
+                if atopness && step_bounds.top > max_atopness {
+                    atop_step = Some(step.clone());
+                    max_atopness = step_bounds.top;
                 }
             }
 
-            match atop {
-                Some(step) => {
-                    match step.push_velocity != 0. {
-                        true => thing_atop.x_velocity = step.push_velocity,
-                        false => thing_atop.x_velocity = step.x_velocity,
-                    }
-                    thing_atop.y_velocity = step.y_velocity;
+            for (platform, platform_transform) in (&platforms, &transforms).join() {
+                let platform_bounds =
+                    BoundingBox::new(platform.width, platform.height, platform_transform);
+                let atopness = is_atop(&thing_bounds, &platform_bounds);
+                if atopness && platform_bounds.top > max_atopness {
+                    atop_step = None;
+                    atop_platform = Some(platform.clone());
+                    max_atopness = platform_bounds.top;
                 }
-                None => {
-                    thing_atop.x_velocity = 0.;
-                    thing_atop.y_velocity = GRAVITY_VELOCITY;
+            }
+
+            if let Some(step) = atop_step {
+                match step.push_velocity != 0. {
+                    true => thing_atop.x_velocity = step.push_velocity,
+                    false => thing_atop.x_velocity = step.x_velocity,
                 }
+                thing_atop.y_velocity = step.y_velocity;
+            } else if let Some(_platform) = atop_platform {
+                thing_atop.x_velocity = 0.;
+                thing_atop.y_velocity = 0.;
+            } else {
+                thing_atop.x_velocity = 0.;
+                thing_atop.y_velocity = GRAVITY_VELOCITY;
             }
         }
     }
 }
 
-fn calculate_atopness(
-    thing: &Thing,
-    thing_transform: &Transform,
-    step: &Step,
-    step_transform: &Transform,
-) -> f32 {
-    let step_bounds = BoundingBox::new(step.width, step.height, step_transform);
-    let thing_bounds = BoundingBox::new(thing.width, thing.height, thing_transform);
-
+fn is_atop(atop_candidate: &BoundingBox, base_candidate: &BoundingBox) -> bool {
     if !overlaps(
-        step_bounds.left,
-        step_bounds.right,
-        thing_bounds.left,
-        thing_bounds.right,
+        base_candidate.left,
+        base_candidate.right,
+        atop_candidate.left,
+        atop_candidate.right,
     ) {
-        return 0.;
+        return false;
     }
 
     if !overlaps(
-        step_bounds.bottom,
-        step_bounds.top,
-        thing_bounds.bottom,
-        thing_bounds.top,
+        base_candidate.bottom,
+        base_candidate.top,
+        atop_candidate.bottom,
+        atop_candidate.top,
     ) {
-        return 0.;
+        return false;
     }
 
-    f32::min(
-        step_bounds.right - thing_bounds.left,
-        thing_bounds.right - step_bounds.left,
-    )
+    return true;
 }
 
 fn overlaps(a: f32, b: f32, x: f32, y: f32) -> bool {
