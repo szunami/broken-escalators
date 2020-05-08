@@ -37,6 +37,8 @@ impl SimpleState for Game {
 fn reset_level(world: &mut World) {
     world.delete_all();
     initialize_camera(world);
+    initialize_clock(world);
+    initialize_down_keys(world);
 
     let sprite_sheet = load_sprite_sheet(world);
     let step_render = SpriteRender {
@@ -52,20 +54,20 @@ fn reset_level(world: &mut World) {
 
     initialize_escalator(
         world,
-        2. * sprite_width,
-        2. * sprite_width,
+        5. * sprite_width,
+        7. * sprite_width,
         4. * sprite_width,
         4. * sprite_width,
         4,
         32.,
-        Direction::CLOCKWISE,
+        Direction::COUNTERCLOCKWISE,
         step_render.clone(),
         VirtualKeyCode::Y,
     );
     initialize_thing(
         world,
-        sprite_width * 0.5,
-        4.5 * sprite_width,
+        sprite_width * 4.5,
+        8.5 * sprite_width + 10.,
         sprite_width,
         sprite_width,
         0.,
@@ -75,20 +77,20 @@ fn reset_level(world: &mut World) {
 
     initialize_escalator(
         world,
-        8. * sprite_width,
-        2. * sprite_width,
-        4. * sprite_width,
-        4. * sprite_width,
-        4,
+        10.5 * sprite_width,
+        6.5 * sprite_width,
+        3. * sprite_width,
+        3. * sprite_width,
+        3,
         32.,
         Direction::COUNTERCLOCKWISE,
         step_render,
-        VirtualKeyCode::T,
+        VirtualKeyCode::Y,
     );
     initialize_thing(
         world,
-        sprite_width * 10.,
-        4.5 * sprite_width,
+        sprite_width * 10.5 + 1.,
+        7.5 * sprite_width + 10.,
         sprite_width,
         sprite_width,
         0.,
@@ -98,15 +100,22 @@ fn reset_level(world: &mut World) {
 
     initialize_platform(
         world,
-        sprite_width * 5.5,
-        0.5 * sprite_width,
+        sprite_width * 2.5,
+        2.5 * sprite_width,
+        sprite_width,
+        sprite_width,
+        thing_render.clone(),
+    );
+    initialize_platform(
+        world,
+        sprite_width * 12.5,
+        2.5 * sprite_width,
         sprite_width,
         sprite_width,
         thing_render,
     );
 
-    initialize_clock(world);
-    initialize_down_keys(world);
+
 }
 
 fn load_sprite_sheet(world: &mut World) -> Handle<SpriteSheet> {
