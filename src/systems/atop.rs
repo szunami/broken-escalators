@@ -7,10 +7,12 @@ use crate::{
     utils::{is_atop, BoundingBox},
 };
 use amethyst::{
+    ecs::Entity,
     core::transform::Transform,
     derive::SystemDesc,
-    ecs::prelude::{Join, ReadStorage, System, SystemData, WriteStorage},
+    ecs::prelude::{Entities, Join, Read, ReadStorage, System, SystemData, WriteStorage},
 };
+use std::collections::HashMap;
 
 pub const GRAVITY_VELOCITY: f32 = -50.;
 
@@ -19,6 +21,7 @@ pub struct AtopSystem;
 
 impl<'s> System<'s> for AtopSystem {
     type SystemData = (
+        Entities<'s>,
         ReadStorage<'s, Thing>,
         ReadStorage<'s, Transform>,
         ReadStorage<'s, Step>,
@@ -29,8 +32,19 @@ impl<'s> System<'s> for AtopSystem {
 
     fn run(
         &mut self,
-        (things, transforms, steps, platforms, rectangles, mut velocities): Self::SystemData,
+        (entities, things, transforms, steps, platforms, rectangles, mut velocities): Self::SystemData,
     ) {
+        let mut step_velocity_map: HashMap<Entity, Velocity> = HashMap::new();
+        for (step_entity, step, step_velocity) in (&entities, &steps, &velocities).join() {
+            if step.push_velocity == 0. {
+                step_velocity_map.insert(step_entity, step_velocity.clone());
+            } else {
+                step_velocity_map.insert(step_entity, Velocity::new(step.push_velocity, step_velocity.y));
+            }
+
+        }
+
+
         for (_thing, thing_transform, thing_rectangle, thing_velocity) in
             (&things, &transforms, &rectangles, &mut velocities).join()
         {
@@ -40,21 +54,21 @@ impl<'s> System<'s> for AtopSystem {
                 thing_transform,
             );
 
-            let mut atop_step: Option<Step> = None;
-            let mut atop_platform: Option<Platform> = None;
+            let mut atop_step: Option<Entity> = None;
+            let mut atop_platform = false;
             let mut max_atopness = 0.;
-            for (step, step_transform, step_rectangle) in (&steps, &transforms, &rectangles).join()
+            for (step, step_entity, step_transform, step_rectangle) in (&steps, &entities, &transforms, &rectangles).join()
             {
                 let step_bounds =
                     BoundingBox::new(step_rectangle.width, step_rectangle.height, step_transform);
                 let atopness = is_atop(&thing_bounds, &step_bounds);
                 if atopness && step_bounds.top > max_atopness {
-                    atop_step = Some(step.clone());
+                    atop_step = Some(step_entity);
                     max_atopness = step_bounds.top;
                 }
             }
 
-            for (platform, platform_transform, platform_rectangle) in
+            for (platform, platform_entity, platform_transform, platform_rectangle) in
                 (&platforms, &transforms, &rectangles).join()
             {
                 let platform_bounds = BoundingBox::new(
@@ -65,18 +79,15 @@ impl<'s> System<'s> for AtopSystem {
                 let atopness = is_atop(&thing_bounds, &platform_bounds);
                 if atopness && platform_bounds.top > max_atopness {
                     atop_step = None;
-                    atop_platform = Some(platform.clone());
+                    atop_platform = true;
                     max_atopness = platform_bounds.top;
                 }
             }
 
-            if let Some(step) = atop_step {
-                match step.push_velocity != 0. {
-                    true => thing_velocity.x = step.push_velocity,
-                    false => thing_velocity.x = step.x_velocity,
-                }
-                thing_velocity.y = step.y_velocity;
-            } else if let Some(_platform) = atop_platform {
+            if let Some(step_entity) = atop_step {
+                let step_velocity = step_velocity_map.get(&step_entity).unwrap();
+                *thing_velocity = step_velocity.clone();
+            } else if atop_platform {
                 thing_velocity.x = 0.;
                 thing_velocity.y = 0.;
             } else {
