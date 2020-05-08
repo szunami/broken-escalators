@@ -34,8 +34,8 @@ impl<'s> System<'s> for AtopSystem {
             let mut atop_step: Option<Step> = None;
             let mut atop_platform: Option<Platform> = None;
             let mut max_atopness = 0.;
-            for (step, step_transform) in (&steps, &transforms).join() {
-                let step_bounds = BoundingBox::new(step.width, step.height, step_transform);
+            for (step, step_transform, step_rectangle) in (&steps, &transforms, &rectangles).join() {
+                let step_bounds = BoundingBox::new(step_rectangle.width, step_rectangle.height, step_transform);
                 let atopness = is_atop(&thing_bounds, &step_bounds);
                 if atopness && step_bounds.top > max_atopness {
                     atop_step = Some(step.clone());

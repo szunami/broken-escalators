@@ -5,7 +5,7 @@ use amethyst::{
     ecs::prelude::{Entities, Join, Read, ReadStorage, System, SystemData, WriteStorage},
 };
 
-use crate::components::{Escalator, Step};
+use crate::components::{Escalator, Step, Rectangle};
 use crate::{resources::RewindableClock, utils::BoundingBox};
 use std::collections::HashMap;
 #[derive(SystemDesc)]
@@ -18,29 +18,30 @@ impl<'s> System<'s> for EscalatorSystem {
         ReadStorage<'s, Step>,
         WriteStorage<'s, Transform>,
         ReadStorage<'s, Escalator>,
+        ReadStorage<'s, Rectangle>,
         Read<'s, Time>,
     );
 
-    fn run(&mut self, (entities, clock, steps, mut locals, escalators, time): Self::SystemData) {
+    fn run(&mut self, (entities, clock, steps, mut locals, escalators, rectangles, time): Self::SystemData) {
         if !clock.going_forwards() {
             return;
         }
 
         let mut map = HashMap::new();
 
-        for (step_entity, step) in (&entities, &steps).join() {
+        for (step_entity, step, step_rectangle) in (&entities, &steps, &rectangles).join() {
             let step_local = locals.get(step_entity).unwrap();
             let escalator = escalators.get(step.escalator).unwrap();
             let escalator_local = locals.get(step.escalator).unwrap().clone();
             let escalator_box =
                 BoundingBox::new(escalator.width, escalator.height, &escalator_local);
             let x = (step_local.translation().x + step.x_velocity * time.delta_seconds())
-                .max(escalator_box.left + step.width * 0.5)
-                .min(escalator_box.right - step.width * 0.5);
+                .max(escalator_box.left + step_rectangle.width * 0.5)
+                .min(escalator_box.right - step_rectangle.width * 0.5);
 
             let y = (step_local.translation().y + step.y_velocity * time.delta_seconds())
-                .max(escalator_box.bottom + step.height * 0.5)
-                .min(escalator_box.top - step.height * 0.5);
+                .max(escalator_box.bottom + step_rectangle.height * 0.5)
+                .min(escalator_box.top - step_rectangle.height * 0.5);
 
             let mut new_local = Transform::default();
             new_local.append_translation_xyz(x, y, 0.);
