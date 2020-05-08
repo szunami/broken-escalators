@@ -1,4 +1,4 @@
-use crate::components::{Step, StepTape, Rectangle};
+use crate::components::{Rectangle, Step, StepTape};
 use amethyst::{core::transform::Transform, ecs::Entity, prelude::*, renderer::SpriteRender};
 
 pub fn initialize_step(

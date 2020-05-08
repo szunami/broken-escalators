@@ -5,7 +5,7 @@ use amethyst::{
     ecs::prelude::{Entities, Join, Read, ReadStorage, System, SystemData, WriteStorage},
 };
 
-use crate::components::{Escalator, Step, Rectangle};
+use crate::components::{Escalator, Rectangle, Step};
 use crate::{resources::RewindableClock, utils::BoundingBox};
 use std::collections::HashMap;
 #[derive(SystemDesc)]
@@ -22,7 +22,10 @@ impl<'s> System<'s> for EscalatorSystem {
         Read<'s, Time>,
     );
 
-    fn run(&mut self, (entities, clock, steps, mut locals, escalators, rectangles, time): Self::SystemData) {
+    fn run(
+        &mut self,
+        (entities, clock, steps, mut locals, escalators, rectangles, time): Self::SystemData,
+    ) {
         if !clock.going_forwards() {
             return;
         }

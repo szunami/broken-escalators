@@ -1,4 +1,4 @@
-use crate::components::{Atop, Thing, ThingTape, Rectangle};
+use crate::components::{Atop, Rectangle, Thing, ThingTape};
 use amethyst::{core::transform::Transform, prelude::*, renderer::SpriteRender};
 
 pub fn initialize_thing(

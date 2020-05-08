@@ -114,8 +114,6 @@ fn reset_level(world: &mut World) {
         sprite_width,
         thing_render,
     );
-
-
 }
 
 fn load_sprite_sheet(world: &mut World) -> Handle<SpriteSheet> {

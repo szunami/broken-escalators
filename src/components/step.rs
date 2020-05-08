@@ -12,12 +12,7 @@ impl Component for Step {
 }
 
 impl Step {
-    pub fn new(
-        escalator: Entity,
-        x_velocity: f32,
-        y_velocity: f32,
-        push_velocity: f32,
-    ) -> Step {
+    pub fn new(escalator: Entity, x_velocity: f32, y_velocity: f32, push_velocity: f32) -> Step {
         Step {
             escalator,
             x_velocity,

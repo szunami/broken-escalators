@@ -11,8 +11,6 @@ impl<'s> Component for Rectangle {
 
 impl<'s> Rectangle {
     pub fn default(width: f32, height: f32) -> Rectangle {
-        Rectangle {
-            width, height
-        }
+        Rectangle { width, height }
     }
 }

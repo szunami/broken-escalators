@@ -1,9 +1,9 @@
 use crate::{
     components::Atop,
     components::Platform,
+    components::Rectangle,
     components::Step,
     components::Thing,
-    components::Rectangle,
     utils::{is_atop, BoundingBox},
 };
 use amethyst::{
@@ -24,18 +24,29 @@ impl<'s> System<'s> for AtopSystem {
         ReadStorage<'s, Transform>,
         ReadStorage<'s, Step>,
         ReadStorage<'s, Platform>,
-        ReadStorage<'s, Rectangle>
+        ReadStorage<'s, Rectangle>,
     );
 
-    fn run(&mut self, (mut atops, things, transforms, steps, platforms, rectangles): Self::SystemData) {
-        for (thing_atop, _thing, thing_transform, thing_rectangle) in (&mut atops, &things, &transforms, &rectangles).join() {
-            let thing_bounds = BoundingBox::new(thing_rectangle.width, thing_rectangle.height, thing_transform);
+    fn run(
+        &mut self,
+        (mut atops, things, transforms, steps, platforms, rectangles): Self::SystemData,
+    ) {
+        for (thing_atop, _thing, thing_transform, thing_rectangle) in
+            (&mut atops, &things, &transforms, &rectangles).join()
+        {
+            let thing_bounds = BoundingBox::new(
+                thing_rectangle.width,
+                thing_rectangle.height,
+                thing_transform,
+            );
 
             let mut atop_step: Option<Step> = None;
             let mut atop_platform: Option<Platform> = None;
             let mut max_atopness = 0.;
-            for (step, step_transform, step_rectangle) in (&steps, &transforms, &rectangles).join() {
-                let step_bounds = BoundingBox::new(step_rectangle.width, step_rectangle.height, step_transform);
+            for (step, step_transform, step_rectangle) in (&steps, &transforms, &rectangles).join()
+            {
+                let step_bounds =
+                    BoundingBox::new(step_rectangle.width, step_rectangle.height, step_transform);
                 let atopness = is_atop(&thing_bounds, &step_bounds);
                 if atopness && step_bounds.top > max_atopness {
                     atop_step = Some(step.clone());
