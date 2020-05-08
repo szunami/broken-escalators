@@ -1,8 +1,11 @@
-use crate::{utils::{is_atop, BoundingBox}, components::{Thing, Platform}};
+use crate::{
+    components::{Platform, Thing},
+    utils::{is_atop, BoundingBox},
+};
 use amethyst::{
-    derive::SystemDesc,
-    ecs::prelude::{ReadStorage, System, SystemData, Join},
     core::transform::Transform,
+    derive::SystemDesc,
+    ecs::prelude::{Join, ReadStorage, System, SystemData},
 };
 
 #[derive(SystemDesc)]

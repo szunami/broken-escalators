@@ -1,5 +1,9 @@
 use crate::{
-    components::Atop, components::Platform, components::Step, components::Thing, utils::{is_atop, BoundingBox},
+    components::Atop,
+    components::Platform,
+    components::Step,
+    components::Thing,
+    utils::{is_atop, BoundingBox},
 };
 use amethyst::{
     core::transform::Transform,
@@ -64,4 +68,3 @@ impl<'s> System<'s> for AtopSystem {
         }
     }
 }
-
