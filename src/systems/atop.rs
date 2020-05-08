@@ -7,10 +7,10 @@ use crate::{
     utils::{is_atop, BoundingBox},
 };
 use amethyst::{
-    ecs::Entity,
     core::transform::Transform,
     derive::SystemDesc,
     ecs::prelude::{Entities, Join, ReadStorage, System, SystemData, WriteStorage},
+    ecs::Entity,
 };
 use std::collections::HashMap;
 
@@ -39,11 +39,12 @@ impl<'s> System<'s> for AtopSystem {
             if step.push_velocity == 0. {
                 step_velocity_map.insert(step_entity, step_velocity.clone());
             } else {
-                step_velocity_map.insert(step_entity, Velocity::new(step.push_velocity, step_velocity.y));
+                step_velocity_map.insert(
+                    step_entity,
+                    Velocity::new(step.push_velocity, step_velocity.y),
+                );
             }
-
         }
-
 
         for (_thing, thing_transform, thing_rectangle, thing_velocity) in
             (&things, &transforms, &rectangles, &mut velocities).join()
@@ -57,7 +58,8 @@ impl<'s> System<'s> for AtopSystem {
             let mut atop_step: Option<Entity> = None;
             let mut atop_platform = false;
             let mut max_atopness = 0.;
-            for (_step, step_entity, step_transform, step_rectangle) in (&steps, &entities, &transforms, &rectangles).join()
+            for (_step, step_entity, step_transform, step_rectangle) in
+                (&steps, &entities, &transforms, &rectangles).join()
             {
                 let step_bounds =
                     BoundingBox::new(step_rectangle.width, step_rectangle.height, step_transform);

@@ -19,12 +19,16 @@ impl<'s> System<'s> for CornerSystem {
         ReadStorage<'s, Rectangle>,
     );
 
-    fn run(&mut self, (clock, mut steps, mut velocities, transforms, escalators, rectangles): Self::SystemData) {
+    fn run(
+        &mut self,
+        (clock, mut steps, mut velocities, transforms, escalators, rectangles): Self::SystemData,
+    ) {
         if !clock.going_forwards() {
             return;
         }
 
-        for (step, step_velocity, step_transform, step_rectangle) in (&mut steps, &mut velocities, &transforms, &rectangles).join()
+        for (step, step_velocity, step_transform, step_rectangle) in
+            (&mut steps, &mut velocities, &transforms, &rectangles).join()
         {
             let escalator = escalators.get(step.escalator).unwrap();
             let escalator_transform = transforms.get(step.escalator).unwrap();
@@ -119,7 +123,7 @@ fn up_left(step: &mut Step, velocity: &mut Velocity, speed: f32) {
     step.push_velocity = 0.;
 }
 
-fn down_left(step: &mut Step, velocity:  &mut Velocity, speed: f32) {
+fn down_left(step: &mut Step, velocity: &mut Velocity, speed: f32) {
     velocity.x = 0.;
     velocity.y = -speed;
     step.push_velocity = -speed;

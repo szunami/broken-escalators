@@ -33,7 +33,9 @@ impl<'s> System<'s> for EscalatorSystem {
 
         let mut map = HashMap::new();
 
-        for (step_entity, step, step_rectangle, step_velocity) in (&entities, &steps, &rectangles, &velocities).join() {
+        for (step_entity, step, step_rectangle, step_velocity) in
+            (&entities, &steps, &rectangles, &velocities).join()
+        {
             let step_transform = transforms.get(step_entity).unwrap();
             let escalator = escalators.get(step.escalator).unwrap();
             let escalator_transform = transforms.get(step.escalator).unwrap().clone();
