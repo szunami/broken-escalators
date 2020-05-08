@@ -1,4 +1,4 @@
-use crate::components::Platform;
+use crate::components::{Rectangle, Platform};
 use amethyst::{core::transform::Transform, prelude::*, renderer::SpriteRender};
 
 pub fn initialize_platform(
@@ -14,7 +14,8 @@ pub fn initialize_platform(
 
     world
         .create_entity()
-        .with(Platform::default(width, height))
+        .with(Platform::default())
+        .with(Rectangle::default(width, height))
         .with(transform)
         .with(step_sprite)
         .build();

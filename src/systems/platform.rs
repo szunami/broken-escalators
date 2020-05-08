@@ -33,9 +33,9 @@ impl<'s> System<'s> for PlatformSystem {
             }
 
             let mut atop_some = false;
-            for (platform, platform_transform) in (&platforms, &transforms).join() {
+            for (_platform, platform_transform, platform_rectangle) in (&platforms, &transforms, &rectangles).join() {
                 let platform_bounds =
-                    BoundingBox::new(platform.width, platform.height, platform_transform);
+                    BoundingBox::new(platform_rectangle.width, platform_rectangle.height, platform_transform);
                 atop_some = atop_some || is_atop(&thing_box, &platform_bounds);
             }
             all_atop = all_atop && atop_some;
