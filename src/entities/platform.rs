@@ -1,5 +1,5 @@
 use crate::components::Platform;
-use amethyst::{core::transform::Transform, prelude::*, renderer::SpriteRender};
+use amethyst::{core::transform::Transform, prelude::*, renderer::SpriteRender, core::math::Vector3};
 
 pub fn initialize_platform(
     world: &mut World,
@@ -11,6 +11,7 @@ pub fn initialize_platform(
 ) {
     let mut transform = Transform::default();
     transform.set_translation_xyz(x, y, 0.);
+    transform.set_scale(Vector3::new(1., 10., 1.));
 
     world
         .create_entity()

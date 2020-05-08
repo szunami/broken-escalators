@@ -9,7 +9,7 @@ use crate::{
     components::Direction,
     entities::{
         initialize_camera, initialize_clock, initialize_down_keys, initialize_escalator,
-        initialize_thing,
+        initialize_thing, initialize_platform,
     },
 };
 
@@ -93,8 +93,10 @@ fn reset_level(world: &mut World) {
         sprite_width,
         0.,
         0.,
-        thing_render,
+        thing_render.clone(),
     );
+
+    initialize_platform(world, sprite_width * 10., 0.5 * sprite_width, sprite_width, sprite_width * 0.1, thing_render);
 
     initialize_clock(world);
     initialize_down_keys(world);
