@@ -21,9 +21,13 @@ mod resources;
 mod systems;
 mod utils;
 
-use systems::{core::{StepTapeSystem, DownKeysSystem, ThingTapeSystem, FPSSystem, ToggleSystem}, constants::*, core::{RewindableClockSystem, PlatformSystem}, velocity};
+use systems::{
+    constants::*,
+    core::{DownKeysSystem, FPSSystem, StepTapeSystem, ThingTapeSystem, ToggleSystem},
+    core::{PlatformSystem, RewindableClockSystem},
+    velocity,
+};
 use velocity::{AtopSystem, CornerSystem};
-
 
 fn main() -> amethyst::Result<()> {
     amethyst::start_logger(Default::default());
@@ -54,18 +58,21 @@ fn main() -> amethyst::Result<()> {
         .with(DownKeysSystem, DOWN_KEY_SYSTEM, &[])
         .with(ToggleSystem, TOGGLE_SYSTEM, &[])
         .with(PlatformSystem, PLATFORM_SYSTEM, &[])
-        .with(
-            RewindableClockSystem,
-            REWINDABLE_CLOCK_SYSTEM,
-            &[],
-        )
+        .with(RewindableClockSystem, REWINDABLE_CLOCK_SYSTEM, &[])
         // velocity systems go second
         .with(CornerSystem, CORNER_SYSTEM, &core_systems())
         .with(AtopSystem, ATOP_SYSTEM, &atop_dependencies())
         // position systems go last
-        .with(systems::EscalatorSystem, ESCALATOR_SYSTEM, &velocity_systems())
-        .with(systems::position::MoveSystem, MOVE_SYSTEM, &velocity_systems());
-
+        .with(
+            systems::EscalatorSystem,
+            ESCALATOR_SYSTEM,
+            &velocity_systems(),
+        )
+        .with(
+            systems::position::MoveSystem,
+            MOVE_SYSTEM,
+            &velocity_systems(),
+        );
 
     let mut game = Application::new(assets_dir, Game::default(), game_data)?;
     game.run();

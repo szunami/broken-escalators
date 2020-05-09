@@ -7,7 +7,15 @@ pub const PLATFORM_SYSTEM: &str = "platform_system";
 pub const REWINDABLE_CLOCK_SYSTEM: &str = "rewindable_clock_system";
 
 pub fn core_systems() -> Vec<&'static str> {
-    vec![FPS_SYSTEM, THING_TAPE_SYSTEM, STEP_TAPE_SYSTEM, DOWN_KEY_SYSTEM, TOGGLE_SYSTEM, PLATFORM_SYSTEM, REWINDABLE_CLOCK_SYSTEM]
+    vec![
+        FPS_SYSTEM,
+        THING_TAPE_SYSTEM,
+        STEP_TAPE_SYSTEM,
+        DOWN_KEY_SYSTEM,
+        TOGGLE_SYSTEM,
+        PLATFORM_SYSTEM,
+        REWINDABLE_CLOCK_SYSTEM,
+    ]
 }
 
 pub const CORNER_SYSTEM: &str = "corner_system";
