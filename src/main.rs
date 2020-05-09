@@ -43,21 +43,25 @@ fn main() -> amethyst::Result<()> {
         .with_bundle(TransformBundle::new())?
         .with_bundle(input_bundle)?
         .with_bundle(FpsCounterBundle {})?
+        // core systems go firest
+        .with(systems::core::FPSSystem, "fps_system", &[])
+        .with(systems::core::ThingTapeSystem, "thing_tape_system", &[])
+        .with(systems::core::StepTapeSystem, "step_tape_system", &[])
+        .with(systems::core::DownKeysSystem, "down_key_system", &[])
+        .with(systems::core::ToggleSystem, "toggle_system", &[])
+        .with(systems::core::PlatformSystem, "platform_system", &[])
+        // velocity systems go second
+        // position systems go last
+        .with(
+            systems::core::RewindableClockSystem,
+            "rewindable_clock_system",
+            &[],
+        )
         .with(systems::CornerSystem, "corner_system", &[])
         .with(systems::EscalatorSystem, "escalator_system", &[])
         .with(systems::AtopSystem, "atop_system", &[])
-        .with(systems::MoveSystem, "move_system", &[])
-        .with(systems::FPSSystem, "fps_system", &[])
-        .with(systems::ThingTapeSystem, "thing_tape_system", &[])
-        .with(systems::StepTapeSystem, "step_tape_system", &[])
-        .with(systems::DownKeysSystem, "down_key_system", &[])
-        .with(systems::ToggleSystem, "toggle_system", &[])
-        .with(systems::PlatformSystem, "platform_system", &[])
-        .with(
-            systems::RewindableClockSystem,
-            "rewindable_clock_system",
-            &[],
-        );
+        .with(systems::MoveSystem, "move_system", &[]);
+
 
     let mut game = Application::new(assets_dir, Game::default(), game_data)?;
     game.run();

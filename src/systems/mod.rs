@@ -1,24 +1,18 @@
 mod atop;
 mod corner;
-mod down_keys;
 mod escalator;
 mod movement;
-mod platform;
-mod rewindable_clock;
-mod step_tape;
-mod thing_tape;
-mod toggle;
-mod core;
+pub mod core;
 
-pub use self::platform::PlatformSystem;
-pub use self::toggle::ToggleSystem;
+// pub use self::core::fps::FPSSystem;
+// pub use self::core::ThingTapeSystem;
+// pub use self::core::step_tape::StepTapeSystem;
+// pub use self::core::down_keys::DownKeysSystem;
+// // pub use self::core::rewindable_clock::RewindableClockSystem;
+// pub use self::core::platform::PlatformSystem;
+// pub use self::core::toggle::ToggleSystem;
 
 pub use self::atop::AtopSystem;
 pub use self::corner::CornerSystem;
-pub use self::down_keys::DownKeysSystem;
 pub use self::escalator::EscalatorSystem;
-pub use self::core::fps::FPSSystem;
 pub use self::movement::MoveSystem;
-pub use self::rewindable_clock::RewindableClockSystem;
-pub use self::step_tape::StepTapeSystem;
-pub use self::thing_tape::ThingTapeSystem;
