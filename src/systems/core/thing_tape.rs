@@ -22,8 +22,13 @@ impl<'s> System<'s> for ThingTapeSystem {
         WriteStorage<'s, ThingTape>,
     );
 
-    fn run(&mut self, (input, clock, mut things, mut transforms, mut thing_tapes): Self::SystemData) {
-        for (thing, transform, thing_tape) in (&mut things, &mut transforms, &mut thing_tapes).join() {
+    fn run(
+        &mut self,
+        (input, clock, mut things, mut transforms, mut thing_tapes): Self::SystemData,
+    ) {
+        for (thing, transform, thing_tape) in
+            (&mut things, &mut transforms, &mut thing_tapes).join()
+        {
             let snapshots = &mut thing_tape.snapshots;
             if input.key_is_down(VirtualKeyCode::Z) {
                 move_tape_backwards(snapshots, transform, thing);
