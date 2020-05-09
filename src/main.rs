@@ -21,10 +21,16 @@ mod resources;
 mod systems;
 mod utils;
 
+use systems::{core::{StepTapeSystem, DownKeysSystem, ThingTapeSystem, FPSSystem, ToggleSystem}, constants::*, core::{RewindableClockSystem, PlatformSystem}, velocity};
+use velocity::{AtopSystem, CornerSystem};
+
+
 fn main() -> amethyst::Result<()> {
     amethyst::start_logger(Default::default());
 
     let app_root = application_root_dir()?;
+
+    // let x = ::CORE_SYSTEMS.iter();
 
     let assets_dir = app_root.join("assets");
     let config_dir = app_root.join("config");
@@ -43,24 +49,24 @@ fn main() -> amethyst::Result<()> {
         .with_bundle(TransformBundle::new())?
         .with_bundle(input_bundle)?
         .with_bundle(FpsCounterBundle {})?
-        // core systems go firest
-        .with(systems::core::FPSSystem, "fps_system", &[])
-        .with(systems::core::ThingTapeSystem, "thing_tape_system", &[])
-        .with(systems::core::StepTapeSystem, "step_tape_system", &[])
-        .with(systems::core::DownKeysSystem, "down_key_system", &[])
-        .with(systems::core::ToggleSystem, "toggle_system", &[])
-        .with(systems::core::PlatformSystem, "platform_system", &[])
-        // velocity systems go second
-        // position systems go last
+        // core systems go first
+        .with(FPSSystem, FPS_SYSTEM, &[])
+        .with(ThingTapeSystem, THING_TAPE_SYSTEM, &[])
+        .with(StepTapeSystem, STEP_TAPE_SYSTEM, &[])
+        .with(DownKeysSystem, DOWN_KEY_SYSTEM, &[])
+        .with(ToggleSystem, TOGGLE_SYSTEM, &[])
+        .with(PlatformSystem, PLATFORM_SYSTEM, &[])
         .with(
-            systems::core::RewindableClockSystem,
-            "rewindable_clock_system",
+            RewindableClockSystem,
+            REWINDABLE_CLOCK_SYSTEM,
             &[],
         )
-        .with(systems::CornerSystem, "corner_system", &[])
-        .with(systems::EscalatorSystem, "escalator_system", &[])
-        .with(systems::AtopSystem, "atop_system", &[])
-        .with(systems::MoveSystem, "move_system", &[]);
+        // velocity systems go second
+        .with(CornerSystem, CORNER_SYSTEM, &core_systems())
+        .with(AtopSystem, ATOP_SYSTEM, &atop_dependencies())
+        // position systems go last
+        .with(systems::EscalatorSystem, ESCALATOR_SYSTEM, &velocity_systems())
+        .with(systems::position::MoveSystem, MOVE_SYSTEM, &velocity_systems());
 
 
     let mut game = Application::new(assets_dir, Game::default(), game_data)?;
