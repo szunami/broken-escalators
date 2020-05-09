@@ -30,8 +30,6 @@ fn main() -> amethyst::Result<()> {
 
     let app_root = application_root_dir()?;
 
-    // let x = ::CORE_SYSTEMS.iter();
-
     let assets_dir = app_root.join("assets");
     let config_dir = app_root.join("config");
     let display_config_path = config_dir.join("display.ron");
