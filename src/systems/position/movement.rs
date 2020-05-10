@@ -1,7 +1,7 @@
 use crate::components::{Rectangle, Step, Thing, Velocity};
 use crate::{
     resources::RewindableClock,
-    utils::{x_overlap, BoundingBox},
+    utils::{x_overlap, y_overlap, BoundingBox},
 };
 use amethyst::{
     core::timing::Time,
@@ -40,37 +40,32 @@ impl<'s> System<'s> for MoveSystem {
         }
 
         for (_thing, thing_entity, thing_velocity) in (&things, &entities, &velocities).join() {
-            let mut thing_transform;
-            {
-                thing_transform = transforms.get_mut(thing_entity).unwrap();
-            }
-            // info!("Thing velocity: x: {}, y: {}", thing_velocity.x, thing_velocity.y);
+            let thing_transform = transforms.get_mut(thing_entity).unwrap();
             thing_transform.prepend_translation_x(thing_velocity.x * time.delta_seconds());
             thing_transform.prepend_translation_y(thing_velocity.y * time.delta_seconds());
         }
 
-        // for (_thing, thing_entity, thing_velocity, thing_rectangle) in
-        //     (&things, &entities, &velocities, &rectangles).join()
-        // {
-        //     let mut thing_transform;
-        //     {
-        //         thing_transform = transforms.get_mut(thing_entity).unwrap().clone();
-        //     }
+        for (_thing, thing_entity, thing_rectangle) in (&things, &entities, &rectangles).join() {
+            for (_step, step_entity, step_rectangle) in (&steps, &entities, &rectangles).join() {
+                let step_transform = transforms.get(step_entity).unwrap().clone();
+                let thing_transform = transforms.get_mut(thing_entity).unwrap();
 
-        //     let thing_box = BoundingBox::new(
-        //         thing_rectangle.width,
-        //         thing_rectangle.height,
-        //         &thing_transform,
-        //     );
+                let thing_box = BoundingBox::new(
+                    thing_rectangle.width,
+                    thing_rectangle.height,
+                    &thing_transform,
+                );
 
-        //     for (_step, step_entity, step_rectangle) in (&steps, &entities, &rectangles).join() {
-        //         let step_transform;
-        //         {
-        //             step_transform = transforms.get_mut(step_entity).unwrap().clone();
-        //         }
-        //         let step_box = BoundingBox::from_rectangle(step_rectangle, &step_transform);
-        //         thing_transform.prepend_translation_x(x_overlap(&thing_box, &step_box));
-        //     }
-        // }
+                let step_box = BoundingBox::from_rectangle(step_rectangle, &step_transform);
+                let x_overlap = x_overlap(&thing_box, &step_box);
+                let y_overlap = y_overlap(&thing_box, &step_box);
+
+                if x_overlap.abs() < y_overlap.abs() {
+                    thing_transform.prepend_translation_x(x_overlap);
+                } else {
+                    thing_transform.prepend_translation_y(y_overlap);
+                }
+            }
+        }
     }
 }
