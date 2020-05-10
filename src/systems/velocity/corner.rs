@@ -28,8 +28,7 @@ impl<'s> System<'s> for CornerSystem {
         }
 
         for (step, step_velocity, step_transform, step_rectangle) in
-            (&mut steps, &mut velocities, &transforms, &rectangles).join()
-        {
+            (&mut steps, &mut velocities, &transforms, &rectangles).join() {
             let escalator = escalators.get(step.escalator).unwrap();
             let escalator_transform = transforms.get(step.escalator).unwrap();
             let escalator_box =

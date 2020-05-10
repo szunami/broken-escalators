@@ -21,6 +21,14 @@ mod resources;
 mod systems;
 mod utils;
 
+use systems::{
+    constants::*,
+    core::{DownKeysSystem, FPSSystem, StepTapeSystem, ThingTapeSystem, ToggleSystem},
+    core::{PlatformSystem, RewindableClockSystem},
+    velocity,
+};
+use velocity::{AtopSystem, CornerSystem};
+
 fn main() -> amethyst::Result<()> {
     amethyst::start_logger(Default::default());
 
@@ -43,20 +51,27 @@ fn main() -> amethyst::Result<()> {
         .with_bundle(TransformBundle::new())?
         .with_bundle(input_bundle)?
         .with_bundle(FpsCounterBundle {})?
-        .with(systems::CornerSystem, "corner_system", &[])
-        .with(systems::EscalatorSystem, "escalator_system", &[])
-        .with(systems::AtopSystem, "atop_system", &[])
-        .with(systems::MoveSystem, "move_system", &[])
-        .with(systems::FPSSystem, "fps_system", &[])
-        .with(systems::ThingTapeSystem, "thing_tape_system", &[])
-        .with(systems::StepTapeSystem, "step_tape_system", &[])
-        .with(systems::DownKeysSystem, "down_key_system", &[])
-        .with(systems::ToggleSystem, "toggle_system", &[])
-        .with(systems::PlatformSystem, "platform_system", &[])
+        // core systems go first
+        .with(FPSSystem, FPS_SYSTEM, &[])
+        .with(ThingTapeSystem, THING_TAPE_SYSTEM, &[])
+        .with(StepTapeSystem, STEP_TAPE_SYSTEM, &[])
+        .with(DownKeysSystem, DOWN_KEY_SYSTEM, &[])
+        .with(ToggleSystem, TOGGLE_SYSTEM, &[])
+        .with(PlatformSystem, PLATFORM_SYSTEM, &[])
+        .with(RewindableClockSystem, REWINDABLE_CLOCK_SYSTEM, &[])
+        // velocity systems go second
+        .with(CornerSystem, CORNER_SYSTEM, &core_systems())
+        .with(AtopSystem, ATOP_SYSTEM, &atop_dependencies())
+        // position systems go last
         .with(
-            systems::RewindableClockSystem,
-            "rewindable_clock_system",
-            &[],
+            systems::EscalatorSystem,
+            ESCALATOR_SYSTEM,
+            &velocity_systems(),
+        )
+        .with(
+            systems::position::MoveSystem,
+            MOVE_SYSTEM,
+            &velocity_systems(),
         );
 
     let mut game = Application::new(assets_dir, Game::default(), game_data)?;
