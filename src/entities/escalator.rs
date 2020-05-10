@@ -20,11 +20,7 @@ pub fn initialize_escalator(
 
     let escalator_entity = world
         .create_entity()
-        .with(Escalator::new(
-            speed,
-            direction,
-            toggle_key,
-        ))
+        .with(Escalator::new(speed, direction, toggle_key))
         .with(Rectangle::default(escalator_width, escalator_height))
         .with(transform)
         .build();
