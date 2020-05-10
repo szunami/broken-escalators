@@ -1,3 +1,4 @@
+use crate::components::Rectangle;
 use amethyst::core::transform::Transform;
 
 pub struct BoundingBox {
@@ -8,6 +9,15 @@ pub struct BoundingBox {
 }
 
 impl BoundingBox {
+    pub fn from_rectangle(rectangle: &Rectangle, transform: &Transform) -> BoundingBox {
+        BoundingBox {
+            left: transform.translation().x - rectangle.width * 0.5,
+            right: transform.translation().x + rectangle.width * 0.5,
+            top: transform.translation().y + rectangle.height * 0.5,
+            bottom: transform.translation().y - rectangle.height * 0.5,
+        }
+    }
+
     pub fn new(width: f32, height: f32, transform: &Transform) -> BoundingBox {
         BoundingBox {
             left: transform.translation().x - width * 0.5,
@@ -22,24 +32,42 @@ pub fn is_atop(atop_candidate: &BoundingBox, base_candidate: &BoundingBox) -> bo
     if atop_candidate.top < base_candidate.top {
         return false;
     }
-    if !overlaps(
-        base_candidate.left,
-        base_candidate.right,
-        atop_candidate.left,
-        atop_candidate.right,
-    ) {
+    if !overlap_exists(atop_candidate, base_candidate) {
         return false;
     }
 
-    if !overlaps(
-        base_candidate.bottom,
-        base_candidate.top,
-        atop_candidate.bottom,
-        atop_candidate.top,
-    ) {
+    return true;
+}
+
+// how much do we have to move a such that it does not collide with b
+pub fn y_overlap(a: &BoundingBox, b: &BoundingBox) -> f32 {
+    if !overlap_exists(a, b) {
+        return 0.;
+    }
+    return b.top - a.bottom;
+}
+
+// how much do we have to move a such that it does not collide with b
+pub fn x_overlap(a: &BoundingBox, b: &BoundingBox) -> f32 {
+    if !overlap_exists(a, b) {
+        return 0.;
+    }
+
+    if a.left < b.left {
+        return b.left - a.right;
+    }
+
+    return b.right - a.left;
+}
+
+fn overlap_exists(a: &BoundingBox, b: &BoundingBox) -> bool {
+    if !overlaps(a.left, a.right, b.left, b.right) {
         return false;
     }
 
+    if !overlaps(a.bottom, a.top, b.bottom, b.top) {
+        return false;
+    }
     return true;
 }
 
