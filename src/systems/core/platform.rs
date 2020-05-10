@@ -24,8 +24,7 @@ impl<'s> System<'s> for PlatformSystem {
         for (_thing, thing_transform, thing_rectangle) in (&things, &transforms, &rectangles).join()
         {
             let thing_box = BoundingBox::new(
-                thing_rectangle.width,
-                thing_rectangle.height,
+                thing_rectangle,
                 thing_transform,
             );
             if thing_box.top < 0. {
@@ -37,8 +36,7 @@ impl<'s> System<'s> for PlatformSystem {
                 (&platforms, &transforms, &rectangles).join()
             {
                 let platform_bounds = BoundingBox::new(
-                    platform_rectangle.width,
-                    platform_rectangle.height,
+                    platform_rectangle,
                     platform_transform,
                 );
                 atop_some = atop_some || is_atop(&thing_box, &platform_bounds);

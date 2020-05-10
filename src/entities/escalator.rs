@@ -1,5 +1,5 @@
 use super::initialize_step;
-use crate::components::{Direction, Escalator};
+use crate::components::{Direction, Escalator, Rectangle};
 use amethyst::input::VirtualKeyCode;
 use amethyst::{core::transform::Transform, prelude::*, renderer::SpriteRender};
 
@@ -21,12 +21,11 @@ pub fn initialize_escalator(
     let escalator_entity = world
         .create_entity()
         .with(Escalator::new(
-            escalator_width,
-            escalator_height,
             speed,
             direction,
             toggle_key,
         ))
+        .with(Rectangle::default(escalator_width, escalator_height))
         .with(transform)
         .build();
 

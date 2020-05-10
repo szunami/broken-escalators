@@ -50,8 +50,7 @@ impl<'s> System<'s> for AtopSystem {
             (&things, &transforms, &rectangles, &mut velocities).join()
         {
             let thing_bounds = BoundingBox::new(
-                thing_rectangle.width,
-                thing_rectangle.height,
+                thing_rectangle,
                 thing_transform,
             );
 
@@ -62,7 +61,7 @@ impl<'s> System<'s> for AtopSystem {
                 (&steps, &entities, &transforms, &rectangles).join()
             {
                 let step_bounds =
-                    BoundingBox::new(step_rectangle.width, step_rectangle.height, step_transform);
+                    BoundingBox::new(step_rectangle, step_transform);
                 let atopness = is_atop(&thing_bounds, &step_bounds);
                 if atopness && step_bounds.top > max_atopness {
                     atop_step = Some(step_entity);
@@ -74,8 +73,7 @@ impl<'s> System<'s> for AtopSystem {
                 (&platforms, &transforms, &rectangles).join()
             {
                 let platform_bounds = BoundingBox::new(
-                    platform_rectangle.width,
-                    platform_rectangle.height,
+                    platform_rectangle,
                     platform_transform,
                 );
                 let atopness = is_atop(&thing_bounds, &platform_bounds);

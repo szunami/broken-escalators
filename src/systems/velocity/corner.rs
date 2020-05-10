@@ -32,10 +32,11 @@ impl<'s> System<'s> for CornerSystem {
         {
             let escalator = escalators.get(step.escalator).unwrap();
             let escalator_transform = transforms.get(step.escalator).unwrap();
+            let escalator_rectangle = rectangles.get(step.escalator).unwrap();
             let escalator_box =
-                BoundingBox::new(escalator.width, escalator.height, escalator_transform);
+                BoundingBox::new(escalator_rectangle, escalator_transform);
             let step_box =
-                BoundingBox::new(step_rectangle.width, step_rectangle.height, step_transform);
+                BoundingBox::new(step_rectangle, step_transform);
 
             // left edge
             if step_box.left <= escalator_box.left

@@ -51,12 +51,11 @@ impl<'s> System<'s> for MoveSystem {
                 let thing_transform = transforms.get_mut(thing_entity).unwrap();
 
                 let thing_box = BoundingBox::new(
-                    thing_rectangle.width,
-                    thing_rectangle.height,
+                    thing_rectangle,
                     &thing_transform,
                 );
 
-                let step_box = BoundingBox::from_rectangle(step_rectangle, &step_transform);
+                let step_box = BoundingBox::new(step_rectangle, &step_transform);
                 let x_overlap = x_overlap(&thing_box, &step_box);
                 let y_overlap = y_overlap(&thing_box, &step_box);
 
