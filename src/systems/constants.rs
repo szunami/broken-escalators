@@ -31,5 +31,4 @@ pub fn velocity_systems() -> Vec<&'static str> {
     vec![CORNER_SYSTEM, ATOP_SYSTEM]
 }
 
-pub const ESCALATOR_SYSTEM: &str = "escalator_system";
 pub const MOVE_SYSTEM: &str = "move_system";
