@@ -64,11 +64,6 @@ fn main() -> amethyst::Result<()> {
         .with(AtopSystem, ATOP_SYSTEM, &atop_dependencies())
         // position systems go last
         .with(
-            systems::EscalatorSystem,
-            ESCALATOR_SYSTEM,
-            &velocity_systems(),
-        )
-        .with(
             systems::position::MoveSystem,
             MOVE_SYSTEM,
             &velocity_systems(),
