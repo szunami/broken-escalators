@@ -19,11 +19,7 @@ impl Component for Escalator {
 }
 
 impl Escalator {
-    pub fn new(
-        speed: f32,
-        direction: Direction,
-        toggle_key: VirtualKeyCode,
-    ) -> Escalator {
+    pub fn new(speed: f32, direction: Direction, toggle_key: VirtualKeyCode) -> Escalator {
         Escalator {
             speed,
             direction,

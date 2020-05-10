@@ -49,10 +49,7 @@ impl<'s> System<'s> for AtopSystem {
         for (_thing, thing_transform, thing_rectangle, thing_velocity) in
             (&things, &transforms, &rectangles, &mut velocities).join()
         {
-            let thing_bounds = BoundingBox::new(
-                thing_rectangle,
-                thing_transform,
-            );
+            let thing_bounds = BoundingBox::new(thing_rectangle, thing_transform);
 
             let mut atop_step: Option<Entity> = None;
             let mut atop_platform = false;
@@ -60,8 +57,7 @@ impl<'s> System<'s> for AtopSystem {
             for (_step, step_entity, step_transform, step_rectangle) in
                 (&steps, &entities, &transforms, &rectangles).join()
             {
-                let step_bounds =
-                    BoundingBox::new(step_rectangle, step_transform);
+                let step_bounds = BoundingBox::new(step_rectangle, step_transform);
                 let atopness = is_atop(&thing_bounds, &step_bounds);
                 if atopness && step_bounds.top > max_atopness {
                     atop_step = Some(step_entity);
@@ -72,10 +68,7 @@ impl<'s> System<'s> for AtopSystem {
             for (_platform, platform_transform, platform_rectangle) in
                 (&platforms, &transforms, &rectangles).join()
             {
-                let platform_bounds = BoundingBox::new(
-                    platform_rectangle,
-                    platform_transform,
-                );
+                let platform_bounds = BoundingBox::new(platform_rectangle, platform_transform);
                 let atopness = is_atop(&thing_bounds, &platform_bounds);
                 if atopness && platform_bounds.top > max_atopness {
                     atop_step = None;

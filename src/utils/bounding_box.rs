@@ -27,7 +27,7 @@ pub fn is_atop(atop_candidate: &BoundingBox, base_candidate: &BoundingBox) -> bo
         return false;
     }
 
-    return true;
+    true
 }
 
 // how much do we have to move a such that it does not collide with b
@@ -35,7 +35,7 @@ pub fn y_overlap(a: &BoundingBox, b: &BoundingBox) -> f32 {
     if !overlap_exists(a, b) {
         return 0.;
     }
-    return b.top - a.bottom;
+    b.top - a.bottom
 }
 
 // how much do we have to move a such that it does not collide with b
@@ -48,7 +48,7 @@ pub fn x_overlap(a: &BoundingBox, b: &BoundingBox) -> f32 {
         return b.left - a.right;
     }
 
-    return b.right - a.left;
+    b.right - a.left
 }
 
 fn overlap_exists(a: &BoundingBox, b: &BoundingBox) -> bool {
@@ -59,7 +59,7 @@ fn overlap_exists(a: &BoundingBox, b: &BoundingBox) -> bool {
     if !overlaps(a.bottom, a.top, b.bottom, b.top) {
         return false;
     }
-    return true;
+    true
 }
 
 fn overlaps(a: f32, b: f32, x: f32, y: f32) -> bool {
