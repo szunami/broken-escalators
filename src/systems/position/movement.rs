@@ -1,4 +1,4 @@
-use crate::components::{Atop, Thing};
+use crate::components::{Thing, Velocity};
 use crate::resources::RewindableClock;
 use amethyst::{
     core::timing::Time,
@@ -14,18 +14,20 @@ impl<'s> System<'s> for MoveSystem {
     type SystemData = (
         Read<'s, RewindableClock>,
         ReadStorage<'s, Thing>,
+        ReadStorage<'s, Velocity>,
         WriteStorage<'s, Transform>,
-        ReadStorage<'s, Atop>,
         Read<'s, Time>,
     );
 
-    fn run(&mut self, (clock, things, mut transforms, atops, time): Self::SystemData) {
+    fn run(&mut self, (clock, things, velocities, mut transforms, time): Self::SystemData) {
         if !clock.going_forwards() {
             return;
         }
-        for (_thing, thing_transform, atop) in (&things, &mut transforms, &atops).join() {
-            thing_transform.prepend_translation_x(atop.x_velocity * time.delta_seconds());
-            thing_transform.prepend_translation_y(atop.y_velocity * time.delta_seconds());
+        for (_thing, thing_transform, thing_velocity) in
+            (&things, &mut transforms, &velocities).join()
+        {
+            thing_transform.prepend_translation_x(thing_velocity.x * time.delta_seconds());
+            thing_transform.prepend_translation_y(thing_velocity.y * time.delta_seconds());
         }
     }
 }
