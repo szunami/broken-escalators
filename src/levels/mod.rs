@@ -1,3 +1,3 @@
 mod level;
 
-use level::Level;
+pub use level::LevelConfig;

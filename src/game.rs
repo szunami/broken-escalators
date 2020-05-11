@@ -11,6 +11,7 @@ use crate::{
         initialize_camera, initialize_clock, initialize_down_keys, initialize_escalator,
         initialize_platform, initialize_thing,
     },
+    levels::LevelConfig,
 };
 
 #[derive(Default)]
@@ -51,6 +52,9 @@ fn reset_level(world: &mut World) {
     };
 
     let sprite_width = 32.;
+
+    let level = LevelConfig::load("assets/levels/level.ron");
+    info!("Level: {:?}", level);
 
     initialize_escalator(
         world,
