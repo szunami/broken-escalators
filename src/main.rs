@@ -20,6 +20,7 @@ mod game;
 mod resources;
 mod systems;
 mod utils;
+mod levels;
 
 use std::any;
 use systems::{
