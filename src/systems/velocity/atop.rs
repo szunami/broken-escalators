@@ -33,7 +33,7 @@ impl<'s> System<'s> for AtopSystem {
         &mut self,
         (entities, things, transforms, steps, platforms, rectangles, mut velocities): Self::SystemData,
     ) {
-        for (_thing, thing_entity, thing_transform, thing_rectangle ) in
+        for (_thing, thing_entity, thing_transform, thing_rectangle) in
             (&things, &entities, &transforms, &rectangles).join()
         {
             let thing_bounds = BoundingBox::new(thing_rectangle, thing_transform);
