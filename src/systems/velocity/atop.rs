@@ -33,18 +33,6 @@ impl<'s> System<'s> for AtopSystem {
         &mut self,
         (entities, things, transforms, steps, platforms, rectangles, mut velocities): Self::SystemData,
     ) {
-        // let mut step_velocity_map: HashMap<Entity, Velocity> = HashMap::new();
-        // for (step_entity, step, step_velocity) in (&entities, &steps, &velocities).join() {
-        //     if step.push_velocity == 0. {
-        //         step_velocity_map.insert(step_entity, step_velocity.clone());
-        //     } else {
-        //         step_velocity_map.insert(
-        //             step_entity,
-        //             Velocity::new(step.push_velocity, step_velocity.y),
-        //         );
-        //     }
-        // }
-
         for (_thing, thing_entity, thing_transform, thing_rectangle ) in
             (&things, &entities, &transforms, &rectangles).join()
         {
@@ -77,7 +65,6 @@ impl<'s> System<'s> for AtopSystem {
             }
 
             if let Some(step_entity) = atop_step {
-                // let step_velocity = step_velocity_map.get(&step_entity).unwrap();
                 let step_velocity = velocities.get(step_entity).unwrap().clone();
                 let thing_velocity = velocities.get_mut(thing_entity).unwrap();
                 *thing_velocity = step_velocity.clone();
