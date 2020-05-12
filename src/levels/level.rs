@@ -3,16 +3,16 @@ use crate::components::Direction;
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct LevelConfig {
-    escalators: Vec<EscalatorConfig>
+    pub escalators: Vec<EscalatorConfig>
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct EscalatorConfig {
-    x: f32,
-    y: f32,
-    width: f32,
-    height: f32,
-    num_steps: i32,
-    speed: f32,
-    direction: Direction,
+    pub x: f32,
+    pub y: f32,
+    pub width: f32,
+    pub height: f32,
+    pub num_steps: i32,
+    pub speed: f32,
+    pub direction: Direction,
 }

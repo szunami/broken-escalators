@@ -1,3 +1,15 @@
 LevelConfig(
-    escalators: [],
+    escalators: [
+        EscalatorConfig(
+            x: 256.,
+            y: 256.,
+            width:96.,
+            height: 96.,
+            num_steps: 3,
+            speed: 32.,
+            direction: CLOCKWISE
+        ),
+    ],
+    // things: [],
+    // platforms: [],
 )

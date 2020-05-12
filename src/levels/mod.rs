@@ -1,3 +1,3 @@
 mod level;
 
-pub use level::LevelConfig;
+pub use level::{LevelConfig, EscalatorConfig};
