@@ -7,13 +7,6 @@ use amethyst::{core::transform::Transform, prelude::*, renderer::SpriteRender};
 pub fn initialize_escalator(
     world: &mut World,
     escalator: EscalatorConfig,
-    // x: f32,
-    // y: f32,
-    // escalator_width: f32,
-    // escalator_height: f32,
-    // num_steps: i32,
-    // speed: f32,
-    // direction: Direction,
     step_sprite: SpriteRender,
     toggle_key: VirtualKeyCode,
 ) {
