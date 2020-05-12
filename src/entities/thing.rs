@@ -1,23 +1,17 @@
-use crate::components::{Rectangle, Thing, ThingTape, Velocity};
+use crate::{
+    components::{Rectangle, Thing, ThingTape, Velocity},
+    levels::ThingConfig,
+};
 use amethyst::{core::transform::Transform, prelude::*, renderer::SpriteRender};
 
-pub fn initialize_thing(
-    world: &mut World,
-    x: f32,
-    y: f32,
-    width: f32,
-    height: f32,
-    x_velocity: f32,
-    y_velocity: f32,
-    sprite_render: SpriteRender,
-) {
+pub fn initialize_thing(world: &mut World, thing_config: ThingConfig, sprite_render: SpriteRender) {
     let mut transform = Transform::default();
-    transform.set_translation_xyz(x, y, 0.);
+    transform.set_translation_xyz(thing_config.x, thing_config.y, 0.);
     world
         .create_entity()
         .with(Thing::new())
-        .with(Velocity::new(x_velocity, y_velocity))
-        .with(Rectangle::default(width, height))
+        .with(Velocity::default())
+        .with(Rectangle::default(thing_config.width, thing_config.height))
         .with(ThingTape::new())
         .with(Velocity::default())
         .with(sprite_render)

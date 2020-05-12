@@ -6,11 +6,11 @@ use amethyst::{
 };
 
 use crate::{
-    components::Direction,
     entities::{
         initialize_camera, initialize_clock, initialize_down_keys, initialize_escalator,
         initialize_platform, initialize_thing,
     },
+    levels::LevelConfig,
 };
 
 #[derive(Default)]
@@ -50,70 +50,28 @@ fn reset_level(world: &mut World) {
         sprite_number: 1,
     };
 
-    let sprite_width = 32.;
+    let level_path = "assets/levels/level.ron";
+    match LevelConfig::load(level_path) {
+        Ok(level_config) => {
+            let level: LevelConfig = level_config;
 
-    initialize_escalator(
-        world,
-        5. * sprite_width,
-        7. * sprite_width,
-        4. * sprite_width,
-        4. * sprite_width,
-        4,
-        32.,
-        Direction::COUNTERCLOCKWISE,
-        step_render.clone(),
-        VirtualKeyCode::Y,
-    );
-    initialize_thing(
-        world,
-        sprite_width * 4.5,
-        8.5 * sprite_width + 10.,
-        sprite_width,
-        sprite_width,
-        0.,
-        0.,
-        thing_render.clone(),
-    );
+            for escalator in level.escalators {
+                initialize_escalator(world, escalator, step_render.clone(), VirtualKeyCode::Y);
+            }
 
-    initialize_escalator(
-        world,
-        10.5 * sprite_width,
-        6.5 * sprite_width,
-        3. * sprite_width,
-        3. * sprite_width,
-        3,
-        32.,
-        Direction::COUNTERCLOCKWISE,
-        step_render,
-        VirtualKeyCode::Y,
-    );
-    initialize_thing(
-        world,
-        sprite_width * 10.5 + 1.,
-        7.5 * sprite_width + 10.,
-        sprite_width,
-        sprite_width,
-        0.,
-        0.,
-        thing_render.clone(),
-    );
+            for thing in level.things {
+                initialize_thing(world, thing, thing_render.clone());
+            }
 
-    initialize_platform(
-        world,
-        sprite_width * 2.5,
-        2.5 * sprite_width,
-        sprite_width,
-        sprite_width,
-        thing_render.clone(),
-    );
-    initialize_platform(
-        world,
-        sprite_width * 12.5,
-        2.5 * sprite_width,
-        sprite_width,
-        sprite_width,
-        thing_render,
-    );
+            for platform in level.platforms {
+                initialize_platform(world, platform, step_render.clone());
+            }
+        }
+        Err(e) => {
+            warn!("Failed to load level at path {}.", level_path);
+            warn!("Error was:\n{}", e)
+        }
+    };
 }
 
 fn load_sprite_sheet(world: &mut World) -> Handle<SpriteSheet> {

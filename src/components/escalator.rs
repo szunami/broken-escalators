@@ -1,7 +1,8 @@
 use amethyst::ecs::prelude::{Component, DenseVecStorage};
 use amethyst::input::VirtualKeyCode;
+use serde::{Deserialize, Serialize};
 
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, Serialize, Deserialize, Debug)]
 pub enum Direction {
     CLOCKWISE,
     COUNTERCLOCKWISE,
