@@ -6,7 +6,6 @@ use amethyst::{
 };
 
 use crate::{
-    components::Direction,
     entities::{
         initialize_camera, initialize_clock, initialize_down_keys, initialize_escalator,
         initialize_platform, initialize_thing,
@@ -50,8 +49,6 @@ fn reset_level(world: &mut World) {
         sprite_sheet,
         sprite_number: 1,
     };
-
-    let sprite_width = 32.;
 
     let level_path = "assets/levels/level.ron";
     match LevelConfig::load(level_path) {
