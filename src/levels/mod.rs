@@ -1,3 +1,3 @@
 mod level;
 
-pub use level::{LevelConfig, EscalatorConfig};
+pub use level::{EscalatorConfig, LevelConfig, PlatformConfig, ThingConfig};

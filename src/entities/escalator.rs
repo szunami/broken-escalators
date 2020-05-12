@@ -1,6 +1,6 @@
 use super::initialize_step;
 use crate::components::{Direction, Escalator, Rectangle};
-use crate::levels::{EscalatorConfig};
+use crate::levels::EscalatorConfig;
 use amethyst::input::VirtualKeyCode;
 use amethyst::{core::transform::Transform, prelude::*, renderer::SpriteRender};
 
@@ -22,7 +22,11 @@ pub fn initialize_escalator(
 
     let escalator_entity = world
         .create_entity()
-        .with(Escalator::new(escalator.speed, escalator.direction, toggle_key))
+        .with(Escalator::new(
+            escalator.speed,
+            escalator.direction,
+            toggle_key,
+        ))
         .with(Rectangle::default(escalator.width, escalator.height))
         .with(transform)
         .build();
@@ -99,7 +103,8 @@ pub fn initialize_escalator(
             };
             let push_velocity = 0.;
             let step_x = left_arm_x + (step_index as f32) * step_width;
-            let step_y = bottom_arm_y + ((escalator.num_steps - step_index - 1) as f32) * step_height;
+            let step_y =
+                bottom_arm_y + ((escalator.num_steps - step_index - 1) as f32) * step_height;
             initialize_step(
                 world,
                 escalator_entity,

@@ -17,10 +17,10 @@ use game::Game;
 mod components;
 mod entities;
 mod game;
+mod levels;
 mod resources;
 mod systems;
 mod utils;
-mod levels;
 
 use std::any;
 use systems::{

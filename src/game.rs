@@ -59,14 +59,17 @@ fn reset_level(world: &mut World) {
             let level: LevelConfig = level_config;
 
             for escalator in level.escalators {
-                initialize_escalator(
-                    world,
-                    escalator,
-                    step_render.clone(),
-                    VirtualKeyCode::Y
-                );            }
+                initialize_escalator(world, escalator, step_render.clone(), VirtualKeyCode::Y);
+            }
 
-        },
+            for thing in level.things {
+                initialize_thing(world, thing, thing_render.clone());
+            }
+
+            for platform in level.platforms {
+                initialize_platform(world, platform, step_render.clone());
+            }
+        }
         Err(e) => {
             warn!("Failed to load level at path {}.", level_path);
             warn!("Error was:\n{}", e)

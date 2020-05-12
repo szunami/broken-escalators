@@ -10,6 +10,20 @@ LevelConfig(
             direction: CLOCKWISE
         ),
     ],
-    // things: [],
-    // platforms: [],
+    things: [
+        ThingConfig(
+            x: 256.,
+            y: 320.,
+            width: 32.,
+            height: 32.,
+        ),
+    ],
+    platforms: [
+        PlatformConfig(
+            x: 320.,
+            y: 128.,
+            width: 32.,
+            height: 32.,
+        ),
+    ],
 )
