@@ -1,0 +1,38 @@
+LevelConfig(
+    escalators: [
+        EscalatorConfig(
+            x: 160.,
+            y: 224.,
+            width: 128.,
+            height: 128.,
+            num_steps: 4,
+            speed: 32.,
+            direction: COUNTERCLOCKWISE
+        ),
+        EscalatorConfig(
+            x: 336.,
+            y: 208.,
+            width: 96.,
+            height: 96.,
+            num_steps: 3,
+            speed: 32.,
+            direction: COUNTERCLOCKWISE
+        ),
+    ],
+    things: [
+        ThingConfig(
+            x: 144.,
+            y: 272.,
+            width: 32.,
+            height: 32.,
+        ),
+        ThingConfig(
+            x: 336.,
+            y: 240.,
+            width: 32.,
+            height: 32.,
+        ),
+    ],
+    platforms: [
+    ],
+)

@@ -30,10 +30,15 @@ use systems::{
     position::MoveSystem,
     velocity,
 };
+use std::env;
 use velocity::{AtopSystem, CornerSystem};
 
 fn main() -> amethyst::Result<()> {
     amethyst::start_logger(Default::default());
+
+    let args: Vec<String> = env::args().collect();
+
+    let game: Game = parse_config(args);
 
     let app_root = application_root_dir()?;
 
@@ -84,8 +89,16 @@ fn main() -> amethyst::Result<()> {
             &velocity_systems(),
         );
 
-    let mut game = Application::new(assets_dir, Game::default(), game_data)?;
+  
+
+    let mut game = Application::new(assets_dir, game, game_data)?;
     game.run();
 
     Ok(())
+}
+
+fn parse_config(args: Vec<String>) -> Game {
+    // info!("Args: {}", args);
+    let level_file_name = args.get(1).or(Some(&String::from("assets/levels/level.ron"))).unwrap().clone();
+    Game::new(level_file_name)
 }
