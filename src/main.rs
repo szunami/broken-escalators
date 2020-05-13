@@ -23,6 +23,7 @@ mod systems;
 mod utils;
 
 use std::any;
+use std::env;
 use systems::{
     constants::*,
     core::{DownKeysSystem, FPSSystem, StepTapeSystem, ThingTapeSystem, ToggleSystem},
@@ -30,7 +31,6 @@ use systems::{
     position::MoveSystem,
     velocity,
 };
-use std::env;
 use velocity::{AtopSystem, CornerSystem};
 
 fn main() -> amethyst::Result<()> {
@@ -89,8 +89,6 @@ fn main() -> amethyst::Result<()> {
             &velocity_systems(),
         );
 
-  
-
     let mut game = Application::new(assets_dir, game, game_data)?;
     game.run();
 
@@ -99,6 +97,10 @@ fn main() -> amethyst::Result<()> {
 
 fn parse_config(args: Vec<String>) -> Game {
     // info!("Args: {}", args);
-    let level_file_name = args.get(1).or(Some(&String::from("assets/levels/level.ron"))).unwrap().clone();
+    let level_file_name = args
+        .get(1)
+        .or(Some(&String::from("assets/levels/level.ron")))
+        .unwrap()
+        .clone();
     Game::new(level_file_name)
 }

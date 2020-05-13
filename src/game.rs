@@ -20,9 +20,7 @@ pub struct Game {
 
 impl Game {
     pub fn new(level: String) -> Game {
-        Game {
-            level,
-        }
+        Game { level }
     }
 }
 
