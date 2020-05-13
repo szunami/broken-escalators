@@ -14,12 +14,20 @@ use crate::{
 };
 
 #[derive(Default)]
-pub struct Game {}
+pub struct Game {
+    pub level: String,
+}
+
+impl Game {
+    pub fn new(level: String) -> Game {
+        Game { level }
+    }
+}
 
 impl SimpleState for Game {
     fn on_start(&mut self, data: StateData<'_, GameData<'_, '_>>) {
         let world = data.world;
-        reset_level(world);
+        reset_level(world, &self.level);
     }
 
     fn update(&mut self, data: &mut StateData<'_, GameData<'_, '_>>) -> SimpleTrans {
@@ -28,13 +36,13 @@ impl SimpleState for Game {
             .fetch::<InputHandler<StringBindings>>()
             .key_is_down(VirtualKeyCode::R)
         {
-            reset_level(data.world);
+            reset_level(data.world, &self.level);
         }
         Trans::None
     }
 }
 
-fn reset_level(world: &mut World) {
+fn reset_level(world: &mut World, level_path: &String) {
     world.delete_all();
     initialize_camera(world);
     initialize_clock(world);
@@ -50,7 +58,6 @@ fn reset_level(world: &mut World) {
         sprite_number: 1,
     };
 
-    let level_path = "assets/levels/level.ron";
     match LevelConfig::load(level_path) {
         Ok(level_config) => {
             let level: LevelConfig = level_config;
