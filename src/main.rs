@@ -96,7 +96,6 @@ fn main() -> amethyst::Result<()> {
 }
 
 fn parse_config(args: Vec<String>) -> Game {
-    // info!("Args: {}", args);
     let level_file_name = args
         .get(1)
         .or(Some(&String::from("assets/levels/level.ron")))
