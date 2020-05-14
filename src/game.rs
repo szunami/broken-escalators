@@ -60,7 +60,7 @@ impl SimpleState for Game {
     }
 }
 
-fn reset_level(world: &mut World, level_path: &String) {
+fn reset_level(world: &mut World, level_path: &str) {
     world.delete_all();
     initialize_camera(world);
     initialize_clock(world);
@@ -68,7 +68,7 @@ fn reset_level(world: &mut World, level_path: &String) {
 
     let sprite_sheet = load_sprite_sheet(world);
     let white_box_render = SpriteRender {
-        sprite_sheet: sprite_sheet.clone(),
+        sprite_sheet: sprite_sheet,
         sprite_number: 0,
     };
 

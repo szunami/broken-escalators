@@ -9,7 +9,7 @@ pub enum ColorFlag {
 }
 
 impl ColorFlag {
-    pub fn to_srgba(&self) -> Srgba {
+    pub fn to_srgba(self) -> Srgba {
         match self {
             ColorFlag::WHITE => Srgba::new(1.0, 1.0, 1.0, 1.0),
             ColorFlag::YELLOW => Srgba::new(0.9921875, 1.0, 0.539, 1.0),
@@ -17,7 +17,7 @@ impl ColorFlag {
         }
     }
 
-    pub fn to_virtual_key(&self) -> VirtualKeyCode {
+    pub fn to_virtual_key(self) -> VirtualKeyCode {
         match self {
             ColorFlag::WHITE => VirtualKeyCode::W,
             ColorFlag::YELLOW => VirtualKeyCode::Y,
