@@ -35,4 +35,5 @@ pub struct PlatformConfig {
     pub y: f32,
     pub width: f32,
     pub height: f32,
+    pub color_flag: ColorFlag,
 }

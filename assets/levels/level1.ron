@@ -43,12 +43,14 @@ LevelConfig(
             y: 80.,
             width: 32.,
             height: 32.,
+            color_flag: YELLOW
         ),
         PlatformConfig(
             x: 400.,
             y: 80.,
             width: 32.,
             height: 32.,
+            color_flag: YELLOW
         ),
     ],
 )
