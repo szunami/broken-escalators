@@ -1,7 +1,6 @@
 extern crate broken_escalator;
 
 use std::fs;
-use serde::{Deserialize, Serialize};
 use broken_escalator::levels::LevelConfig;
 use amethyst::prelude::Config;
 #[test]

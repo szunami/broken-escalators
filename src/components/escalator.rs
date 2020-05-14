@@ -1,12 +1,7 @@
 use amethyst::ecs::prelude::{Component, DenseVecStorage};
 use amethyst::input::VirtualKeyCode;
-use serde::{Deserialize, Serialize};
+use crate::levels::Direction;
 
-#[derive(Clone, Copy, Serialize, Deserialize, Debug)]
-pub enum Direction {
-    CLOCKWISE,
-    COUNTERCLOCKWISE,
-}
 
 #[derive(Clone, Copy)]
 pub struct Escalator {

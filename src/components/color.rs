@@ -1,4 +1,4 @@
-use crate::utils::ColorFlag;
+use crate::levels::ColorFlag;
 use amethyst::ecs::prelude::{Component, DenseVecStorage};
 
 pub struct Color {
