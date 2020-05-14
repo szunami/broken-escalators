@@ -1,6 +1,6 @@
 use crate::{
     components::{Color, Rectangle, Step, StepTape, Velocity},
-    utils::ColorFlag,
+    levels::ColorFlag,
 };
 use amethyst::{
     core::transform::Transform, ecs::Entity, prelude::*, renderer::resources::Tint,

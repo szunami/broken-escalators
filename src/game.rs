@@ -68,7 +68,7 @@ fn reset_level(world: &mut World, level_path: &str) {
 
     let sprite_sheet = load_sprite_sheet(world);
     let white_box_render = SpriteRender {
-        sprite_sheet: sprite_sheet,
+        sprite_sheet,
         sprite_number: 0,
     };
 

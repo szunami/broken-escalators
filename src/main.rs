@@ -98,8 +98,7 @@ fn main() -> amethyst::Result<()> {
 fn parse_config(args: Vec<String>) -> Game {
     let level_file_name = args
         .get(1)
-        .or(Some(&String::from("assets/levels/level1.ron")))
-        .unwrap()
+        .unwrap_or(&String::from("assets/levels/level1.ron"))
         .clone();
     Game::new(level_file_name)
 }

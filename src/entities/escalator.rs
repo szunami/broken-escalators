@@ -1,6 +1,6 @@
 use super::initialize_step;
-use crate::components::{Direction, Escalator, Rectangle};
-use crate::levels::EscalatorConfig;
+use crate::components::{Escalator, Rectangle};
+use crate::levels::{Direction, EscalatorConfig};
 use amethyst::{core::transform::Transform, prelude::*, renderer::SpriteRender};
 
 pub fn initialize_escalator(
