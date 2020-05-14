@@ -4,7 +4,7 @@ use amethyst::{
 };
 use serde::{Deserialize, Serialize};
 
-#[derive(Clone, Copy, Serialize, Deserialize, Debug)]
+#[derive(Clone, Copy, Serialize, Deserialize, Debug, Eq, PartialEq)]
 pub enum ColorFlag {
     WHITE,
     YELLOW,

@@ -2,7 +2,7 @@ use crate::utils::ColorFlag;
 use amethyst::ecs::prelude::{Component, DenseVecStorage};
 
 pub struct Color {
-    color_flag: ColorFlag,
+    pub color_flag: ColorFlag,
 }
 
 impl<'s> Component for Color {
