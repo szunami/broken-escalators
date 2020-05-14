@@ -1,5 +1,5 @@
 use crate::components::{Escalator, Rectangle, Step, Velocity};
-use crate::levels::{Direction};
+use crate::levels::Direction;
 use crate::{resources::RewindableClock, utils::BoundingBox};
 use amethyst::{
     core::transform::Transform,

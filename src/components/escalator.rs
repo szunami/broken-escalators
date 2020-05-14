@@ -1,7 +1,6 @@
+use crate::levels::Direction;
 use amethyst::ecs::prelude::{Component, DenseVecStorage};
 use amethyst::input::VirtualKeyCode;
-use crate::levels::Direction;
-
 
 #[derive(Clone, Copy)]
 pub struct Escalator {

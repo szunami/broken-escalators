@@ -1,3 +1,3 @@
 mod level;
 
-pub use level::{EscalatorConfig, LevelConfig, PlatformConfig, ThingConfig, Direction, ColorFlag};
+pub use level::{ColorFlag, Direction, EscalatorConfig, LevelConfig, PlatformConfig, ThingConfig};

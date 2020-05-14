@@ -1,6 +1,5 @@
-use serde::{Deserialize, Serialize};
 use amethyst::{input::VirtualKeyCode, renderer::palette::Srgba};
-
+use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Copy, Serialize, Deserialize, Debug)]
 pub enum Direction {
