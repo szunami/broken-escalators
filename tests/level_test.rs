@@ -1,6 +1,8 @@
+extern crate broken_escalator;
+
 use std::fs;
-// use broken_escalators;
-use broken_escalators::levels::LevelConfig;
+use broken_escalator::levels::LevelConfig;
+
 #[test]
 fn all_levels_deser() {
     let level_paths = fs::read_dir("assets/levels").unwrap();
