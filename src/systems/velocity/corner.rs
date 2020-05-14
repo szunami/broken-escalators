@@ -1,6 +1,6 @@
 use crate::components::{Escalator, Rectangle, Step, Velocity};
 use crate::levels::Direction;
-use crate::{resources::RewindableClock, utils::BoundingBox};
+use crate::{resources::RewindableClock, utils::{BoundingBox, contains}};
 use amethyst::{
     core::transform::Transform,
     derive::SystemDesc,
@@ -25,6 +25,9 @@ impl<'s> System<'s> for CornerSystem {
         &mut self,
         (clock, mut steps, mut velocities, transforms, escalators, rectangles): Self::SystemData,
     ) {
+        if !clock.going_forwards() {
+            return;
+        }
         for (step, step_velocity, step_transform, step_rectangle) in
             (&mut steps, &mut velocities, &transforms, &rectangles).join()
         {
@@ -33,30 +36,27 @@ impl<'s> System<'s> for CornerSystem {
             let escalator_transform = transforms.get(step.escalator).unwrap();
             let escalator_rectangle = rectangles.get(step.escalator).unwrap();
             let escalator_box = BoundingBox::new(escalator_rectangle, escalator_transform);
-            // left edge
-            if step_box.left <= escalator_box.left
-                && step_box.top < escalator_box.top
-                && step_box.bottom > escalator_box.bottom {
-                    // step_transform.face_towards(target, up)
 
-                let v = Vector3::new(0., 0., 0.);
-
-                match escalator.direction {
-                    Direction::CLOCKWISE => {
-                        up_left(step, step_velocity, escalator.speed);
-                    }
-                    Direction::COUNTERCLOCKWISE => {
-                        down_left(step, step_velocity, escalator.speed);
-                    }
-                }
+            if !contains(escalator_box, step_box) {
+                step.side = escalator.next_side(&step.side);
+                info!("New side: {:?}", step.side);
+                step_velocity.x = match step.side {
+                    crate::components::Side::VERTICAL =>  0.,
+                    crate::components::Side::HORIZONTAL => -escalator.speed,
+                    crate::components::Side::DIAGONAL => escalator.speed,
+                };
+                step_velocity.y = match step.side {
+                    crate::components::Side::VERTICAL => escalator.speed,
+                    crate::components::Side::HORIZONTAL => 0.,
+                    crate::components::Side::DIAGONAL => -escalator.speed,
+                };
             }
         }
     }
 
 
-    //     if !clock.going_forwards() {
-    //         return;
-    //     }
+
+
 
     //     for (step, step_velocity, step_transform, step_rectangle) in
     //         (&mut steps, &mut velocities, &transforms, &rectangles).join()
@@ -147,41 +147,41 @@ impl<'s> System<'s> for CornerSystem {
     // }
 }
 
-fn up_left(step: &mut Step, velocity: &mut Velocity, speed: f32) {
-    velocity.x = 0.;
-    velocity.y = speed;
-    step.push_velocity = 0.;
-}
+// fn up_left(step: &mut Step, velocity: &mut Velocity, speed: f32) {
+//     velocity.x = 0.;
+//     velocity.y = speed;
+//     step.push_velocity = 0.;
+// }
 
-fn down_left(step: &mut Step, velocity: &mut Velocity, speed: f32) {
-    velocity.x = 0.;
-    velocity.y = -speed;
-    step.push_velocity = -speed;
-}
+// fn down_left(step: &mut Step, velocity: &mut Velocity, speed: f32) {
+//     velocity.x = 0.;
+//     velocity.y = -speed;
+//     step.push_velocity = -speed;
+// }
 
-fn left_bottom(step: &mut Step, velocity: &mut Velocity, speed: f32) {
-    velocity.x = -speed;
-    velocity.y = 0.;
-    step.push_velocity = speed;
-}
+// fn left_bottom(step: &mut Step, velocity: &mut Velocity, speed: f32) {
+//     velocity.x = -speed;
+//     velocity.y = 0.;
+//     step.push_velocity = speed;
+// }
 
-fn right_bottom(step: &mut Step, velocity: &mut Velocity, speed: f32) {
-    velocity.x = speed;
-    velocity.y = 0.;
-    step.push_velocity = 0.;
-}
+// fn right_bottom(step: &mut Step, velocity: &mut Velocity, speed: f32) {
+//     velocity.x = speed;
+//     velocity.y = 0.;
+//     step.push_velocity = 0.;
+// }
 
-fn up_left_diag(step: &mut Step, velocity: &mut Velocity, speed: f32) {
-    velocity.x = -speed;
-    velocity.y = speed;
-    step.push_velocity = 0.;
-}
+// fn up_left_diag(step: &mut Step, velocity: &mut Velocity, speed: f32) {
+//     velocity.x = -speed;
+//     velocity.y = speed;
+//     step.push_velocity = 0.;
+// }
 
-fn down_right_diag(step: &mut Step, velocity: &mut Velocity, speed: f32) {
-    velocity.x = speed;
-    velocity.y = -speed;
-    step.push_velocity = 0.;
-}
+// fn down_right_diag(step: &mut Step, velocity: &mut Velocity, speed: f32) {
+//     velocity.x = speed;
+//     velocity.y = -speed;
+//     step.push_velocity = 0.;
+// }
 
 
 #[cfg(test)]
