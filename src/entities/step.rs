@@ -22,9 +22,6 @@ pub fn initialize_step(
 ) {
     let mut transform = Transform::default();
     transform.set_translation_xyz(x, y, 0.);
-    info!("Color: {:?}", color);
-    let tint = Tint(color.to_srgba());
-    info!("Tint: {:?}", tint);
 
     world
         .create_entity()
@@ -35,6 +32,6 @@ pub fn initialize_step(
         .with(StepTape::new())
         .with(transform)
         .with(Color::new(color))
-        .with(tint)
+        .with(Tint(color.to_srgba()))
         .build();
 }
