@@ -1,8 +1,10 @@
 use crate::{
-    components::{Platform, Rectangle, Color},
+    components::{Color, Platform, Rectangle},
     levels::PlatformConfig,
 };
-use amethyst::{core::transform::Transform, prelude::*, renderer::SpriteRender, renderer::resources::Tint};
+use amethyst::{
+    core::transform::Transform, prelude::*, renderer::resources::Tint, renderer::SpriteRender,
+};
 
 pub fn initialize_platform(
     world: &mut World,

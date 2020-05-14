@@ -1,6 +1,6 @@
 use amethyst::{
-    input::{is_close_requested, is_key_down, InputHandler, StringBindings, VirtualKeyCode},
-    renderer::{palette::Srgba, resources::Tint, SpriteRender, SpriteSheet, Texture, Transparent},
+    input::{VirtualKeyCode},
+    renderer::{palette::Srgba},
 };
 use serde::{Deserialize, Serialize};
 

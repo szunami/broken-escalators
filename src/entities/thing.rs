@@ -1,8 +1,10 @@
 use crate::{
-    components::{Rectangle, Thing, ThingTape, Velocity, Color},
+    components::{Color, Rectangle, Thing, ThingTape, Velocity},
     levels::ThingConfig,
 };
-use amethyst::{core::transform::Transform, prelude::*, renderer::SpriteRender, renderer::resources::Tint};
+use amethyst::{
+    core::transform::Transform, prelude::*, renderer::resources::Tint, renderer::SpriteRender,
+};
 
 pub fn initialize_thing(world: &mut World, thing_config: ThingConfig, sprite_render: SpriteRender) {
     let mut transform = Transform::default();
