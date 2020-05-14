@@ -1,8 +1,17 @@
 use amethyst::ecs::prelude::{Component, DenseVecStorage, Entity};
-#[derive(Clone)]
+
+#[derive(Clone, PartialEq, Debug)]
+pub enum Side {
+    VERTICAL,
+    HORIZONTAL,
+    DIAGONAL,
+}
+
+#[derive(Clone, PartialEq, Debug)]
 pub struct Step {
     pub escalator: Entity,
     pub push_velocity: f32,
+    pub side: Side
 }
 
 impl Component for Step {
@@ -10,10 +19,11 @@ impl Component for Step {
 }
 
 impl Step {
-    pub fn new(escalator: Entity, push_velocity: f32) -> Step {
+    pub fn new(escalator: Entity, push_velocity: f32, side: Side) -> Step {
         Step {
             escalator,
             push_velocity,
+            side,
         }
     }
 }

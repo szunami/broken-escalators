@@ -4,6 +4,7 @@ use crate::{resources::RewindableClock, utils::BoundingBox};
 use amethyst::{
     core::transform::Transform,
     derive::SystemDesc,
+    core::math::Vector3,
     ecs::prelude::{Join, Read, ReadStorage, System, SystemData, WriteStorage},
 };
 
@@ -24,24 +25,22 @@ impl<'s> System<'s> for CornerSystem {
         &mut self,
         (clock, mut steps, mut velocities, transforms, escalators, rectangles): Self::SystemData,
     ) {
-        if !clock.going_forwards() {
-            return;
-        }
-
         for (step, step_velocity, step_transform, step_rectangle) in
             (&mut steps, &mut velocities, &transforms, &rectangles).join()
         {
+            let step_box = BoundingBox::new(step_rectangle, step_transform);
             let escalator = escalators.get(step.escalator).unwrap();
             let escalator_transform = transforms.get(step.escalator).unwrap();
             let escalator_rectangle = rectangles.get(step.escalator).unwrap();
             let escalator_box = BoundingBox::new(escalator_rectangle, escalator_transform);
-            let step_box = BoundingBox::new(step_rectangle, step_transform);
-
             // left edge
             if step_box.left <= escalator_box.left
                 && step_box.top < escalator_box.top
-                && step_box.bottom > escalator_box.bottom
-            {
+                && step_box.bottom > escalator_box.bottom {
+                    // step_transform.face_towards(target, up)
+
+                let v = Vector3::new(0., 0., 0.);
+
                 match escalator.direction {
                     Direction::CLOCKWISE => {
                         up_left(step, step_velocity, escalator.speed);
@@ -51,70 +50,101 @@ impl<'s> System<'s> for CornerSystem {
                     }
                 }
             }
-            // diagonal edge
-            else if step_box.left > escalator_box.left
-                && step_box.right < escalator_box.right
-                && step_box.top < escalator_box.top
-                && step_box.bottom > escalator_box.bottom
-            {
-                match escalator.direction {
-                    Direction::CLOCKWISE => {
-                        down_right_diag(step, step_velocity, escalator.speed);
-                    }
-                    Direction::COUNTERCLOCKWISE => {
-                        up_left_diag(step, step_velocity, escalator.speed);
-                    }
-                }
-            }
-            // bottom edge
-            else if step_box.bottom <= escalator_box.bottom
-                && step_box.left > escalator_box.left
-                && step_box.right < escalator_box.right
-            {
-                match escalator.direction {
-                    Direction::CLOCKWISE => {
-                        left_bottom(step, step_velocity, escalator.speed);
-                    }
-                    Direction::COUNTERCLOCKWISE => {
-                        right_bottom(step, step_velocity, escalator.speed);
-                    }
-                }
-            }
-            // top left corner
-            else if step_box.top >= escalator_box.top {
-                match escalator.direction {
-                    Direction::CLOCKWISE => {
-                        down_right_diag(step, step_velocity, escalator.speed);
-                    }
-                    Direction::COUNTERCLOCKWISE => down_left(step, step_velocity, escalator.speed),
-                }
-            }
-            // bottom right corner
-            else if step_box.right >= escalator_box.right {
-                match escalator.direction {
-                    Direction::CLOCKWISE => {
-                        left_bottom(step, step_velocity, escalator.speed);
-                    }
-                    Direction::COUNTERCLOCKWISE => {
-                        up_left_diag(step, step_velocity, escalator.speed);
-                    }
-                }
-            }
-            // middle corner
-            else if (step_box.left <= escalator_box.left)
-                && (step_box.bottom <= escalator_box.bottom)
-            {
-                match escalator.direction {
-                    Direction::CLOCKWISE => {
-                        up_left(step, step_velocity, escalator.speed);
-                    }
-                    Direction::COUNTERCLOCKWISE => {
-                        right_bottom(step, step_velocity, escalator.speed);
-                    }
-                }
-            }
         }
     }
+
+
+    //     if !clock.going_forwards() {
+    //         return;
+    //     }
+
+    //     for (step, step_velocity, step_transform, step_rectangle) in
+    //         (&mut steps, &mut velocities, &transforms, &rectangles).join()
+    //     {
+    //         let escalator = escalators.get(step.escalator).unwrap();
+    //         let escalator_transform = transforms.get(step.escalator).unwrap();
+    //         let escalator_rectangle = rectangles.get(step.escalator).unwrap();
+    //         let escalator_box = BoundingBox::new(escalator_rectangle, escalator_transform);
+    //         let step_box = BoundingBox::new(step_rectangle, step_transform);
+
+            // // left edge
+            // if step_box.left <= escalator_box.left
+            //     && step_box.top < escalator_box.top
+            //     && step_box.bottom > escalator_box.bottom
+            // {
+            //     match escalator.direction {
+            //         Direction::CLOCKWISE => {
+            //             up_left(step, step_velocity, escalator.speed);
+            //         }
+            //         Direction::COUNTERCLOCKWISE => {
+            //             down_left(step, step_velocity, escalator.speed);
+            //         }
+            //     }
+            // }
+    //         // diagonal edge
+    //         else if step_box.left > escalator_box.left
+    //             && step_box.right < escalator_box.right
+    //             && step_box.top < escalator_box.top
+    //             && step_box.bottom > escalator_box.bottom
+    //         {
+    //             match escalator.direction {
+    //                 Direction::CLOCKWISE => {
+    //                     down_right_diag(step, step_velocity, escalator.speed);
+    //                 }
+    //                 Direction::COUNTERCLOCKWISE => {
+    //                     up_left_diag(step, step_velocity, escalator.speed);
+    //                 }
+    //             }
+    //         }
+    //         // bottom edge
+    //         else if step_box.bottom <= escalator_box.bottom
+    //             && step_box.left > escalator_box.left
+    //             && step_box.right < escalator_box.right
+    //         {
+    //             match escalator.direction {
+    //                 Direction::CLOCKWISE => {
+    //                     left_bottom(step, step_velocity, escalator.speed);
+    //                 }
+    //                 Direction::COUNTERCLOCKWISE => {
+    //                     right_bottom(step, step_velocity, escalator.speed);
+    //                 }
+    //             }
+    //         }
+    //         // top left corner
+    //         else if step_box.top >= escalator_box.top {
+    //             match escalator.direction {
+    //                 Direction::CLOCKWISE => {
+    //                     down_right_diag(step, step_velocity, escalator.speed);
+    //                 }
+    //                 Direction::COUNTERCLOCKWISE => down_left(step, step_velocity, escalator.speed),
+    //             }
+    //         }
+    //         // bottom right corner
+    //         else if step_box.right >= escalator_box.right {
+    //             match escalator.direction {
+    //                 Direction::CLOCKWISE => {
+    //                     left_bottom(step, step_velocity, escalator.speed);
+    //                 }
+    //                 Direction::COUNTERCLOCKWISE => {
+    //                     up_left_diag(step, step_velocity, escalator.speed);
+    //                 }
+    //             }
+    //         }
+    //         // middle corner
+    //         else if (step_box.left <= escalator_box.left)
+    //             && (step_box.bottom <= escalator_box.bottom)
+    //         {
+    //             match escalator.direction {
+    //                 Direction::CLOCKWISE => {
+    //                     up_left(step, step_velocity, escalator.speed);
+    //                 }
+    //                 Direction::COUNTERCLOCKWISE => {
+    //                     right_bottom(step, step_velocity, escalator.speed);
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
 }
 
 fn up_left(step: &mut Step, velocity: &mut Velocity, speed: f32) {
@@ -151,4 +181,25 @@ fn down_right_diag(step: &mut Step, velocity: &mut Velocity, speed: f32) {
     velocity.x = speed;
     velocity.y = -speed;
     step.push_velocity = 0.;
+}
+
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn it_works() {
+        let mut t = Transform::default();
+        t.face_towards(
+            Vector3::new(0., 50., 0.),
+            Vector3::new(0., 0., 1.)
+        );
+
+        let x = Vector3::new(0., 0., 0.);
+        let y = Vector3::new(0., 10., 0.);
+
+        println!("{}", x.metric_distance(&y));
+        t.move_forward(60.);
+        print!("{:?}", t.translation());
+    }
 }
