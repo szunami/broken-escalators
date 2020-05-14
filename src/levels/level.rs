@@ -1,4 +1,4 @@
-use crate::components::Direction;
+use crate::{components::Direction, utils::ColorFlag};
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -17,6 +17,7 @@ pub struct EscalatorConfig {
     pub num_steps: i32,
     pub speed: f32,
     pub direction: Direction,
+    pub color_flag: ColorFlag,
 }
 
 #[derive(Serialize, Deserialize, Debug)]

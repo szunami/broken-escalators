@@ -6,6 +6,7 @@ use amethyst::{
 };
 
 use crate::{
+    components::Color,
     entities::{
         initialize_camera, initialize_clock, initialize_down_keys, initialize_escalator,
         initialize_platform, initialize_thing,
@@ -27,6 +28,7 @@ impl Game {
 impl SimpleState for Game {
     fn on_start(&mut self, data: StateData<'_, GameData<'_, '_>>) {
         let world = data.world;
+        world.register::<Color>();
         reset_level(world, &self.level);
     }
 
@@ -65,13 +67,9 @@ fn reset_level(world: &mut World, level_path: &String) {
     initialize_down_keys(world);
 
     let sprite_sheet = load_sprite_sheet(world);
-    let step_render = SpriteRender {
+    let white_box_render = SpriteRender {
         sprite_sheet: sprite_sheet.clone(),
         sprite_number: 0,
-    };
-    let thing_render = SpriteRender {
-        sprite_sheet,
-        sprite_number: 1,
     };
 
     match LevelConfig::load(level_path) {
@@ -79,15 +77,15 @@ fn reset_level(world: &mut World, level_path: &String) {
             let level: LevelConfig = level_config;
 
             for escalator in level.escalators {
-                initialize_escalator(world, escalator, step_render.clone(), VirtualKeyCode::Y);
+                initialize_escalator(world, escalator, white_box_render.clone());
             }
 
             for thing in level.things {
-                initialize_thing(world, thing, thing_render.clone());
+                initialize_thing(world, thing, white_box_render.clone());
             }
 
             for platform in level.platforms {
-                initialize_platform(world, platform, step_render.clone());
+                initialize_platform(world, platform, white_box_render.clone());
             }
         }
         Err(e) => {

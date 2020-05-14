@@ -7,7 +7,8 @@ LevelConfig(
             height: 128.,
             num_steps: 4,
             speed: 32.,
-            direction: COUNTERCLOCKWISE
+            direction: COUNTERCLOCKWISE,
+            color_flag: BLUE
         ),
         EscalatorConfig(
             x: 336.,
@@ -16,7 +17,8 @@ LevelConfig(
             height: 96.,
             num_steps: 3,
             speed: 32.,
-            direction: COUNTERCLOCKWISE
+            direction: COUNTERCLOCKWISE,
+            color_flag: YELLOW
         ),
     ],
     things: [
