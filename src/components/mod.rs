@@ -1,3 +1,4 @@
+mod color;
 mod escalator;
 mod platform;
 mod rectangle;
@@ -7,6 +8,7 @@ mod thing;
 mod thing_tape;
 mod velocity;
 
+pub use self::color::Color;
 pub use self::escalator::Direction;
 pub use self::escalator::Escalator;
 pub use self::platform::Platform;
