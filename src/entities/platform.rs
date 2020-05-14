@@ -1,8 +1,10 @@
 use crate::{
-    components::{Platform, Rectangle},
+    components::{Color, Platform, Rectangle},
     levels::PlatformConfig,
 };
-use amethyst::{core::transform::Transform, prelude::*, renderer::SpriteRender};
+use amethyst::{
+    core::transform::Transform, prelude::*, renderer::resources::Tint, renderer::SpriteRender,
+};
 
 pub fn initialize_platform(
     world: &mut World,
@@ -21,5 +23,7 @@ pub fn initialize_platform(
         ))
         .with(transform)
         .with(step_sprite)
+        .with(Color::new(platform_config.color_flag))
+        .with(Tint(platform_config.color_flag.to_srgba()))
         .build();
 }

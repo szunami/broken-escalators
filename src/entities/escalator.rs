@@ -1,14 +1,12 @@
 use super::initialize_step;
 use crate::components::{Direction, Escalator, Rectangle};
 use crate::levels::EscalatorConfig;
-use amethyst::input::VirtualKeyCode;
 use amethyst::{core::transform::Transform, prelude::*, renderer::SpriteRender};
 
 pub fn initialize_escalator(
     world: &mut World,
     escalator: EscalatorConfig,
     step_sprite: SpriteRender,
-    toggle_key: VirtualKeyCode,
 ) {
     let mut transform = Transform::default();
     transform.set_translation_xyz(escalator.x, escalator.y, 0.);
@@ -18,7 +16,7 @@ pub fn initialize_escalator(
         .with(Escalator::new(
             escalator.speed,
             escalator.direction,
-            toggle_key,
+            escalator.color_flag.to_virtual_key(),
         ))
         .with(Rectangle::default(escalator.width, escalator.height))
         .with(transform)
@@ -55,6 +53,7 @@ pub fn initialize_escalator(
                 step_width,
                 step_height,
                 step_sprite.clone(),
+                escalator.color_flag,
             );
         }
     }
@@ -81,6 +80,7 @@ pub fn initialize_escalator(
             step_width,
             step_height,
             step_sprite.clone(),
+            escalator.color_flag,
         );
     }
     // create diag
@@ -109,6 +109,7 @@ pub fn initialize_escalator(
                 step_width,
                 step_height,
                 step_sprite.clone(),
+                escalator.color_flag,
             );
         }
     }
@@ -135,6 +136,7 @@ pub fn initialize_escalator(
             step_width,
             step_height,
             step_sprite.clone(),
+            escalator.color_flag,
         );
     }
     // create bottom
@@ -158,6 +160,7 @@ pub fn initialize_escalator(
                 step_width,
                 step_height,
                 step_sprite.clone(),
+                escalator.color_flag,
             );
         }
     } // create lower left corner
@@ -183,6 +186,7 @@ pub fn initialize_escalator(
                 step_width,
                 step_height,
                 step_sprite,
+                escalator.color_flag,
             );
         }
     }
