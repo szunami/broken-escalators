@@ -1,7 +1,4 @@
-use amethyst::{
-    input::{VirtualKeyCode},
-    renderer::{palette::Srgba},
-};
+use amethyst::{input::VirtualKeyCode, renderer::palette::Srgba};
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Copy, Serialize, Deserialize, Debug, Eq, PartialEq)]
