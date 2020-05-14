@@ -9,7 +9,6 @@ fn all_levels_deser() {
     for path in level_paths {
         let actual_path = path.unwrap().path();
         let load_result: Result<_, _> = LevelConfig::load(actual_path.as_path());
-        println!("{:?}", load_result);
         assert!(!load_result.is_err());
     }
 }
