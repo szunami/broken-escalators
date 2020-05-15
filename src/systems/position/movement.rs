@@ -1,7 +1,5 @@
 use crate::components::{Step, Thing, Velocity};
-use crate::{
-    resources::RewindableClock,
-};
+use crate::resources::RewindableClock;
 use amethyst::{
     core::timing::Time,
     core::transform::Transform,
@@ -31,7 +29,6 @@ impl<'s> System<'s> for MoveSystem {
             things,
             mut steps,
             velocities,
-            rectangles,
             mut transforms,
             time,
         ): Self::SystemData,
@@ -40,9 +37,7 @@ impl<'s> System<'s> for MoveSystem {
             return;
         }
 
-        for (step, step_entity, step_velocity) in
-            (&mut steps, &entities, &velocities).join()
-        {
+        for (step, step_entity, step_velocity) in (&mut steps, &entities, &velocities).join() {
             let step_transform = transforms.get_mut(step_entity).unwrap();
             step_transform.prepend_translation_x(step_velocity.x * time.delta_seconds());
             step_transform.prepend_translation_y(step_velocity.y * time.delta_seconds());

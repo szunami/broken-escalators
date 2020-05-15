@@ -23,14 +23,7 @@ impl<'s> System<'s> for ThingCorrectionSystem {
 
     fn run(
         &mut self,
-        (
-            entities,
-            clock,
-            things,
-            mut steps,
-            rectangles,
-            mut transforms,
-        ): Self::SystemData,
+        (entities, clock, things, mut steps, rectangles, mut transforms): Self::SystemData,
     ) {
         if !clock.going_forwards() {
             return;

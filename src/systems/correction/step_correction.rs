@@ -22,21 +22,12 @@ impl<'s> System<'s> for StepCorrectionSystem {
     );
     fn run(
         &mut self,
-        (
-            entities,
-            clock,
-            mut steps,
-            rectangles,
-            escalators,
-            mut transforms,
-        ): Self::SystemData,
+        (entities, clock, mut steps, rectangles, escalators, mut transforms): Self::SystemData,
     ) {
         if !clock.going_forwards() {
             return;
         }
-        for (step, step_entity, step_rectangle) in
-            (&mut steps, &entities, &rectangles).join()
-        {
+        for (step, step_entity, step_rectangle) in (&mut steps, &entities, &rectangles).join() {
             let escalator_transform = transforms.get(step.escalator).unwrap().clone();
             let step_transform = transforms.get_mut(step_entity).unwrap();
             let step_box = BoundingBox::new(step_rectangle, step_transform);
