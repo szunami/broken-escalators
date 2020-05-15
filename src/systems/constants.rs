@@ -4,6 +4,7 @@ use super::{
         ThingTapeSystem, ToggleSystem,
     },
     velocity::{AtopSystem, CornerSystem},
+    position::MoveSystem,
 };
 use std::any;
 
@@ -31,3 +32,10 @@ pub fn velocity_systems() -> Vec<&'static str> {
         any::type_name::<AtopSystem>(),
     ]
 }
+
+pub fn position_systems() -> Vec<&'static str> {
+    vec![
+        any::type_name::<MoveSystem>(),
+    ]
+}
+

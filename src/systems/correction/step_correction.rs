@@ -43,7 +43,9 @@ impl<'s> System<'s> for StepCorrection {
         }    
         for (step, step_entity, step_velocity, step_rectangle) in
         (&mut steps, &entities, &velocities, &rectangles).join()
-    {
+    {            
+            let escalator_transform = transforms.get(step.escalator).unwrap().clone();
+            let step_transform = transforms.get_mut(step_entity).unwrap();
             let step_box = BoundingBox::new(step_rectangle, step_transform);
             let escalator = escalators.get(step.escalator).unwrap();
             let escalator_rectangle = rectangles.get(step.escalator).unwrap();
