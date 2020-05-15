@@ -1,18 +1,56 @@
 LevelConfig(
     escalators: [
         EscalatorConfig(
-            x: 512.,
-            y: 512.,
-            width: 1024.,
-            height: 1024.,
-            num_steps: 32,
-            speed: 64.,
-            direction: CLOCKWISE,
+            x: 160.,
+            y: 224.,
+            width: 128.,
+            height: 128.,
+            num_steps: 4,
+            speed: 32.,
+            direction: COUNTERCLOCKWISE,
+            color_flag: BLUE
+        ),
+        EscalatorConfig(
+            x: 336.,
+            y: 208.,
+            width: 96.,
+            height: 96.,
+            num_steps: 3,
+            speed: 32.,
+            direction: COUNTERCLOCKWISE,
             color_flag: YELLOW
         ),
     ],
     things: [
+        ThingConfig(
+            x: 144.,
+            y: 272.,
+            width: 32.,
+            height: 32.,
+            color_flag: BLUE,
+        ),
+        ThingConfig(
+            x: 336.,
+            y: 240.,
+            width: 32.,
+            height: 32.,
+            color_flag: BLUE
+        ),
     ],
     platforms: [
+        PlatformConfig(
+            x: 80.,
+            y: 80.,
+            width: 32.,
+            height: 32.,
+            color_flag: YELLOW
+        ),
+        PlatformConfig(
+            x: 400.,
+            y: 80.,
+            width: 32.,
+            height: 32.,
+            color_flag: YELLOW
+        ),
     ],
 )
