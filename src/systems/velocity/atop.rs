@@ -33,6 +33,10 @@ impl<'s> System<'s> for AtopSystem {
         &mut self,
         (entities, things, transforms, mut steps, platforms, rectangles, mut velocities): Self::SystemData,
     ) {
+        for step in (&mut steps).join() {
+            step.thing_atop = None;
+        }
+
         for (_thing, thing_entity, thing_transform, thing_rectangle) in
             (&things, &entities, &transforms, &rectangles).join()
         {
