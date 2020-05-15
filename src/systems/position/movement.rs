@@ -61,13 +61,29 @@ impl<'s> System<'s> for MoveSystem {
             let step_extrusion = extrusion(&escalator_box, &step_box);
             if step_extrusion > 0. {
                 // move back to corner
-                step_transform.prepend_translation_x(-step.side.base_x_component() * escalator.direction.direction_factor() * step_extrusion);
-                step_transform.prepend_translation_y(-step.side.base_y_component() * escalator.direction.direction_factor() * step_extrusion);
+                step_transform.prepend_translation_x(
+                    -step.side.base_x_component()
+                        * escalator.direction.direction_factor()
+                        * step_extrusion,
+                );
+                step_transform.prepend_translation_y(
+                    -step.side.base_y_component()
+                        * escalator.direction.direction_factor()
+                        * step_extrusion,
+                );
                 // move to next side
                 step.side = escalator.next_side(&step.side);
                 // move in new direction
-                step_transform.prepend_translation_x(step.side.base_x_component() * escalator.direction.direction_factor() * step_extrusion);
-                step_transform.prepend_translation_y(step.side.base_y_component() * escalator.direction.direction_factor() * step_extrusion);
+                step_transform.prepend_translation_x(
+                    step.side.base_x_component()
+                        * escalator.direction.direction_factor()
+                        * step_extrusion,
+                );
+                step_transform.prepend_translation_y(
+                    step.side.base_y_component()
+                        * escalator.direction.direction_factor()
+                        * step_extrusion,
+                );
             }
         }
 
