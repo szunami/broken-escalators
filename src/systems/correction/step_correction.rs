@@ -10,9 +10,9 @@ use amethyst::{
     ecs::prelude::{Entities, Join, Read, ReadStorage, System, SystemData, WriteStorage},
 };
 #[derive(SystemDesc)]
-pub struct StepCorrection;
+pub struct StepCorrectionSystem;
 
-impl<'s> System<'s> for StepCorrection {
+impl<'s> System<'s> for StepCorrectionSystem {
     type SystemData = (
         Entities<'s>,
         Read<'s, RewindableClock>,
