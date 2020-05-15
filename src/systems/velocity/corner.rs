@@ -1,4 +1,4 @@
-use crate::components::{Escalator, Rectangle, Step, Velocity};
+use crate::components::{Escalator, Rectangle, Step, Velocity, Side};
 use crate::levels::Direction;
 use crate::{
     resources::RewindableClock,
@@ -40,18 +40,12 @@ impl<'s> System<'s> for CornerSystem {
             let escalator_rectangle = rectangles.get(step.escalator).unwrap();
             let escalator_box = BoundingBox::new(escalator_rectangle, escalator_transform);
 
-            step_velocity.x = match step.side {
-                crate::components::Side::VERTICAL => 0.,
-                crate::components::Side::HORIZONTAL => -escalator.speed,
-                crate::components::Side::DIAGONAL => escalator.speed,
-            };
-            step_velocity.y = match step.side {
-                crate::components::Side::VERTICAL => escalator.speed,
-                crate::components::Side::HORIZONTAL => 0.,
-                crate::components::Side::DIAGONAL => -escalator.speed,
-            };
+            step_velocity.x = x_velocity_for_side(&step.side, &escalator);
+            step_velocity.y = y_velocity_for_side(&step.side, &escalator);
         }
     }
+
+
 
     //     for (step, step_velocity, step_transform, step_rectangle) in
     //         (&mut steps, &mut velocities, &transforms, &rectangles).join()
@@ -178,6 +172,23 @@ impl<'s> System<'s> for CornerSystem {
 //     step.push_velocity = 0.;
 // }
 
+
+pub fn x_velocity_for_side(side: &Side, escalator: &Escalator) -> f32 {
+    match side {
+        crate::components::Side::VERTICAL => 0.,
+        crate::components::Side::HORIZONTAL => -escalator.speed,
+        crate::components::Side::DIAGONAL => escalator.speed,
+    }
+}
+
+pub fn y_velocity_for_side(side: &Side, escalator: &Escalator) -> f32 {
+    match side {
+        crate::components::Side::VERTICAL => escalator.speed,
+        crate::components::Side::HORIZONTAL => 0.,
+        crate::components::Side::DIAGONAL => -escalator.speed,
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -186,10 +197,13 @@ mod tests {
         let mut t = Transform::default();
         t.face_towards(Vector3::new(0., 50., 0.), Vector3::new(0., 0., 1.));
 
-        let x = Vector3::new(0., 0., 0.);
+        let x = Vector3::new(0., 10., 0.);
         let y = Vector3::new(0., 10., 0.);
 
-        println!("{}", x.metric_distance(&y));
+
+        let z = 
+
+        println!("{:?}", z);
         t.move_forward(60.);
         print!("{:?}", t.translation());
     }

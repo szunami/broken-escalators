@@ -1,7 +1,7 @@
 use crate::components::{Escalator, Rectangle, Step, Thing, Velocity};
 use crate::{
     resources::RewindableClock,
-    utils::{contains, extrusion, x_overlap, y_overlap, BoundingBox},
+    utils::{contains, extrusion, x_overlap, y_overlap, BoundingBox}, systems::velocity::{y_velocity_for_side, x_velocity_for_side},
 };
 use amethyst::{
     core::timing::Time,
@@ -57,10 +57,48 @@ impl<'s> System<'s> for MoveSystem {
             let escalator = escalators.get(step.escalator).unwrap();
             let escalator_rectangle = rectangles.get(step.escalator).unwrap();
             let escalator_box = BoundingBox::new(escalator_rectangle, &escalator_transform);
-            if !contains(&escalator_box, step_box) {
+            // account for overshooting escalator corners?
+
+            let step_extrusion = extrusion(&escalator_box, &step_box);
+            if step_extrusion > 0. {
+                // move back extrusion amount along - velocity
+                info!("Extrusion: {}", step_extrusion);
+                
+                let x_back = if step_velocity.x == 0. {
+                    0.
+                } else {
+                    step_velocity.x.signum()
+                };
+                let y_back = if step_velocity.y == 0. {
+                    0.
+                } else {
+                    step_velocity.y.signum()
+                };
+                step_transform.prepend_translation_x(-x_back * step_extrusion);
+                step_transform.prepend_translation_y(-y_back * step_extrusion);
+                // move to next side
                 step.side = escalator.next_side(&step.side);
-                info!("New side: {:?}", step.side);
-                info!("Extrusion: {}", extrusion(&escalator_box, step_box));
+
+                let new_x_velocity = x_velocity_for_side(&step.side, &escalator);
+                let new_y_velocity = y_velocity_for_side(&step.side, &escalator);
+
+                let x_fwd = if step_velocity.x == 0. {
+                    0.
+                } else {
+                    new_x_velocity.signum()
+                };
+                let y_fwd = if step_velocity.y == 0. {
+                    0.
+                } else {
+                    new_y_velocity.signum()
+                };
+
+                step_transform.prepend_translation_x(x_fwd * step_extrusion);
+                step_transform.prepend_translation_y(y_fwd * step_extrusion);
+                
+                // update velocity
+
+
             }
         }
 
@@ -70,7 +108,6 @@ impl<'s> System<'s> for MoveSystem {
             thing_transform.prepend_translation_x(thing_velocity.x * time.delta_seconds());
             thing_transform.prepend_translation_y(thing_velocity.y * time.delta_seconds());
         }
-        // account for overshooting escalator corners?
 
         // account for collisions
         for (_thing, thing_entity, thing_rectangle) in (&things, &entities, &rectangles).join() {
