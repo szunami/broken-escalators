@@ -16,14 +16,14 @@ impl<'s> System<'s> for ThingCorrectionSystem {
         Entities<'s>,
         Read<'s, RewindableClock>,
         ReadStorage<'s, Thing>,
-        WriteStorage<'s, Step>,
+        ReadStorage<'s, Step>,
         ReadStorage<'s, Rectangle>,
         WriteStorage<'s, Transform>,
     );
 
     fn run(
         &mut self,
-        (entities, clock, things, mut steps, rectangles, mut transforms): Self::SystemData,
+        (entities, clock, things, steps, rectangles, mut transforms): Self::SystemData,
     ) {
         if !clock.going_forwards() {
             return;

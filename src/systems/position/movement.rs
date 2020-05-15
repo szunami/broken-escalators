@@ -37,7 +37,7 @@ impl<'s> System<'s> for MoveSystem {
             return;
         }
 
-        for (step, step_entity, step_velocity) in (&mut steps, &entities, &velocities).join() {
+        for (_step, step_entity, step_velocity) in (&mut steps, &entities, &velocities).join() {
             let step_transform = transforms.get_mut(step_entity).unwrap();
             step_transform.prepend_translation_x(step_velocity.x * time.delta_seconds());
             step_transform.prepend_translation_y(step_velocity.y * time.delta_seconds());
