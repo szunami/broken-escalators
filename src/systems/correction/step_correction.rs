@@ -64,7 +64,7 @@ impl<'s> System<'s> for StepCorrectionSystem {
                         let thing_transform = transforms.get_mut(thing_entity).unwrap();
                         thing_transform.prepend_translation_x(x_back + x_fwd);
                         thing_transform.prepend_translation_y(y_back + y_fwd);
-                    },
+                    }
                     None => {}
                 }
             }
