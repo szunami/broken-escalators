@@ -72,7 +72,6 @@ impl<'s> System<'s> for MoveSystem {
         }
 
         for (_thing, thing_entity, thing_velocity) in (&things, &entities, &velocities).join() {
-            info!("velocity: {:?}", thing_velocity);
             let thing_transform = transforms.get_mut(thing_entity).unwrap();
             thing_transform.prepend_translation_x(thing_velocity.x * time.delta_seconds());
             thing_transform.prepend_translation_y(thing_velocity.y * time.delta_seconds());
@@ -91,10 +90,8 @@ impl<'s> System<'s> for MoveSystem {
                 let y_overlap = y_overlap(&thing_box, &step_box);
 
                 if x_overlap.abs() < y_overlap.abs() {
-                    info!("Applying x correction: {}", x_overlap);
                     thing_transform.prepend_translation_x(x_overlap);
                 } else {
-                    info!("Applying y correction: {}", y_overlap);
                     thing_transform.prepend_translation_y(y_overlap);
                 }
             }

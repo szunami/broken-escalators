@@ -65,7 +65,6 @@ impl<'s> System<'s> for AtopSystem {
             }
 
             if let Some(step_entity) = atop_step {
-                info!("Atop step");
                 let step_velocity = velocities.get(step_entity).unwrap().clone();
                 let thing_velocity = velocities.get_mut(thing_entity).unwrap();
                 *thing_velocity = step_velocity.clone();
