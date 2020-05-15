@@ -1,4 +1,4 @@
-use crate::components::{Escalator, Rectangle, Step, Thing, Velocity};
+use crate::components::{Step, Thing, Velocity};
 use crate::{
     resources::RewindableClock,
 };
@@ -19,8 +19,6 @@ impl<'s> System<'s> for MoveSystem {
         ReadStorage<'s, Thing>,
         WriteStorage<'s, Step>,
         ReadStorage<'s, Velocity>,
-        ReadStorage<'s, Rectangle>,
-        ReadStorage<'s, Escalator>,
         WriteStorage<'s, Transform>,
         Read<'s, Time>,
     );
@@ -34,7 +32,6 @@ impl<'s> System<'s> for MoveSystem {
             mut steps,
             velocities,
             rectangles,
-            escalators,
             mut transforms,
             time,
         ): Self::SystemData,
@@ -43,10 +40,9 @@ impl<'s> System<'s> for MoveSystem {
             return;
         }
 
-        for (step, step_entity, step_velocity, step_rectangle) in
-            (&mut steps, &entities, &velocities, &rectangles).join()
+        for (step, step_entity, step_velocity) in
+            (&mut steps, &entities, &velocities).join()
         {
-            let escalator_transform = transforms.get(step.escalator).unwrap().clone();
             let step_transform = transforms.get_mut(step_entity).unwrap();
             step_transform.prepend_translation_x(step_velocity.x * time.delta_seconds());
             step_transform.prepend_translation_y(step_velocity.y * time.delta_seconds());

@@ -1,10 +1,9 @@
-use crate::components::{Escalator, Rectangle, Step, Thing, Velocity};
+use crate::components::{Rectangle, Step, Thing};
 use crate::{
     resources::RewindableClock,
     utils::{x_overlap, y_overlap, BoundingBox},
 };
 use amethyst::{
-    core::timing::Time,
     core::transform::Transform,
     derive::SystemDesc,
     ecs::prelude::{Entities, Join, Read, ReadStorage, System, SystemData, WriteStorage},
@@ -18,11 +17,8 @@ impl<'s> System<'s> for ThingCorrectionSystem {
         Read<'s, RewindableClock>,
         ReadStorage<'s, Thing>,
         WriteStorage<'s, Step>,
-        ReadStorage<'s, Velocity>,
         ReadStorage<'s, Rectangle>,
-        ReadStorage<'s, Escalator>,
         WriteStorage<'s, Transform>,
-        Read<'s, Time>,
     );
 
     fn run(
@@ -32,13 +28,13 @@ impl<'s> System<'s> for ThingCorrectionSystem {
             clock,
             things,
             mut steps,
-            velocities,
             rectangles,
-            escalators,
             mut transforms,
-            time,
         ): Self::SystemData,
     ) {
+        if !clock.going_forwards() {
+            return;
+        }
         // account for collisions
         for (_thing, thing_entity, thing_rectangle) in (&things, &entities, &rectangles).join() {
             for (_step, step_entity, step_rectangle) in (&steps, &entities, &rectangles).join() {

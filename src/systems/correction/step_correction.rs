@@ -4,7 +4,6 @@ use crate::{
     utils::{extrusion, BoundingBox},
 };
 use amethyst::{
-    core::timing::Time,
     core::transform::Transform,
     derive::SystemDesc,
     ecs::prelude::{Entities, Join, Read, ReadStorage, System, SystemData, WriteStorage},
@@ -20,7 +19,6 @@ impl<'s> System<'s> for StepCorrectionSystem {
         ReadStorage<'s, Rectangle>,
         ReadStorage<'s, Escalator>,
         WriteStorage<'s, Transform>,
-        Read<'s, Time>,
     );
     fn run(
         &mut self,
@@ -31,7 +29,6 @@ impl<'s> System<'s> for StepCorrectionSystem {
             rectangles,
             escalators,
             mut transforms,
-            time,
         ): Self::SystemData,
     ) {
         if !clock.going_forwards() {
