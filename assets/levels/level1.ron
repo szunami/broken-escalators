@@ -1,12 +1,12 @@
 LevelConfig(
     escalators: [
         EscalatorConfig(
-            x: 336.,
-            y: 208.,
-            width: 96.,
-            height: 96.,
-            num_steps: 3,
-            speed: 32.,
+            x: 512.,
+            y: 512.,
+            width: 1024.,
+            height: 1024.,
+            num_steps: 32,
+            speed: 64.,
             direction: CLOCKWISE,
             color_flag: YELLOW
         ),
