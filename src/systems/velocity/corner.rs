@@ -47,26 +47,10 @@ impl<'s> System<'s> for CornerSystem {
 }
 
 pub fn x_velocity_for_side(side: &Side, escalator: &Escalator) -> f32 {
-    let direction_factor = if escalator.direction == Direction::CLOCKWISE {
-        1.
-    } else { -1. };
-
-    direction_factor * (match side {
-        crate::components::Side::VERTICAL => 0.,
-        crate::components::Side::HORIZONTAL => -escalator.speed,
-        crate::components::Side::DIAGONAL => escalator.speed,
-    })
+    escalator.speed * escalator.direction.direction_factor() * side.base_x_component()
 }
 
 
 pub fn y_velocity_for_side(side: &Side, escalator: &Escalator) -> f32 {
-    // clockwise
-    let direction_factor = if escalator.direction == Direction::CLOCKWISE {
-        1.
-    } else { -1. };
-    direction_factor * (match side {
-        crate::components::Side::VERTICAL => escalator.speed,
-        crate::components::Side::HORIZONTAL => 0.,
-        crate::components::Side::DIAGONAL => -escalator.speed,
-    })
+    escalator.speed * escalator.direction.direction_factor() * side.base_y_component()
 }

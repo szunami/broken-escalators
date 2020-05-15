@@ -7,6 +7,15 @@ pub enum Direction {
     COUNTERCLOCKWISE,
 }
 
+impl Direction {
+    pub fn direction_factor(self) -> f32 {
+        match self {
+            Direction::CLOCKWISE => 1.,
+            Direction::COUNTERCLOCKWISE => -1.,
+        }
+    }
+}
+
 #[derive(Clone, Copy, Serialize, Deserialize, Debug, Eq, PartialEq)]
 pub enum ColorFlag {
     WHITE,
