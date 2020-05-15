@@ -28,6 +28,8 @@ use systems::{
     constants::*,
     core::{DownKeysSystem, FPSSystem, StepTapeSystem, ThingTapeSystem, ToggleSystem},
     core::{PlatformSystem, RewindableClockSystem},
+    correction::StepCorrectionSystem,
+    correction::ThingCorrectionSystem,
     position::MoveSystem,
     velocity,
 };
@@ -82,11 +84,23 @@ fn main() -> amethyst::Result<()> {
             any::type_name::<AtopSystem>(),
             &atop_dependencies(),
         )
-        // position systems go last
+        // position systems go third
         .with(
             systems::position::MoveSystem,
             any::type_name::<MoveSystem>(),
             &velocity_systems(),
+        )
+        // correction systems go last
+        .with(
+            systems::correction::StepCorrectionSystem,
+            any::type_name::<StepCorrectionSystem>(),
+            &position_systems(),
+        )
+        // thing correction depends on final step coords
+        .with(
+            systems::correction::ThingCorrectionSystem,
+            any::type_name::<ThingCorrectionSystem>(),
+            &[any::type_name::<StepCorrectionSystem>()],
         );
 
     let mut game = Application::new(assets_dir, game, game_data)?;
