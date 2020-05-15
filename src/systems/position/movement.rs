@@ -62,21 +62,13 @@ impl<'s> System<'s> for MoveSystem {
             let step_extrusion = extrusion(&escalator_box, &step_box);
             if step_extrusion > 0. {
                 // move back to corner
-                let x_back = zero_or_signum(step_velocity.x);
-                let y_back = zero_or_signum(step_velocity.y);
-                step_transform.prepend_translation_x(-x_back * step_extrusion);
-                step_transform.prepend_translation_y(-y_back * step_extrusion);
+                step_transform.prepend_translation_x(-step.side.base_x_component() * escalator.direction.direction_factor() * step_extrusion);
+                step_transform.prepend_translation_y(-step.side.base_y_component() * escalator.direction.direction_factor() * step_extrusion);
                 // move to next side
                 step.side = escalator.next_side(&step.side);
-                // update velocity
-                let new_x_velocity = x_velocity_for_side(&step.side, &escalator);
-                let new_y_velocity = y_velocity_for_side(&step.side, &escalator);
-
-                let x_fwd = zero_or_signum(new_x_velocity);
-                let y_fwd = zero_or_signum(new_y_velocity);
                 // move in new direction
-                step_transform.prepend_translation_x(x_fwd * step_extrusion);
-                step_transform.prepend_translation_y(y_fwd * step_extrusion);
+                step_transform.prepend_translation_x(step.side.base_x_component() * escalator.direction.direction_factor() * step_extrusion);
+                step_transform.prepend_translation_y(step.side.base_y_component() * escalator.direction.direction_factor() * step_extrusion);
             }
         }
 
@@ -109,11 +101,4 @@ impl<'s> System<'s> for MoveSystem {
             }
         }
     }
-}
-
-fn zero_or_signum(x: f32) -> f32 {
-    if x == 0. {
-        return 0.;
-    }
-    x.signum()
 }
