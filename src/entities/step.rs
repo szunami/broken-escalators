@@ -14,7 +14,6 @@ pub fn initialize_step(
     y: f32,
     x_velocity: f32,
     y_velocity: f32,
-    push_velocity: f32,
     side: Side,
     step_width: f32,
     step_height: f32,
@@ -26,7 +25,7 @@ pub fn initialize_step(
 
     world
         .create_entity()
-        .with(Step::new(escalator_entity, push_velocity, side))
+        .with(Step::new(escalator_entity, side))
         .with(Velocity::new(x_velocity, y_velocity))
         .with(Rectangle::default(step_width, step_height))
         .with(step_render)

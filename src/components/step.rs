@@ -28,7 +28,6 @@ impl Side {
 #[derive(Clone, PartialEq, Debug)]
 pub struct Step {
     pub escalator: Entity,
-    pub push_velocity: f32,
     pub side: Side,
 }
 
@@ -37,10 +36,9 @@ impl Component for Step {
 }
 
 impl Step {
-    pub fn new(escalator: Entity, push_velocity: f32, side: Side) -> Step {
+    pub fn new(escalator: Entity, side: Side) -> Step {
         Step {
             escalator,
-            push_velocity,
             side,
         }
     }
