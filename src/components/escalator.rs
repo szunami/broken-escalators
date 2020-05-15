@@ -31,10 +31,22 @@ impl Escalator {
     }
 
     pub fn next_side(self, side: &Side) -> Side {
-        match side {
-            Side::VERTICAL => Side::DIAGONAL,
-            Side::DIAGONAL => Side::HORIZONTAL,
-            Side::HORIZONTAL => Side::VERTICAL,
+        match self.direction {
+            Direction::CLOCKWISE => {
+                match side {
+                    Side::VERTICAL => Side::DIAGONAL,
+                    Side::DIAGONAL => Side::HORIZONTAL,
+                    Side::HORIZONTAL => Side::VERTICAL,
+                }
+            },
+            Direction::COUNTERCLOCKWISE => {
+                match side {
+                    Side::VERTICAL => Side::HORIZONTAL,
+                    Side::DIAGONAL => Side::VERTICAL,
+                    Side::HORIZONTAL => Side::DIAGONAL,
+                }
+            }
         }
+
     }
 }
