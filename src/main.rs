@@ -29,7 +29,7 @@ use systems::{
     core::{DownKeysSystem, FPSSystem, StepTapeSystem, ThingTapeSystem, ToggleSystem},
     core::{PlatformSystem, RewindableClockSystem},
     position::MoveSystem,
-    velocity, correction::StepCorrectionSystem,
+    velocity, correction::StepCorrectionSystem, correction::ThingCorrectionSystem,
 };
 use velocity::{AtopSystem, CornerSystem};
 
@@ -93,6 +93,12 @@ fn main() -> amethyst::Result<()> {
             systems::correction::StepCorrectionSystem,
             any::type_name::<StepCorrectionSystem>(),
             &position_systems(),
+        )
+        // thing correction depends on final step coords
+        .with(
+            systems::correction::ThingCorrectionSystem,
+            any::type_name::<ThingCorrectionSystem>(),
+            &[any::type_name::<StepCorrectionSystem>()],
         )
         ;
 
