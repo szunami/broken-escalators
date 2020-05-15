@@ -1,7 +1,8 @@
 use crate::components::{Escalator, Rectangle, Step, Thing, Velocity};
 use crate::{
     resources::RewindableClock,
-    utils::{contains, extrusion, x_overlap, y_overlap, BoundingBox}, systems::velocity::{y_velocity_for_side, x_velocity_for_side},
+    systems::velocity::{x_velocity_for_side, y_velocity_for_side},
+    utils::{extrusion, x_overlap, y_overlap, BoundingBox},
 };
 use amethyst::{
     core::timing::Time,
@@ -48,7 +49,7 @@ impl<'s> System<'s> for MoveSystem {
             (&mut steps, &entities, &velocities, &rectangles).join()
         {
             let escalator_transform = transforms.get(step.escalator).unwrap().clone();
-            let mut step_transform = transforms.get_mut(step_entity).unwrap();
+            let step_transform = transforms.get_mut(step_entity).unwrap();
             step_transform.prepend_translation_x(step_velocity.x * time.delta_seconds());
             step_transform.prepend_translation_y(step_velocity.y * time.delta_seconds());
 
