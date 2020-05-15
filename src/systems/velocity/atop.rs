@@ -23,7 +23,7 @@ impl<'s> System<'s> for AtopSystem {
         Entities<'s>,
         ReadStorage<'s, Thing>,
         ReadStorage<'s, Transform>,
-        ReadStorage<'s, Step>,
+        WriteStorage<'s, Step>,
         ReadStorage<'s, Platform>,
         ReadStorage<'s, Rectangle>,
         WriteStorage<'s, Velocity>,
@@ -31,7 +31,7 @@ impl<'s> System<'s> for AtopSystem {
 
     fn run(
         &mut self,
-        (entities, things, transforms, steps, platforms, rectangles, mut velocities): Self::SystemData,
+        (entities, things, transforms, mut steps, platforms, rectangles, mut velocities): Self::SystemData,
     ) {
         for (_thing, thing_entity, thing_transform, thing_rectangle) in
             (&things, &entities, &transforms, &rectangles).join()
@@ -68,6 +68,8 @@ impl<'s> System<'s> for AtopSystem {
                 let step_velocity = velocities.get(step_entity).unwrap().clone();
                 let thing_velocity = velocities.get_mut(thing_entity).unwrap();
                 *thing_velocity = step_velocity.clone();
+                let step = steps.get_mut(step_entity).unwrap();
+                step.thing_atop = Some(thing_entity);
             } else if atop_platform {
                 let thing_velocity = velocities.get_mut(thing_entity).unwrap();
                 thing_velocity.x = 0.;
