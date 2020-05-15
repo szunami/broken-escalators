@@ -3,8 +3,8 @@ use super::{
         DownKeysSystem, FPSSystem, PlatformSystem, RewindableClockSystem, StepTapeSystem,
         ThingTapeSystem, ToggleSystem,
     },
-    velocity::{AtopSystem, CornerSystem},
     position::MoveSystem,
+    velocity::{AtopSystem, CornerSystem},
 };
 use std::any;
 
@@ -34,8 +34,5 @@ pub fn velocity_systems() -> Vec<&'static str> {
 }
 
 pub fn position_systems() -> Vec<&'static str> {
-    vec![
-        any::type_name::<MoveSystem>(),
-    ]
+    vec![any::type_name::<MoveSystem>()]
 }
-

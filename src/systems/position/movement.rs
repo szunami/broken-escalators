@@ -58,7 +58,5 @@ impl<'s> System<'s> for MoveSystem {
             thing_transform.prepend_translation_x(thing_velocity.x * time.delta_seconds());
             thing_transform.prepend_translation_y(thing_velocity.y * time.delta_seconds());
         }
-
-
     }
 }

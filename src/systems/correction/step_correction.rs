@@ -1,7 +1,7 @@
-use crate::components::{Escalator, Rectangle, Step, Thing, Velocity};
+use crate::components::{Escalator, Rectangle, Step, Thing};
 use crate::{
     resources::RewindableClock,
-    utils::{extrusion, x_overlap, y_overlap, BoundingBox},
+    utils::{extrusion, BoundingBox},
 };
 use amethyst::{
     core::timing::Time,
@@ -18,7 +18,6 @@ impl<'s> System<'s> for StepCorrectionSystem {
         Read<'s, RewindableClock>,
         ReadStorage<'s, Thing>,
         WriteStorage<'s, Step>,
-        ReadStorage<'s, Velocity>,
         ReadStorage<'s, Rectangle>,
         ReadStorage<'s, Escalator>,
         WriteStorage<'s, Transform>,
@@ -31,19 +30,18 @@ impl<'s> System<'s> for StepCorrectionSystem {
             clock,
             things,
             mut steps,
-            velocities,
             rectangles,
             escalators,
             mut transforms,
             time,
         ): Self::SystemData,
-    ) { 
+    ) {
         if !clock.going_forwards() {
             return;
-        }    
-        for (step, step_entity, step_velocity, step_rectangle) in
-        (&mut steps, &entities, &velocities, &rectangles).join()
-    {            
+        }
+        for (step, step_entity, step_rectangle) in
+            (&mut steps, &entities, &rectangles).join()
+        {
             let escalator_transform = transforms.get(step.escalator).unwrap().clone();
             let step_transform = transforms.get_mut(step_entity).unwrap();
             let step_box = BoundingBox::new(step_rectangle, step_transform);
@@ -78,6 +76,6 @@ impl<'s> System<'s> for StepCorrectionSystem {
                         * step_extrusion,
                 );
             }
-    }
+        }
     }
 }
