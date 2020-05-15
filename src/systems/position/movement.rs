@@ -1,7 +1,6 @@
 use crate::components::{Escalator, Rectangle, Step, Thing, Velocity};
 use crate::{
     resources::RewindableClock,
-    systems::velocity::{x_velocity_for_side, y_velocity_for_side},
     utils::{extrusion, x_overlap, y_overlap, BoundingBox},
 };
 use amethyst::{
