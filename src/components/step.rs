@@ -28,6 +28,7 @@ impl Side {
 #[derive(Clone, PartialEq, Debug)]
 pub struct Step {
     pub escalator: Entity,
+    pub thing_atop: Option<Entity>,
     pub side: Side,
 }
 
@@ -39,6 +40,7 @@ impl Step {
     pub fn new(escalator: Entity, side: Side) -> Step {
         Step {
             escalator,
+            thing_atop: None,
             side,
         }
     }
