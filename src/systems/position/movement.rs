@@ -1,7 +1,7 @@
-use crate::components::{Rectangle, Step, Thing, Velocity, Escalator};
+use crate::components::{Escalator, Rectangle, Step, Thing, Velocity};
 use crate::{
     resources::RewindableClock,
-    utils::{x_overlap, y_overlap, BoundingBox, contains},
+    utils::{contains, extrusion, x_overlap, y_overlap, BoundingBox},
 };
 use amethyst::{
     core::timing::Time,
@@ -28,13 +28,24 @@ impl<'s> System<'s> for MoveSystem {
 
     fn run(
         &mut self,
-        (entities, clock, things, mut steps, velocities, rectangles, escalators, mut transforms, time): Self::SystemData,
+        (
+            entities,
+            clock,
+            things,
+            mut steps,
+            velocities,
+            rectangles,
+            escalators,
+            mut transforms,
+            time,
+        ): Self::SystemData,
     ) {
         if !clock.going_forwards() {
             return;
         }
 
-        for (step, step_entity, step_velocity, step_rectangle) in (&steps, &entities, &velocities, &rectangles).join()
+        for (step, step_entity, step_velocity, step_rectangle) in
+            (&mut steps, &entities, &velocities, &rectangles).join()
         {
             info!("Step velocity: {:?}", step_velocity);
             let escalator_transform = transforms.get(step.escalator).unwrap().clone();
@@ -46,10 +57,10 @@ impl<'s> System<'s> for MoveSystem {
             let escalator = escalators.get(step.escalator).unwrap();
             let escalator_rectangle = rectangles.get(step.escalator).unwrap();
             let escalator_box = BoundingBox::new(escalator_rectangle, &escalator_transform);
-            if !contains(escalator_box, step_box) {
-                // step.side = escalator.next_side(&step.side);
+            if !contains(&escalator_box, step_box) {
+                step.side = escalator.next_side(&step.side);
                 info!("New side: {:?}", step.side);
- 
+                info!("Extrusion: {}", extrusion(&escalator_box, step_box));
             }
         }
 
@@ -60,8 +71,7 @@ impl<'s> System<'s> for MoveSystem {
             thing_transform.prepend_translation_y(thing_velocity.y * time.delta_seconds());
         }
         // account for overshooting escalator corners?
-        
-        
+
         // account for collisions
         for (_thing, thing_entity, thing_rectangle) in (&things, &entities, &rectangles).join() {
             for (_step, step_entity, step_rectangle) in (&steps, &entities, &rectangles).join() {

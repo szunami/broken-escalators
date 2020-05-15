@@ -1,10 +1,13 @@
 use crate::components::{Escalator, Rectangle, Step, Velocity};
 use crate::levels::Direction;
-use crate::{resources::RewindableClock, utils::{BoundingBox, contains}};
+use crate::{
+    resources::RewindableClock,
+    utils::{contains, BoundingBox},
+};
 use amethyst::{
+    core::math::Vector3,
     core::transform::Transform,
     derive::SystemDesc,
-    core::math::Vector3,
     ecs::prelude::{Join, Read, ReadStorage, System, SystemData, WriteStorage},
 };
 
@@ -38,7 +41,7 @@ impl<'s> System<'s> for CornerSystem {
             let escalator_box = BoundingBox::new(escalator_rectangle, escalator_transform);
 
             step_velocity.x = match step.side {
-                crate::components::Side::VERTICAL =>  0.,
+                crate::components::Side::VERTICAL => 0.,
                 crate::components::Side::HORIZONTAL => -escalator.speed,
                 crate::components::Side::DIAGONAL => escalator.speed,
             };
@@ -50,10 +53,6 @@ impl<'s> System<'s> for CornerSystem {
         }
     }
 
-
-
-
-
     //     for (step, step_velocity, step_transform, step_rectangle) in
     //         (&mut steps, &mut velocities, &transforms, &rectangles).join()
     //     {
@@ -63,20 +62,20 @@ impl<'s> System<'s> for CornerSystem {
     //         let escalator_box = BoundingBox::new(escalator_rectangle, escalator_transform);
     //         let step_box = BoundingBox::new(step_rectangle, step_transform);
 
-            // // left edge
-            // if step_box.left <= escalator_box.left
-            //     && step_box.top < escalator_box.top
-            //     && step_box.bottom > escalator_box.bottom
-            // {
-            //     match escalator.direction {
-            //         Direction::CLOCKWISE => {
-            //             up_left(step, step_velocity, escalator.speed);
-            //         }
-            //         Direction::COUNTERCLOCKWISE => {
-            //             down_left(step, step_velocity, escalator.speed);
-            //         }
-            //     }
-            // }
+    // // left edge
+    // if step_box.left <= escalator_box.left
+    //     && step_box.top < escalator_box.top
+    //     && step_box.bottom > escalator_box.bottom
+    // {
+    //     match escalator.direction {
+    //         Direction::CLOCKWISE => {
+    //             up_left(step, step_velocity, escalator.speed);
+    //         }
+    //         Direction::COUNTERCLOCKWISE => {
+    //             down_left(step, step_velocity, escalator.speed);
+    //         }
+    //     }
+    // }
     //         // diagonal edge
     //         else if step_box.left > escalator_box.left
     //             && step_box.right < escalator_box.right
@@ -179,17 +178,13 @@ impl<'s> System<'s> for CornerSystem {
 //     step.push_velocity = 0.;
 // }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
     #[test]
     fn it_works() {
         let mut t = Transform::default();
-        t.face_towards(
-            Vector3::new(0., 50., 0.),
-            Vector3::new(0., 0., 1.)
-        );
+        t.face_towards(Vector3::new(0., 50., 0.), Vector3::new(0., 0., 1.));
 
         let x = Vector3::new(0., 0., 0.);
         let y = Vector3::new(0., 10., 0.);

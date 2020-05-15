@@ -1,7 +1,7 @@
-use crate::{utils::BoundingBox, levels::Direction};
+use super::Side;
+use crate::{levels::Direction, utils::BoundingBox};
 use amethyst::ecs::prelude::{Component, DenseVecStorage};
 use amethyst::input::VirtualKeyCode;
-use super::Side;
 
 #[derive(Clone, Copy)]
 pub struct Escalator {
@@ -34,7 +34,7 @@ impl Escalator {
         match side {
             Side::VERTICAL => Side::DIAGONAL,
             Side::DIAGONAL => Side::HORIZONTAL,
-            Side::HORIZONTAL => Side::VERTICAL
+            Side::HORIZONTAL => Side::VERTICAL,
         }
     }
 }

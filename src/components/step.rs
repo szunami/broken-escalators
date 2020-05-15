@@ -11,7 +11,7 @@ pub enum Side {
 pub struct Step {
     pub escalator: Entity,
     pub push_velocity: f32,
-    pub side: Side
+    pub side: Side,
 }
 
 impl Component for Step {

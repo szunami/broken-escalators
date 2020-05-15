@@ -66,9 +66,22 @@ fn overlaps(a: f32, b: f32, x: f32, y: f32) -> bool {
     (a <= x && b >= x) || (x <= a && y >= a)
 }
 
-pub fn contains(container: BoundingBox, containee: BoundingBox) -> bool {
-    container.left <= containee.left &&
-        container.right >= containee.right &&
-        container.top >= containee.top &&
-        container.bottom <= containee.bottom
+pub fn contains(container: &BoundingBox, containee: &BoundingBox) -> bool {
+    container.left <= containee.left
+        && container.right >= containee.right
+        && container.top >= containee.top
+        && container.bottom <= containee.bottom
+}
+
+pub fn extrusion(container: &BoundingBox, containee: &BoundingBox) -> f32 {
+    f32::max(
+        f32::max(
+            f32::max(
+                f32::max(0., container.left - containee.left),
+                containee.right - container.right,
+            ),
+            container.bottom - containee.bottom,
+        ),
+        containee.top - container.top,
+    )
 }

@@ -1,5 +1,5 @@
 use crate::{
-    components::{Color, Rectangle, Step, StepTape, Velocity, Side},
+    components::{Color, Rectangle, Side, Step, StepTape, Velocity},
     levels::ColorFlag,
 };
 use amethyst::{
