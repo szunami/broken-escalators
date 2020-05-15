@@ -37,20 +37,16 @@ impl<'s> System<'s> for CornerSystem {
             let escalator_rectangle = rectangles.get(step.escalator).unwrap();
             let escalator_box = BoundingBox::new(escalator_rectangle, escalator_transform);
 
-            if !contains(escalator_box, step_box) {
-                step.side = escalator.next_side(&step.side);
-                info!("New side: {:?}", step.side);
-                step_velocity.x = match step.side {
-                    crate::components::Side::VERTICAL =>  0.,
-                    crate::components::Side::HORIZONTAL => -escalator.speed,
-                    crate::components::Side::DIAGONAL => escalator.speed,
-                };
-                step_velocity.y = match step.side {
-                    crate::components::Side::VERTICAL => escalator.speed,
-                    crate::components::Side::HORIZONTAL => 0.,
-                    crate::components::Side::DIAGONAL => -escalator.speed,
-                };
-            }
+            step_velocity.x = match step.side {
+                crate::components::Side::VERTICAL =>  0.,
+                crate::components::Side::HORIZONTAL => -escalator.speed,
+                crate::components::Side::DIAGONAL => escalator.speed,
+            };
+            step_velocity.y = match step.side {
+                crate::components::Side::VERTICAL => escalator.speed,
+                crate::components::Side::HORIZONTAL => 0.,
+                crate::components::Side::DIAGONAL => -escalator.speed,
+            };
         }
     }
 
