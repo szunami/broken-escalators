@@ -47,7 +47,6 @@ impl<'s> System<'s> for MoveSystem {
         for (step, step_entity, step_velocity, step_rectangle) in
             (&mut steps, &entities, &velocities, &rectangles).join()
         {
-            info!("Step velocity: {:?}", step_velocity);
             let escalator_transform = transforms.get(step.escalator).unwrap().clone();
             let mut step_transform = transforms.get_mut(step_entity).unwrap();
             step_transform.prepend_translation_x(step_velocity.x * time.delta_seconds());
@@ -61,44 +60,22 @@ impl<'s> System<'s> for MoveSystem {
 
             let step_extrusion = extrusion(&escalator_box, &step_box);
             if step_extrusion > 0. {
-                // move back extrusion amount along - velocity
-                info!("Extrusion: {}", step_extrusion);
-                
-                let x_back = if step_velocity.x == 0. {
-                    0.
-                } else {
-                    step_velocity.x.signum()
-                };
-                let y_back = if step_velocity.y == 0. {
-                    0.
-                } else {
-                    step_velocity.y.signum()
-                };
+                // move back to corner
+                let x_back = zero_or_signum(step_velocity.x);
+                let y_back = zero_or_signum(step_velocity.y);
                 step_transform.prepend_translation_x(-x_back * step_extrusion);
                 step_transform.prepend_translation_y(-y_back * step_extrusion);
                 // move to next side
                 step.side = escalator.next_side(&step.side);
-
+                // update velocity
                 let new_x_velocity = x_velocity_for_side(&step.side, &escalator);
                 let new_y_velocity = y_velocity_for_side(&step.side, &escalator);
 
-                let x_fwd = if step_velocity.x == 0. {
-                    0.
-                } else {
-                    new_x_velocity.signum()
-                };
-                let y_fwd = if step_velocity.y == 0. {
-                    0.
-                } else {
-                    new_y_velocity.signum()
-                };
-
+                let x_fwd = zero_or_signum(new_x_velocity);
+                let y_fwd = zero_or_signum(new_y_velocity);
+                // move in new direction
                 step_transform.prepend_translation_x(x_fwd * step_extrusion);
                 step_transform.prepend_translation_y(y_fwd * step_extrusion);
-                
-                // update velocity
-
-
             }
         }
 
@@ -131,4 +108,11 @@ impl<'s> System<'s> for MoveSystem {
             }
         }
     }
+}
+
+fn zero_or_signum(x: f32) -> f32 {
+    if x == 0. {
+        return 0.;
+    }
+    x.signum()
 }
