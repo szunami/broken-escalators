@@ -1,3 +1,4 @@
+use super::Side;
 use crate::levels::Direction;
 use amethyst::ecs::prelude::{Component, DenseVecStorage};
 use amethyst::input::VirtualKeyCode;
@@ -26,6 +27,21 @@ impl Escalator {
         match self.direction {
             Direction::CLOCKWISE => self.direction = Direction::COUNTERCLOCKWISE,
             Direction::COUNTERCLOCKWISE => self.direction = Direction::CLOCKWISE,
+        }
+    }
+
+    pub fn next_side(self, side: &Side) -> Side {
+        match self.direction {
+            Direction::CLOCKWISE => match side {
+                Side::VERTICAL => Side::DIAGONAL,
+                Side::DIAGONAL => Side::HORIZONTAL,
+                Side::HORIZONTAL => Side::VERTICAL,
+            },
+            Direction::COUNTERCLOCKWISE => match side {
+                Side::VERTICAL => Side::HORIZONTAL,
+                Side::DIAGONAL => Side::VERTICAL,
+                Side::HORIZONTAL => Side::DIAGONAL,
+            },
         }
     }
 }

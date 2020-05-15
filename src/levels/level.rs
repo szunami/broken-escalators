@@ -1,10 +1,19 @@
 use amethyst::{input::VirtualKeyCode, renderer::palette::Srgba};
 use serde::{Deserialize, Serialize};
 
-#[derive(Clone, Copy, Serialize, Deserialize, Debug)]
+#[derive(Clone, Copy, Serialize, Deserialize, Debug, PartialEq)]
 pub enum Direction {
     CLOCKWISE,
     COUNTERCLOCKWISE,
+}
+
+impl Direction {
+    pub fn direction_factor(self) -> f32 {
+        match self {
+            Direction::CLOCKWISE => 1.,
+            Direction::COUNTERCLOCKWISE => -1.,
+        }
+    }
 }
 
 #[derive(Clone, Copy, Serialize, Deserialize, Debug, Eq, PartialEq)]

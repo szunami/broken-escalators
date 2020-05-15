@@ -27,7 +27,7 @@ impl<'s> System<'s> for PlatformSystem {
         {
             let thing_box = BoundingBox::new(thing_rectangle, thing_transform);
             if thing_box.top < 0. {
-                warn!("You lose!");
+                info!("You lose!");
             }
 
             let mut atop_some_platform = false;
@@ -43,7 +43,7 @@ impl<'s> System<'s> for PlatformSystem {
         }
 
         if all_things_atop_some_platform {
-            warn!("You win!");
+            info!("You win!");
         }
     }
 }

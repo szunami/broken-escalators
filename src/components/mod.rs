@@ -12,7 +12,7 @@ pub use self::color::Color;
 pub use self::escalator::Escalator;
 pub use self::platform::Platform;
 pub use self::rectangle::Rectangle;
-pub use self::step::Step;
+pub use self::step::{Side, Step};
 pub use self::step_tape::StepTape;
 pub use self::thing::Thing;
 pub use self::thing_tape::ThingTape;

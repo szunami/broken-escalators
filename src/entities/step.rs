@@ -1,5 +1,5 @@
 use crate::{
-    components::{Color, Rectangle, Step, StepTape, Velocity},
+    components::{Color, Rectangle, Side, Step, StepTape, Velocity},
     levels::ColorFlag,
 };
 use amethyst::{
@@ -15,6 +15,7 @@ pub fn initialize_step(
     x_velocity: f32,
     y_velocity: f32,
     push_velocity: f32,
+    side: Side,
     step_width: f32,
     step_height: f32,
     step_render: SpriteRender,
@@ -25,7 +26,7 @@ pub fn initialize_step(
 
     world
         .create_entity()
-        .with(Step::new(escalator_entity, push_velocity))
+        .with(Step::new(escalator_entity, push_velocity, side))
         .with(Velocity::new(x_velocity, y_velocity))
         .with(Rectangle::default(step_width, step_height))
         .with(step_render)

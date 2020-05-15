@@ -1,8 +1,35 @@
 use amethyst::ecs::prelude::{Component, DenseVecStorage, Entity};
-#[derive(Clone)]
+
+#[derive(Clone, PartialEq, Debug)]
+pub enum Side {
+    VERTICAL,
+    HORIZONTAL,
+    DIAGONAL,
+}
+
+impl Side {
+    pub fn base_x_component(&self) -> f32 {
+        match self {
+            crate::components::Side::VERTICAL => 0.,
+            crate::components::Side::HORIZONTAL => -1.,
+            crate::components::Side::DIAGONAL => 1.,
+        }
+    }
+
+    pub fn base_y_component(&self) -> f32 {
+        match self {
+            crate::components::Side::VERTICAL => 1.,
+            crate::components::Side::HORIZONTAL => 0.,
+            crate::components::Side::DIAGONAL => -1.,
+        }
+    }
+}
+
+#[derive(Clone, PartialEq, Debug)]
 pub struct Step {
     pub escalator: Entity,
     pub push_velocity: f32,
+    pub side: Side,
 }
 
 impl Component for Step {
@@ -10,10 +37,11 @@ impl Component for Step {
 }
 
 impl Step {
-    pub fn new(escalator: Entity, push_velocity: f32) -> Step {
+    pub fn new(escalator: Entity, push_velocity: f32, side: Side) -> Step {
         Step {
             escalator,
             push_velocity,
+            side,
         }
     }
 }
