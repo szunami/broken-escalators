@@ -34,10 +34,6 @@ pub fn initialize_escalator(
             Direction::CLOCKWISE => escalator.speed,
             Direction::COUNTERCLOCKWISE => -escalator.speed,
         };
-        let push_velocity = match escalator.direction {
-            Direction::CLOCKWISE => 0.,
-            Direction::COUNTERCLOCKWISE => -escalator.speed,
-        };
         for step_index in 1..(escalator.num_steps - 1) {
             let step_y = bottom_arm_y + (step_index as f32) * step_height;
             initialize_step(
@@ -47,7 +43,6 @@ pub fn initialize_escalator(
                 step_y,
                 x_velocity,
                 y_velocity,
-                push_velocity,
                 Side::VERTICAL,
                 step_width,
                 step_height,
@@ -63,10 +58,6 @@ pub fn initialize_escalator(
             Direction::COUNTERCLOCKWISE => 0.,
         };
         let y_velocity = -escalator.speed;
-        let push_velocity = match escalator.direction {
-            Direction::CLOCKWISE => 0.,
-            Direction::COUNTERCLOCKWISE => -escalator.speed,
-        };
         let side = match escalator.direction {
             Direction::CLOCKWISE => Side::DIAGONAL,
             Direction::COUNTERCLOCKWISE => Side::VERTICAL,
@@ -79,7 +70,6 @@ pub fn initialize_escalator(
             step_y,
             x_velocity,
             y_velocity,
-            push_velocity,
             side,
             step_width,
             step_height,
@@ -98,7 +88,6 @@ pub fn initialize_escalator(
                 Direction::CLOCKWISE => -escalator.speed,
                 Direction::COUNTERCLOCKWISE => escalator.speed,
             };
-            let push_velocity = 0.;
             let step_x = left_arm_x + (step_index as f32) * step_width;
             let step_y =
                 bottom_arm_y + ((escalator.num_steps - step_index - 1) as f32) * step_height;
@@ -109,7 +98,6 @@ pub fn initialize_escalator(
                 step_y,
                 x_velocity,
                 y_velocity,
-                push_velocity,
                 Side::DIAGONAL,
                 step_width,
                 step_height,
@@ -125,10 +113,6 @@ pub fn initialize_escalator(
             Direction::CLOCKWISE => 0.,
             Direction::COUNTERCLOCKWISE => escalator.speed,
         };
-        let push_velocity = match escalator.direction {
-            Direction::CLOCKWISE => escalator.speed,
-            Direction::COUNTERCLOCKWISE => 0.,
-        };
         let side = match escalator.direction {
             Direction::CLOCKWISE => Side::HORIZONTAL,
             Direction::COUNTERCLOCKWISE => Side::DIAGONAL,
@@ -141,7 +125,6 @@ pub fn initialize_escalator(
             bottom_arm_y,
             x_velocity,
             y_velocity,
-            push_velocity,
             side,
             step_width,
             step_height,
@@ -156,7 +139,6 @@ pub fn initialize_escalator(
             Direction::COUNTERCLOCKWISE => escalator.speed,
         };
         let y_velocity = 0.;
-        let push_velocity = 0.;
         for step_index in 1..(escalator.num_steps - 1) {
             let step_x = left_arm_x + (step_index as f32) * step_width;
             initialize_step(
@@ -166,7 +148,6 @@ pub fn initialize_escalator(
                 bottom_arm_y,
                 x_velocity,
                 y_velocity,
-                push_velocity,
                 Side::HORIZONTAL,
                 step_width,
                 step_height,
@@ -190,7 +171,6 @@ pub fn initialize_escalator(
                 Direction::CLOCKWISE => Side::VERTICAL,
                 Direction::COUNTERCLOCKWISE => Side::HORIZONTAL,
             };
-            let push_velocity = 0.;
             initialize_step(
                 world,
                 escalator_entity,
@@ -198,7 +178,6 @@ pub fn initialize_escalator(
                 bottom_arm_y,
                 x_velocity,
                 y_velocity,
-                push_velocity,
                 side,
                 step_width,
                 step_height,
