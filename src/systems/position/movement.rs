@@ -23,15 +23,7 @@ impl<'s> System<'s> for MoveSystem {
 
     fn run(
         &mut self,
-        (
-            entities,
-            clock,
-            things,
-            mut steps,
-            velocities,
-            mut transforms,
-            time,
-        ): Self::SystemData,
+        (entities, clock, things, mut steps, velocities, mut transforms, time): Self::SystemData,
     ) {
         if !clock.going_forwards() {
             return;
