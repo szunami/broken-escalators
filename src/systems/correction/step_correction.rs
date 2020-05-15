@@ -1,4 +1,4 @@
-use crate::components::{Escalator, Rectangle, Step, Thing};
+use crate::components::{Escalator, Rectangle, Step};
 use crate::{
     resources::RewindableClock,
     utils::{extrusion, BoundingBox},
@@ -16,7 +16,6 @@ impl<'s> System<'s> for StepCorrectionSystem {
     type SystemData = (
         Entities<'s>,
         Read<'s, RewindableClock>,
-        ReadStorage<'s, Thing>,
         WriteStorage<'s, Step>,
         ReadStorage<'s, Rectangle>,
         ReadStorage<'s, Escalator>,
@@ -28,7 +27,6 @@ impl<'s> System<'s> for StepCorrectionSystem {
         (
             entities,
             clock,
-            things,
             mut steps,
             rectangles,
             escalators,
