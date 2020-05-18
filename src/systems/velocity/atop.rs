@@ -89,14 +89,16 @@ impl<'s> System<'s> for AtopSystem {
 
 #[cfg(test)]
 mod tests {
-    use amethyst_test::prelude::*;
     use super::*;
-    use amethyst::{
-        Error, prelude::*,
-    };
     use crate::entities::initialize_thing;
     use crate::levels::ThingConfig;
-    use crate::{game::register_components, levels::ColorFlag, components::{Color, ThingTape}};
+    use crate::{
+        components::{Color, ThingTape},
+        game::register_components,
+        levels::ColorFlag,
+    };
+    use amethyst::{prelude::*, Error};
+    use amethyst_test::prelude::*;
 
     #[test]
     fn loading_state_adds_load_resource() -> Result<(), Error> {
@@ -104,7 +106,7 @@ mod tests {
             .with_system(AtopSystem, "test", &[])
             .with_effect(|world| {
                 register_components(world);
-                let thing_config = ThingConfig{
+                let thing_config = ThingConfig {
                     x: 10.,
                     y: 10.,
                     width: 10.,
@@ -114,15 +116,15 @@ mod tests {
                 // initialize_thing(world, thing_config, None)
 
                 let entity = world
-                .create_entity()
-                .with(Thing::new())
-                .with(Velocity::default())
-                .with(Rectangle::default(thing_config.width, thing_config.height))
-                .with(ThingTape::new())
-                .with(Velocity::default())
-                .with(Color::new(thing_config.color_flag)).build();
+                    .create_entity()
+                    .with(Thing::new())
+                    .with(Velocity::default())
+                    .with(Rectangle::default(thing_config.width, thing_config.height))
+                    .with(ThingTape::new())
+                    .with(Velocity::default())
+                    .with(Color::new(thing_config.color_flag))
+                    .build();
                 world.insert(EffectReturn(entity));
-
             })
             .with_assertion(|world| {
                 let entity = world.read_resource::<EffectReturn<Entity>>().0.clone();
@@ -130,10 +132,9 @@ mod tests {
                 let my_component_storage = world.read_storage::<Thing>();
 
                 let my_component = my_component_storage
-                .get(entity)
-                .expect("Entity should have a `MyComponent` component.");
+                    .get(entity)
+                    .expect("Entity should have a `MyComponent` component.");
             })
             .run()
     }
 }
-

@@ -6,7 +6,11 @@ use amethyst::{
     core::transform::Transform, prelude::*, renderer::resources::Tint, renderer::SpriteRender,
 };
 
-pub fn initialize_thing(world: &mut World, thing_config: ThingConfig, sprite_render: Option<SpriteRender>) {
+pub fn initialize_thing(
+    world: &mut World,
+    thing_config: ThingConfig,
+    sprite_render: Option<SpriteRender>,
+) {
     let mut transform = Transform::default();
     transform.set_translation_xyz(thing_config.x, thing_config.y, 0.);
     let mut entity_builder = world
@@ -20,8 +24,9 @@ pub fn initialize_thing(world: &mut World, thing_config: ThingConfig, sprite_ren
         .with(Color::new(thing_config.color_flag));
 
     if let Some(x) = sprite_render {
-        entity_builder = entity_builder.with(x)
-        .with(Tint(thing_config.color_flag.to_srgba()));
+        entity_builder = entity_builder
+            .with(x)
+            .with(Tint(thing_config.color_flag.to_srgba()));
     }
     entity_builder.build();
 }
