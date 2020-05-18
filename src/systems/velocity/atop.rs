@@ -92,11 +92,11 @@ mod tests {
     use amethyst_test::prelude::*;
     use super::*;
     use amethyst::{
-        Error,
+        Error, prelude::*,
     };
     use crate::entities::initialize_thing;
     use crate::levels::ThingConfig;
-    use crate::{game::register_components, levels::ColorFlag};
+    use crate::{game::register_components, levels::ColorFlag, components::{Color, ThingTape}};
 
     #[test]
     fn loading_state_adds_load_resource() -> Result<(), Error> {
@@ -104,11 +104,6 @@ mod tests {
             .with_system(AtopSystem, "test", &[])
             .with_effect(|world| {
                 register_components(world);
-                // let sprite_sheet = load_sprite_sheet(world);
-                // let white_box_render = SpriteRender {
-                //     sprite_sheet,
-                //     sprite_number: 0,
-                // };
                 let thing_config = ThingConfig{
                     x: 10.,
                     y: 10.,
@@ -116,12 +111,28 @@ mod tests {
                     height: 10.,
                     color_flag: ColorFlag::BLUE,
                 };
-                initialize_thing(world, thing_config, None)
+                // initialize_thing(world, thing_config, None)
+
+                let entity = world
+                .create_entity()
+                .with(Thing::new())
+                .with(Velocity::default())
+                .with(Rectangle::default(thing_config.width, thing_config.height))
+                .with(ThingTape::new())
+                .with(Velocity::default())
+                .with(Color::new(thing_config.color_flag)).build();
+                world.insert(EffectReturn(entity));
+
             })
-            // .with_state(|| LoadingState::new())
-            // .with_assertion(|world| {
-            //     world.read_resource::<LoadResource>();
-            // })
+            .with_assertion(|world| {
+                let entity = world.read_resource::<EffectReturn<Entity>>().0.clone();
+
+                let my_component_storage = world.read_storage::<Thing>();
+
+                let my_component = my_component_storage
+                .get(entity)
+                .expect("Entity should have a `MyComponent` component.");
+            })
             .run()
     }
 }
