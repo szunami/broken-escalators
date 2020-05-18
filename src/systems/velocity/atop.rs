@@ -90,12 +90,11 @@ impl<'s> System<'s> for AtopSystem {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::entities::initialize_thing;
-    use crate::levels::ThingConfig;
     use crate::{
         components::{Color, ThingTape},
         game::register_components,
         levels::ColorFlag,
+        levels::ThingConfig,
     };
     use amethyst::{prelude::*, Error};
     use amethyst_test::prelude::*;
@@ -113,8 +112,8 @@ mod tests {
                     height: 10.,
                     color_flag: ColorFlag::BLUE,
                 };
-                // initialize_thing(world, thing_config, None)
-
+                let mut transform = Transform::default();
+                transform.set_translation_xyz(thing_config.x, thing_config.y, 0.);
                 let entity = world
                     .create_entity()
                     .with(Thing::new())
@@ -123,17 +122,20 @@ mod tests {
                     .with(ThingTape::new())
                     .with(Velocity::default())
                     .with(Color::new(thing_config.color_flag))
+                    .with(transform)
                     .build();
                 world.insert(EffectReturn(entity));
             })
             .with_assertion(|world| {
                 let entity = world.read_resource::<EffectReturn<Entity>>().0.clone();
 
-                let my_component_storage = world.read_storage::<Thing>();
+                let my_component_storage = world.read_storage::<Velocity>();
 
                 let my_component = my_component_storage
                     .get(entity)
                     .expect("Entity should have a `MyComponent` component.");
+                assert_eq!(my_component.x, 0.);
+                assert_eq!(my_component.y, -32.);
             })
             .run()
     }
