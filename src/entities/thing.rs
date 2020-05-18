@@ -3,14 +3,15 @@ use crate::{
     levels::ThingConfig,
 };
 use amethyst::{
-    core::transform::Transform, prelude::*, renderer::resources::Tint, renderer::SpriteRender,
+    core::transform::Transform, ecs::prelude::Entity, prelude::*, renderer::resources::Tint,
+    renderer::SpriteRender,
 };
 
 pub fn initialize_thing(
     world: &mut World,
     thing_config: ThingConfig,
     sprite_render: Option<SpriteRender>,
-) {
+) -> Entity {
     let mut transform = Transform::default();
     transform.set_translation_xyz(thing_config.x, thing_config.y, 0.);
     let mut entity_builder = world
@@ -28,5 +29,5 @@ pub fn initialize_thing(
             .with(x)
             .with(Tint(thing_config.color_flag.to_srgba()));
     }
-    entity_builder.build();
+    entity_builder.build()
 }

@@ -91,16 +91,14 @@ impl<'s> System<'s> for AtopSystem {
 mod tests {
     use super::*;
     use crate::{
-        components::{Color, ThingTape},
-        game::register_components,
-        levels::ColorFlag,
+        entities::initialize_thing, game::register_components, levels::ColorFlag,
         levels::ThingConfig,
     };
     use amethyst::{prelude::*, Error};
     use amethyst_test::prelude::*;
 
     #[test]
-    fn loading_state_adds_load_resource() -> Result<(), Error> {
+    fn test_non_atop_thing_falls() -> Result<(), Error> {
         AmethystApplication::blank()
             .with_system(AtopSystem, "test", &[])
             .with_effect(|world| {
@@ -112,18 +110,9 @@ mod tests {
                     height: 10.,
                     color_flag: ColorFlag::BLUE,
                 };
-                let mut transform = Transform::default();
-                transform.set_translation_xyz(thing_config.x, thing_config.y, 0.);
-                let entity = world
-                    .create_entity()
-                    .with(Thing::new())
-                    .with(Velocity::default())
-                    .with(Rectangle::default(thing_config.width, thing_config.height))
-                    .with(ThingTape::new())
-                    .with(Velocity::default())
-                    .with(Color::new(thing_config.color_flag))
-                    .with(transform)
-                    .build();
+                // let mut transform = Transform::default();
+                // transform.set_translation_xyz(thing_config.x, thing_config.y, 0.);
+                let entity = initialize_thing(world, thing_config, None);
                 world.insert(EffectReturn(entity));
             })
             .with_assertion(|world| {
