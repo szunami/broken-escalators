@@ -6,7 +6,7 @@ use amethyst::{
 };
 
 use crate::{
-    components::Color,
+    components::{ThingTape, Color},
     entities::{
         initialize_camera, initialize_clock, initialize_down_keys, initialize_escalator,
         initialize_platform, initialize_thing,
@@ -25,10 +25,15 @@ impl Game {
     }
 }
 
+pub fn register_components(world: &mut World) {
+    world.register::<Color>();
+    world.register::<ThingTape>();
+}
+
 impl SimpleState for Game {
     fn on_start(&mut self, data: StateData<'_, GameData<'_, '_>>) {
         let world = data.world;
-        world.register::<Color>();
+        register_components(world);
         reset_level(world, &self.level);
     }
 
@@ -81,7 +86,7 @@ fn reset_level(world: &mut World, level_path: &str) {
             }
 
             for thing in level.things {
-                initialize_thing(world, thing, white_box_render.clone());
+                initialize_thing(world, thing, Some(white_box_render.clone()));
             }
 
             for platform in level.platforms {
@@ -95,7 +100,7 @@ fn reset_level(world: &mut World, level_path: &str) {
     };
 }
 
-fn load_sprite_sheet(world: &mut World) -> Handle<SpriteSheet> {
+pub fn load_sprite_sheet(world: &mut World) -> Handle<SpriteSheet> {
     // Load the sprite sheet necessary to render the graphics.
     // The texture is the pixel data
     // `texture_handle` is a cloneable reference to the texture

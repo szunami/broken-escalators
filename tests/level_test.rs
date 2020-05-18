@@ -3,6 +3,8 @@ extern crate broken_escalators;
 use amethyst::prelude::Config;
 use broken_escalators::levels::LevelConfig;
 use std::fs;
+
+
 #[test]
 fn all_levels_deser() {
     let level_paths = fs::read_dir("assets/levels").unwrap();

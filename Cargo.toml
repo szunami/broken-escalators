@@ -7,6 +7,7 @@ edition = "2018"
 [dependencies]
 log = "*"
 serde= "*"
+amethyst_test= "*"
 
 [dependencies.amethyst]
 version = "0.15.0"

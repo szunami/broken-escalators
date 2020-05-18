@@ -86,3 +86,43 @@ impl<'s> System<'s> for AtopSystem {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use amethyst_test::prelude::*;
+    use super::*;
+    use amethyst::{
+        Error,
+    };
+    use crate::entities::initialize_thing;
+    use crate::levels::ThingConfig;
+    use crate::{game::register_components, levels::ColorFlag};
+
+    #[test]
+    fn loading_state_adds_load_resource() -> Result<(), Error> {
+        AmethystApplication::blank()
+            .with_system(AtopSystem, "test", &[])
+            .with_effect(|world| {
+                register_components(world);
+                // let sprite_sheet = load_sprite_sheet(world);
+                // let white_box_render = SpriteRender {
+                //     sprite_sheet,
+                //     sprite_number: 0,
+                // };
+                let thing_config = ThingConfig{
+                    x: 10.,
+                    y: 10.,
+                    width: 10.,
+                    height: 10.,
+                    color_flag: ColorFlag::BLUE,
+                };
+                initialize_thing(world, thing_config, None)
+            })
+            // .with_state(|| LoadingState::new())
+            // .with_assertion(|world| {
+            //     world.read_resource::<LoadResource>();
+            // })
+            .run()
+    }
+}
+
