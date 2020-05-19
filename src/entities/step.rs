@@ -10,28 +10,28 @@ use amethyst::{
 pub fn initialize_step(
     world: &mut World,
     escalator_entity: Entity,
-    x: f32,
-    y: f32,
-    x_velocity: f32,
-    y_velocity: f32,
+    x: i32,
+    y: i32,
+    x_velocity: i32,
+    y_velocity: i32,
     side: Side,
-    step_width: f32,
-    step_height: f32,
+    step_width: i32,
+    step_height: i32,
     step_render: SpriteRender,
     color: ColorFlag,
 ) {
     let mut transform = Transform::default();
-    transform.set_translation_xyz(x, y, 0.);
+    transform.set_translation_xyz(x as f32 * 32., y as f32 * 32., 0.);
 
     world
         .create_entity()
         .with(Step::new(escalator_entity, side))
-        .with(Velocity::new(x_velocity, y_velocity))
-        .with(Rectangle::default(step_width, step_height))
+        // .with(Velocity::new(x_velocity, y_velocity))
+        // .with(Rectangle::default(step_width, step_height))
         .with(step_render)
-        .with(StepTape::new())
+        // .with(StepTape::new())
         .with(transform)
-        .with(Color::new(color))
-        .with(Tint(color.to_srgba()))
+        // .with(Color::new(color))
+        // .with(Tint(color.to_srgba()))
         .build();
 }

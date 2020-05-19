@@ -64,19 +64,19 @@ pub fn initialize_escalator(
             Direction::COUNTERCLOCKWISE => Side::VERTICAL,
         };
         let step_y = bottom_arm_y + ((escalator.num_steps - 1)) * step_height;
-        // initialize_step(
-        //     world,
-        //     escalator_entity,
-        //     left_arm_x,
-        //     step_y,
-        //     x_velocity,
-        //     y_velocity,
-        //     side,
-        //     step_width,
-        //     step_height,
-        //     step_sprite.clone(),
-        //     escalator.color_flag,
-        // );
+        initialize_step(
+            world,
+            escalator_entity,
+            left_arm_x,
+            step_y,
+            x_velocity,
+            y_velocity,
+            side,
+            step_width,
+            step_height,
+            step_sprite.clone(),
+            escalator.color_flag,
+        );
     }
     // create diag
     // {
