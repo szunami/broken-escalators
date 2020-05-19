@@ -1,80 +1,80 @@
-use crate::components::Rectangle;
+use crate::components::{GridLocation, Rectangle};
 use amethyst::core::transform::Transform;
 
 pub struct BoundingBox {
-    pub left: f32,
-    pub right: f32,
-    pub top: f32,
-    pub bottom: f32,
+    pub left: i32,
+    pub right: i32,
+    pub top: i32,
+    pub bottom: i32,
 }
 
 impl BoundingBox {
-    pub fn new(rectangle: &Rectangle, transform: &Transform) -> BoundingBox {
+    pub fn new(rectangle: &Rectangle, grid_location: &GridLocation) -> BoundingBox {
         BoundingBox {
-            left: transform.translation().x - rectangle.width * 0.5,
-            right: transform.translation().x + rectangle.width * 0.5,
-            top: transform.translation().y + rectangle.height * 0.5,
-            bottom: transform.translation().y - rectangle.height * 0.5,
+            left: grid_location.x - rectangle.width / 2,
+            right: grid_location.x + rectangle.width / 2,
+            top: grid_location.y + rectangle.height / 2,
+            bottom: grid_location.y - rectangle.height / 2,
         }
     }
 }
 
-pub fn is_atop(atop_candidate: &BoundingBox, base_candidate: &BoundingBox) -> bool {
-    if atop_candidate.top < base_candidate.top {
-        return false;
-    }
-    if !overlap_exists(atop_candidate, base_candidate) {
-        return false;
-    }
+// pub fn is_atop(atop_candidate: &BoundingBox, base_candidate: &BoundingBox) -> bool {
+//     if atop_candidate.top < base_candidate.top {
+//         return false;
+//     }
+//     if !overlap_exists(atop_candidate, base_candidate) {
+//         return false;
+//     }
 
-    true
-}
+//     true
+// }
 
-// how much do we have to move a such that it does not collide with b
-pub fn y_overlap(a: &BoundingBox, b: &BoundingBox) -> f32 {
-    if !overlap_exists(a, b) {
-        return 0.;
-    }
-    b.top - a.bottom
-}
+// // how much do we have to move a such that it does not collide with b
+// pub fn y_overlap(a: &BoundingBox, b: &BoundingBox) -> f32 {
+//     if !overlap_exists(a, b) {
+//         return 0.;
+//     }
+//     b.top - a.bottom
+// }
 
-// how much do we have to move a such that it does not collide with b
-pub fn x_overlap(a: &BoundingBox, b: &BoundingBox) -> f32 {
-    if !overlap_exists(a, b) {
-        return 0.;
-    }
+// // how much do we have to move a such that it does not collide with b
+// pub fn x_overlap(a: &BoundingBox, b: &BoundingBox) -> f32 {
+//     if !overlap_exists(a, b) {
+//         return 0.;
+//     }
 
-    if a.left < b.left {
-        return b.left - a.right;
-    }
+//     if a.left < b.left {
+//         return b.left - a.right;
+//     }
 
-    b.right - a.left
-}
+//     b.right - a.left
+// }
 
-fn overlap_exists(a: &BoundingBox, b: &BoundingBox) -> bool {
-    if !overlaps(a.left, a.right, b.left, b.right) {
-        return false;
-    }
+// fn overlap_exists(a: &BoundingBox, b: &BoundingBox) -> bool {
+//     if !overlaps(a.left, a.right, b.left, b.right) {
+//         return false;
+//     }
 
-    if !overlaps(a.bottom, a.top, b.bottom, b.top) {
-        return false;
-    }
-    true
-}
+//     if !overlaps(a.bottom, a.top, b.bottom, b.top) {
+//         return false;
+//     }
+//     true
+// }
 
-fn overlaps(a: f32, b: f32, x: f32, y: f32) -> bool {
-    (a <= x && b >= x) || (x <= a && y >= a)
-}
+// fn overlaps(a: f32, b: f32, x: f32, y: f32) -> bool {
+//     (a <= x && b >= x) || (x <= a && y >= a)
+// }
 
-pub fn extrusion(container: &BoundingBox, containee: &BoundingBox) -> f32 {
-    f32::max(
-        f32::max(
-            f32::max(
-                f32::max(0., container.left - containee.left),
-                containee.right - container.right,
-            ),
-            container.bottom - containee.bottom,
-        ),
-        containee.top - container.top,
-    )
-}
+// pub fn extrusion(container: &BoundingBox, containee: &BoundingBox) -> f32 {
+//     f32::max(
+//         f32::max(
+//             f32::max(
+//                 f32::max(0., container.left - containee.left),
+//                 containee.right - container.right,
+//             ),
+//             container.bottom - containee.bottom,
+//         ),
+//         containee.top - container.top,
+//     )
+// }

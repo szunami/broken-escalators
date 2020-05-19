@@ -1,4 +1,4 @@
-use crate::components::{Escalator, Side, Step, Velocity};
+use crate::components::{Escalator, Side, Step, Velocity, Rectangle, GridLocation};
 use crate::resources::RewindableClock;
 use amethyst::{
     derive::SystemDesc,
@@ -10,14 +10,19 @@ pub struct StepVelocitySystem;
 
 impl<'s> System<'s> for StepVelocitySystem {
     type SystemData = (
-        ReadStorage<'s, Step>,
         ReadStorage<'s, Escalator>,
+        ReadStorage<'s, GridLocation>,
+        ReadStorage<'s, Rectangle>,
+        WriteStorage<'s, Step>,
         WriteStorage<'s, Velocity>,
     );
 
-    fn run(&mut self, (steps, escalators, mut velocities): Self::SystemData) {
-        for (step, step_velocity) in (&steps, &mut velocities).join() {
+    fn run(&mut self, (escalators, grid_locations, rectangles, mut steps, mut velocities): Self::SystemData) {
+        for (step, step_velocity, step_grid_location) in (&mut steps, &mut velocities, &grid_locations).join() {
             let escalator = escalators.get(step.escalator).unwrap();
+
+            
+
             step_velocity.x = x_velocity_for_side(&step.side, &escalator);
             step_velocity.y = y_velocity_for_side(&step.side, &escalator);
             info!("step_velocity: {:?}", step_velocity);

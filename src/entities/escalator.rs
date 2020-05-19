@@ -20,7 +20,7 @@ pub fn initialize_escalator(
             escalator.color_flag.to_virtual_key(),
         ))
         .with(GridLocation::new(escalator.x, escalator.y))
-        // .with(Rectangle::default(escalator.width, escalator.height))
+        .with(Rectangle::new(escalator.width, escalator.height))
         .with(transform)
         .build();
 

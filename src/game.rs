@@ -9,7 +9,7 @@ use crate::{
     components::{GridLocation, Color, Step, Escalator, Velocity},
     entities::{
         initialize_camera, initialize_clock, initialize_down_keys, initialize_escalator,
-        initialize_platform, initialize_thing,
+        // initialize_platform, initialize_thing,
     },
     levels::LevelConfig,
 };
