@@ -19,6 +19,13 @@ impl BoundingBox {
     }
 }
 
+pub fn touching_edge(inner: &BoundingBox, outer: &BoundingBox) -> bool {
+    inner.top == outer.top ||
+    inner.left == outer.left ||
+    inner.bottom == outer.bottom ||
+    inner.right == outer.right
+}
+
 // pub fn is_atop(atop_candidate: &BoundingBox, base_candidate: &BoundingBox) -> bool {
 //     if atop_candidate.top < base_candidate.top {
 //         return false;
