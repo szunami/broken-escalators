@@ -17,3 +17,6 @@ pub use self::step_tape::StepTape;
 pub use self::thing::Thing;
 pub use self::thing_tape::ThingTape;
 pub use self::velocity::Velocity;
+
+mod grid_location;
+pub use self::grid_location::GridLocation;

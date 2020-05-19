@@ -6,7 +6,7 @@ use amethyst::{
 };
 
 use crate::{
-    components::Color,
+    components::{GridLocation, Color},
     entities::{
         initialize_camera, initialize_clock, initialize_down_keys, initialize_escalator,
         initialize_platform, initialize_thing,
@@ -28,7 +28,7 @@ impl Game {
 impl SimpleState for Game {
     fn on_start(&mut self, data: StateData<'_, GameData<'_, '_>>) {
         let world = data.world;
-        // world.register::<Color>();
+        world.register::<GridLocation>();
         reset_level(world, &self.level);
     }
 

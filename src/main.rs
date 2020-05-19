@@ -33,7 +33,7 @@ use systems::{
     position::MoveSystem,
     velocity,
 };
-use velocity::{AtopSystem, CornerSystem};
+use velocity::{AtopSystem};
 
 fn main() -> amethyst::Result<()> {
     amethyst::start_logger(Default::default());

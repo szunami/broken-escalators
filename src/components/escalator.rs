@@ -5,7 +5,7 @@ use amethyst::input::VirtualKeyCode;
 
 #[derive(Clone, Copy)]
 pub struct Escalator {
-    pub speed: f32,
+    pub speed: i32,
     pub direction: Direction,
     pub toggle_key: VirtualKeyCode,
 }
@@ -15,7 +15,7 @@ impl Component for Escalator {
 }
 
 impl Escalator {
-    pub fn new(speed: f32, direction: Direction, toggle_key: VirtualKeyCode) -> Escalator {
+    pub fn new(speed: i32, direction: Direction, toggle_key: VirtualKeyCode) -> Escalator {
         Escalator {
             speed,
             direction,
