@@ -22,6 +22,8 @@ pub fn initialize_step(
 ) {
     let mut transform = Transform::default();
     transform.set_translation_xyz(x as f32 * 32., y as f32 * 32., 0.);
+    
+    info!("Registering step at {:?}", transform.translation());
 
     world
         .create_entity()

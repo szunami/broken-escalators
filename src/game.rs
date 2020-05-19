@@ -6,7 +6,7 @@ use amethyst::{
 };
 
 use crate::{
-    components::{GridLocation, Color},
+    components::{GridLocation, Color, Step, Escalator},
     entities::{
         initialize_camera, initialize_clock, initialize_down_keys, initialize_escalator,
         initialize_platform, initialize_thing,
@@ -29,6 +29,8 @@ impl SimpleState for Game {
     fn on_start(&mut self, data: StateData<'_, GameData<'_, '_>>) {
         let world = data.world;
         world.register::<GridLocation>();
+        world.register::<Step>();
+        world.register::<Escalator>();
         reset_level(world, &self.level);
     }
 
@@ -72,27 +74,27 @@ fn reset_level(world: &mut World, level_path: &str) {
         sprite_number: 0,
     };
 
-    // match LevelConfig::load(level_path) {
-    //     Ok(level_config) => {
-    //         let level: LevelConfig = level_config;
+    match LevelConfig::load(level_path) {
+        Ok(level_config) => {
+            let level: LevelConfig = level_config;
 
-    //         for escalator in level.escalators {
-    //             initialize_escalator(world, escalator, white_box_render.clone());
-    //         }
+            for escalator in level.escalators {
+                initialize_escalator(world, escalator, white_box_render.clone());
+            }
 
-    //         for thing in level.things {
-    //             initialize_thing(world, thing, white_box_render.clone());
-    //         }
+            // for thing in level.things {
+            //     initialize_thing(world, thing, white_box_render.clone());
+            // }
 
-    //         for platform in level.platforms {
-    //             initialize_platform(world, platform, white_box_render.clone());
-    //         }
-    //     }
-    //     Err(e) => {
-    //         warn!("Failed to load level at path {}.", level_path);
-    //         warn!("Error was:\n{}", e)
-    //     }
-    // };
+            // for platform in level.platforms {
+            //     initialize_platform(world, platform, white_box_render.clone());
+            // }
+        }
+        Err(e) => {
+            warn!("Failed to load level at path {}.", level_path);
+            warn!("Error was:\n{}", e)
+        }
+    };
 }
 
 fn load_sprite_sheet(world: &mut World) -> Handle<SpriteSheet> {
