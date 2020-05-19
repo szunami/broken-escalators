@@ -1,8 +1,9 @@
 use amethyst::ecs::prelude::{Component, DenseVecStorage};
 
+#[derive(Debug)]
 pub struct GridLocation {
-    x: i32,
-    y: i32
+    pub x: i32,
+    pub y: i32
 }
 
 impl<'s> Component for GridLocation {
