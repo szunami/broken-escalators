@@ -8,10 +8,10 @@ pub enum Direction {
 }
 
 impl Direction {
-    pub fn direction_factor(self) -> f32 {
+    pub fn direction_factor(self) -> i32 {
         match self {
-            Direction::CLOCKWISE => 1.,
-            Direction::COUNTERCLOCKWISE => -1.,
+            Direction::CLOCKWISE => 1,
+            Direction::COUNTERCLOCKWISE => -1,
         }
     }
 }

@@ -6,7 +6,7 @@ LevelConfig(
             width: 4,
             height: 4,
             num_steps: 4,
-            speed: 32,
+            speed: 1,
             direction: COUNTERCLOCKWISE,
             color_flag: BLUE
         ),

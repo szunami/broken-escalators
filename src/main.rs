@@ -27,13 +27,8 @@ use std::env;
 use systems::{
     constants::*,
     core::{DownKeysSystem, FPSSystem, StepTapeSystem, ThingTapeSystem, ToggleSystem},
-    core::{PlatformSystem, RewindableClockSystem},
-    correction::StepCorrectionSystem,
-    correction::ThingCorrectionSystem,
-    position::MoveSystem,
-    velocity,
+    velocity, StepVelocitySystem,
 };
-use velocity::{AtopSystem};
 
 fn main() -> amethyst::Result<()> {
     amethyst::start_logger(Default::default());
@@ -65,7 +60,8 @@ fn main() -> amethyst::Result<()> {
         .with(FPSSystem, any::type_name::<FPSSystem>(), &[])
         // .with(ThingTapeSystem, any::type_name::<ThingTapeSystem>(), &[])
         // .with(StepTapeSystem, any::type_name::<StepTapeSystem>(), &[])
-        .with(DownKeysSystem, any::type_name::<DownKeysSystem>(), &[]);
+        .with(DownKeysSystem, any::type_name::<DownKeysSystem>(), &[])
+        .with(StepVelocitySystem, any::type_name::<StepVelocitySystem>(), &[]);
         // .with(ToggleSystem, any::type_name::<ToggleSystem>(), &[])
         // .with(PlatformSystem, any::type_name::<PlatformSystem>(), &[])
         // .with(

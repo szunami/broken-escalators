@@ -6,7 +6,7 @@ use amethyst::{
 };
 
 use crate::{
-    components::{GridLocation, Color, Step, Escalator},
+    components::{GridLocation, Color, Step, Escalator, Velocity},
     entities::{
         initialize_camera, initialize_clock, initialize_down_keys, initialize_escalator,
         initialize_platform, initialize_thing,
@@ -31,6 +31,7 @@ impl SimpleState for Game {
         world.register::<GridLocation>();
         world.register::<Step>();
         world.register::<Escalator>();
+        world.register::<Velocity>();
         reset_level(world, &self.level);
     }
 
