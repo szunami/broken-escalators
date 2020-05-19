@@ -63,45 +63,45 @@ fn main() -> amethyst::Result<()> {
         .with_bundle(FpsCounterBundle {})?
         // core systems go first
         .with(FPSSystem, any::type_name::<FPSSystem>(), &[])
-        .with(ThingTapeSystem, any::type_name::<ThingTapeSystem>(), &[])
-        .with(StepTapeSystem, any::type_name::<StepTapeSystem>(), &[])
-        .with(DownKeysSystem, any::type_name::<DownKeysSystem>(), &[])
-        .with(ToggleSystem, any::type_name::<ToggleSystem>(), &[])
-        .with(PlatformSystem, any::type_name::<PlatformSystem>(), &[])
-        .with(
-            RewindableClockSystem,
-            any::type_name::<RewindableClockSystem>(),
-            &[],
-        )
-        // velocity systems go second
-        .with(
-            CornerSystem,
-            any::type_name::<CornerSystem>(),
-            &core_systems(),
-        )
-        .with(
-            AtopSystem,
-            any::type_name::<AtopSystem>(),
-            &atop_dependencies(),
-        )
-        // position systems go third
-        .with(
-            systems::position::MoveSystem,
-            any::type_name::<MoveSystem>(),
-            &velocity_systems(),
-        )
-        // correction systems go last
-        .with(
-            systems::correction::StepCorrectionSystem,
-            any::type_name::<StepCorrectionSystem>(),
-            &position_systems(),
-        )
-        // thing correction depends on final step coords
-        .with(
-            systems::correction::ThingCorrectionSystem,
-            any::type_name::<ThingCorrectionSystem>(),
-            &[any::type_name::<StepCorrectionSystem>()],
-        );
+        // .with(ThingTapeSystem, any::type_name::<ThingTapeSystem>(), &[])
+        // .with(StepTapeSystem, any::type_name::<StepTapeSystem>(), &[])
+        .with(DownKeysSystem, any::type_name::<DownKeysSystem>(), &[]);
+        // .with(ToggleSystem, any::type_name::<ToggleSystem>(), &[])
+        // .with(PlatformSystem, any::type_name::<PlatformSystem>(), &[])
+        // .with(
+        //     RewindableClockSystem,
+        //     any::type_name::<RewindableClockSystem>(),
+        //     &[],
+        // )
+        // // velocity systems go second
+        // .with(
+        //     CornerSystem,
+        //     any::type_name::<CornerSystem>(),
+        //     &core_systems(),
+        // )
+        // .with(
+        //     AtopSystem,
+        //     any::type_name::<AtopSystem>(),
+        //     &atop_dependencies(),
+        // )
+        // // position systems go third
+        // .with(
+        //     systems::position::MoveSystem,
+        //     any::type_name::<MoveSystem>(),
+        //     &velocity_systems(),
+        // )
+        // // correction systems go last
+        // .with(
+        //     systems::correction::StepCorrectionSystem,
+        //     any::type_name::<StepCorrectionSystem>(),
+        //     &position_systems(),
+        // )
+        // // thing correction depends on final step coords
+        // .with(
+        //     systems::correction::ThingCorrectionSystem,
+        //     any::type_name::<ThingCorrectionSystem>(),
+        //     &[any::type_name::<StepCorrectionSystem>()],
+        // );
 
     let mut game = Application::new(assets_dir, game, game_data)?;
     game.run();
