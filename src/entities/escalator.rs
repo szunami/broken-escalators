@@ -61,8 +61,8 @@ pub fn initialize_escalator(
         };
         let y_velocity = -escalator.speed;
         let side = match escalator.direction {
-            Direction::CLOCKWISE => Side::VERTICAL,
-            Direction::COUNTERCLOCKWISE => Side::DIAGONAL,
+            Direction::CLOCKWISE => Side::DIAGONAL,
+            Direction::COUNTERCLOCKWISE => Side::VERTICAL,
         };
         let step_y = bottom_arm_y + ((escalator.num_steps - 1)) * step_height;
         initialize_step(

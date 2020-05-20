@@ -57,7 +57,7 @@ fn main() -> amethyst::Result<()> {
         .with_bundle(input_bundle)?
         .with_bundle(FpsCounterBundle {})?
         // core systems go first
-        .with(FPSSystem, any::type_name::<FPSSystem>(), &[])
+        // .with(FPSSystem, any::type_name::<FPSSystem>(), &[])
         // .with(ThingTapeSystem, any::type_name::<ThingTapeSystem>(), &[])
         // .with(StepTapeSystem, any::type_name::<StepTapeSystem>(), &[])
         .with(DownKeysSystem, any::type_name::<DownKeysSystem>(), &[])

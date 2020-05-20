@@ -19,11 +19,12 @@ impl BoundingBox {
     }
 }
 
-pub fn touching_edge(inner: &BoundingBox, outer: &BoundingBox) -> bool {
-    inner.top == outer.top ||
-    inner.left == outer.left ||
-    inner.bottom == outer.bottom ||
-    inner.right == outer.right
+pub fn touching_multiple_edges(inner: &BoundingBox, outer: &BoundingBox) -> bool {
+    let top = if inner.top == outer.top { 1 } else { 0 };
+    let left = if inner.left == outer.left {1} else { 0};
+    let bottom = if inner.bottom == outer.bottom  {1} else {0};
+    let right = if inner.right == outer.right {1} else {0};
+    top + left + bottom + right > 1
 }
 
 // pub fn is_atop(atop_candidate: &BoundingBox, base_candidate: &BoundingBox) -> bool {

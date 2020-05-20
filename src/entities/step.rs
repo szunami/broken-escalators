@@ -23,7 +23,8 @@ pub fn initialize_step(
     let mut transform = Transform::default();
     transform.set_translation_xyz(x as f32 * 32., y as f32 * 32., 0.);
     
-    info!("Registering step at {:?}", transform.translation());
+    info!("Registering step at {:?}", (x, y));
+    info!("With velocity: {:?}", (x_velocity, y_velocity));
 
     world
         .create_entity()
