@@ -1,7 +1,7 @@
 LevelConfig(
     escalators: [
         EscalatorConfig(
-            x: 8,
+            x: 12,
             y: 8,
             width: 16,
             height: 16,
@@ -23,7 +23,7 @@ LevelConfig(
     ],
     things: [
         ThingConfig(
-            x: 14,
+            x: 18,
             y: 5,
             width: 2,
             height: 2,

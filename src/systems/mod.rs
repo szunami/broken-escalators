@@ -12,3 +12,6 @@ pub use step_position::StepPositionSystem;
 
 mod grid_location_transform;
 pub use grid_location_transform::GridLocationTransformSystem;
+
+mod thing_position;
+pub use thing_position::ThingPositionSystem;
