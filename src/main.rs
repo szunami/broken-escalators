@@ -27,7 +27,7 @@ use std::env;
 use systems::{
     constants::*,
     core::{DownKeysSystem, FPSSystem, StepTapeSystem, ThingTapeSystem, ToggleSystem},
-    velocity, GridLocationTransformSystem, StepPositionSystem, StepVelocitySystem,
+    velocity::AtopSystem, GridLocationTransformSystem, StepPositionSystem, StepVelocitySystem,
 };
 
 fn main() -> amethyst::Result<()> {
@@ -67,9 +67,14 @@ fn main() -> amethyst::Result<()> {
             &[],
         )
         .with(
+            AtopSystem,
+            any::type_name::<AtopSystem>(),
+            &[any::type_name::<StepVelocitySystem>()],
+        )
+        .with(
             StepPositionSystem,
             any::type_name::<StepPositionSystem>(),
-            &[any::type_name::<StepVelocitySystem>()],
+            &[any::type_name::<AtopSystem>()],
         )
         .with(
             GridLocationTransformSystem,
@@ -89,11 +94,7 @@ fn main() -> amethyst::Result<()> {
     //     any::type_name::<CornerSystem>(),
     //     &core_systems(),
     // )
-    // .with(
-    //     AtopSystem,
-    //     any::type_name::<AtopSystem>(),
-    //     &atop_dependencies(),
-    // )
+
     // // position systems go third
     // .with(
     //     systems::position::MoveSystem,

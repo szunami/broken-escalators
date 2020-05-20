@@ -1,6 +1,7 @@
 use crate::components::{GridLocation, Rectangle};
 use amethyst::core::transform::Transform;
 
+#[derive(Debug)]
 pub struct BoundingBox {
     pub left: i32,
     pub right: i32,
@@ -43,18 +44,28 @@ mod tests {
 
         assert!(touching_multiple_edges(&inner, &outer));
     }
+
+    #[test]
+    fn is_atop_works() {
+        let above = BoundingBox::new(
+            &Rectangle::new(2,2),
+            &GridLocation::new(6, 9),
+        );
+        let base = BoundingBox::new(
+            &Rectangle::new(4, 2),
+            &GridLocation::new(8, 6),
+        );
+
+        assert!(is_atop(&above, &base));
+    }
 }
 
-// pub fn is_atop(atop_candidate: &BoundingBox, base_candidate: &BoundingBox) -> bool {
-//     if atop_candidate.top < base_candidate.top {
-//         return false;
-//     }
-//     if !overlap_exists(atop_candidate, base_candidate) {
-//         return false;
-//     }
-
-//     true
-// }
+pub fn is_atop(atop_candidate: &BoundingBox, base_candidate: &BoundingBox) -> bool {
+    if atop_candidate.bottom != base_candidate.top {
+        return false;
+    }
+    overlaps(atop_candidate.left, atop_candidate.right, base_candidate.left, base_candidate.right)
+}
 
 // // how much do we have to move a such that it does not collide with b
 // pub fn y_overlap(a: &BoundingBox, b: &BoundingBox) -> f32 {
@@ -88,9 +99,9 @@ mod tests {
 //     true
 // }
 
-// fn overlaps(a: f32, b: f32, x: f32, y: f32) -> bool {
-//     (a <= x && b >= x) || (x <= a && y >= a)
-// }
+fn overlaps(a: i32, b: i32, x: i32, y: i32) -> bool {
+    (a <= x && b >= x) || (x <= a && y >= a)
+}
 
 // pub fn extrusion(container: &BoundingBox, containee: &BoundingBox) -> f32 {
 //     f32::max(

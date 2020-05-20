@@ -1,5 +1,5 @@
 use crate::{
-    components::{Color, Rectangle, Thing, ThingTape, Velocity},
+    components::{Color, Rectangle, Thing, GridLocation, ThingTape, Velocity},
     levels::ThingConfig, utils::grid_coordinate_to_transform_coordinate,
 };
 use amethyst::{
@@ -19,6 +19,7 @@ pub fn initialize_thing(world: &mut World, thing_config: ThingConfig, sprite_ren
     world
         .create_entity()
         .with(Thing::new())
+        .with(GridLocation::new(thing_config.x, thing_config.y))
         .with(Velocity::default())
         .with(Rectangle::new(thing_config.width, thing_config.height))
         // .with(ThingTape::new())
