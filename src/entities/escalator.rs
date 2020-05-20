@@ -109,83 +109,83 @@ pub fn initialize_escalator(
         }
     }
     // // create bottom right corner
-    // {
-    //     let x_velocity = -escalator.speed;
-    //     let y_velocity = match escalator.direction {
-    //         Direction::CLOCKWISE => 0.,
-    //         Direction::COUNTERCLOCKWISE => escalator.speed,
-    //     };
-    //     let side = match escalator.direction {
-    //         Direction::CLOCKWISE => Side::HORIZONTAL,
-    //         Direction::COUNTERCLOCKWISE => Side::DIAGONAL,
-    //     };
-    //     let step_x = left_arm_x + ((escalator.num_steps - 1) as f32) * step_width;
-    //     initialize_step(
-    //         world,
-    //         escalator_entity,
-    //         step_x,
-    //         bottom_arm_y,
-    //         x_velocity,
-    //         y_velocity,
-    //         side,
-    //         step_width,
-    //         step_height,
-    //         step_sprite.clone(),
-    //         escalator.color_flag,
-    //     );
-    // }
+    {
+        let x_velocity = -escalator.speed;
+        let y_velocity = match escalator.direction {
+            Direction::CLOCKWISE => 0,
+            Direction::COUNTERCLOCKWISE => escalator.speed,
+        };
+        let side = match escalator.direction {
+            Direction::CLOCKWISE => Side::DIAGONAL,
+            Direction::COUNTERCLOCKWISE => Side::HORIZONTAL,
+        };
+        let step_x = left_arm_x + (escalator.num_steps - 1) * step_width;
+        initialize_step(
+            world,
+            escalator_entity,
+            step_x,
+            bottom_arm_y,
+            x_velocity,
+            y_velocity,
+            side,
+            step_width,
+            step_height,
+            step_sprite.clone(),
+            escalator.color_flag,
+        );
+    }
     // create bottom
-    // {
-    //     let x_velocity = match escalator.direction {
-    //         Direction::CLOCKWISE => -escalator.speed,
-    //         Direction::COUNTERCLOCKWISE => escalator.speed,
-    //     };
-    //     let y_velocity = 0.;
-    //     for step_index in 1..(escalator.num_steps - 1) {
-    //         let step_x = left_arm_x + (step_index as f32) * step_width;
-    //         initialize_step(
-    //             world,
-    //             escalator_entity,
-    //             step_x,
-    //             bottom_arm_y,
-    //             x_velocity,
-    //             y_velocity,
-    //             Side::HORIZONTAL,
-    //             step_width,
-    //             step_height,
-    //             step_sprite.clone(),
-    //             escalator.color_flag,
-    //         );
-    //     }
-    // }
+    {
+        let x_velocity = match escalator.direction {
+            Direction::CLOCKWISE => -escalator.speed,
+            Direction::COUNTERCLOCKWISE => escalator.speed,
+        };
+        let y_velocity = 0;
+        for step_index in 1..(escalator.num_steps - 1) {
+            let step_x = left_arm_x + step_index * step_width;
+            initialize_step(
+                world,
+                escalator_entity,
+                step_x,
+                bottom_arm_y,
+                x_velocity,
+                y_velocity,
+                Side::HORIZONTAL,
+                step_width,
+                step_height,
+                step_sprite.clone(),
+                escalator.color_flag,
+            );
+        }
+    }
     // create lower left corner
-    // {
-    //     {
-    //         let x_velocity = match escalator.direction {
-    //             Direction::CLOCKWISE => 0.,
-    //             Direction::COUNTERCLOCKWISE => escalator.speed,
-    //         };
-    //         let y_velocity = match escalator.direction {
-    //             Direction::CLOCKWISE => escalator.speed,
-    //             Direction::COUNTERCLOCKWISE => 0.,
-    //         };
-    //         let side = match escalator.direction {
-    //             Direction::CLOCKWISE => Side::VERTICAL,
-    //             Direction::COUNTERCLOCKWISE => Side::HORIZONTAL,
-    //         };
-    //         initialize_step(
-    //             world,
-    //             escalator_entity,
-    //             left_arm_x,
-    //             bottom_arm_y,
-    //             x_velocity,
-    //             y_velocity,
-    //             side,
-    //             step_width,
-    //             step_height,
-    //             step_sprite,
-    //             escalator.color_flag,
-    //         );
-    //     }
-    // }
+    {
+        {
+            let x_velocity = match escalator.direction {
+                Direction::CLOCKWISE => 0,
+                Direction::COUNTERCLOCKWISE => escalator.speed,
+            };
+            let y_velocity = match escalator.direction {
+                Direction::CLOCKWISE => escalator.speed,
+                Direction::COUNTERCLOCKWISE => 0,
+            };
+            let side = match escalator.direction {
+                Direction::CLOCKWISE => Side::HORIZONTAL,
+                Direction::COUNTERCLOCKWISE => Side::VERTICAL,
+            };
+            initialize_step(
+                world,
+                escalator_entity,
+                left_arm_x,
+                bottom_arm_y,
+                x_velocity,
+                y_velocity,
+                side,
+                step_width,
+                step_height,
+                step_sprite,
+                escalator.color_flag,
+            );
+        }
+    }
 }
