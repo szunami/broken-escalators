@@ -6,12 +6,12 @@ use amethyst::{
 };
 
 use crate::{
-    components::{Color, Escalator, GridLocation, Step, Velocity},
+    components::{Color, Escalator, GridLocation, Step, Velocity, Thing},
     entities::{
         initialize_camera,
         initialize_clock,
         initialize_down_keys,
-        initialize_escalator,
+        initialize_escalator, initialize_thing,
         // initialize_platform, initialize_thing,
     },
     levels::LevelConfig,
@@ -36,6 +36,7 @@ impl SimpleState for Game {
         world.register::<Step>();
         world.register::<Escalator>();
         world.register::<Velocity>();
+        world.register::<Thing>();
         reset_level(world, &self.level);
     }
 
@@ -73,7 +74,7 @@ fn reset_level(world: &mut World, level_path: &str) {
     initialize_clock(world);
     initialize_down_keys(world);
 
-    let sprite_sheet = load_sprite_sheet(world);
+    let sprite_sheet = load_box_sprite_sheet(world);
     let white_box_render = SpriteRender {
         sprite_sheet,
         sprite_number: 0,
@@ -87,9 +88,9 @@ fn reset_level(world: &mut World, level_path: &str) {
                 initialize_escalator(world, escalator, white_box_render.clone());
             }
 
-            // for thing in level.things {
-            //     initialize_thing(world, thing, white_box_render.clone());
-            // }
+            for thing in level.things {
+                initialize_thing(world, thing, white_box_render.clone());
+            }
 
             // for platform in level.platforms {
             //     initialize_platform(world, platform, white_box_render.clone());
@@ -102,7 +103,7 @@ fn reset_level(world: &mut World, level_path: &str) {
     };
 }
 
-fn load_sprite_sheet(world: &mut World) -> Handle<SpriteSheet> {
+fn load_box_sprite_sheet(world: &mut World) -> Handle<SpriteSheet> {
     // Load the sprite sheet necessary to render the graphics.
     // The texture is the pixel data
     // `texture_handle` is a cloneable reference to the texture

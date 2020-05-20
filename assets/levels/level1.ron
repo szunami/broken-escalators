@@ -1,10 +1,10 @@
 LevelConfig(
     escalators: [
         EscalatorConfig(
-            x: 8,
-            y: 8,
-            width: 16,
-            height: 16,
+            x: 16,
+            y: 16,
+            width: 32,
+            height: 32,
             num_steps: 4,
             speed: 1,
             direction: COUNTERCLOCKWISE,
@@ -22,13 +22,13 @@ LevelConfig(
         // ),
     ],
     things: [
-        // ThingConfig(
-        //     x: 144.,
-        //     y: 272.,
-        //     width: 32.,
-        //     height: 32.,
-        //     color_flag: BLUE,
-        // ),
+        ThingConfig(
+            x: 16,
+            y: 2,
+            width: 2,
+            height: 2,
+            color_flag: BLUE,
+        ),
         // ThingConfig(
         //     x: 336.,
         //     y: 240.,
