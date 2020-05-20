@@ -11,7 +11,7 @@ use crate::{
         initialize_camera,
         initialize_clock,
         initialize_down_keys,
-        initialize_escalator, initialize_thing,
+        initialize_escalator, initialize_thing, initialize_background,
         // initialize_platform, initialize_thing,
     },
     levels::LevelConfig,
@@ -73,6 +73,7 @@ fn reset_level(world: &mut World, level_path: &str) {
     initialize_camera(world);
     initialize_clock(world);
     initialize_down_keys(world);
+    initialize_background(world);
 
     let sprite_sheet = load_box_sprite_sheet(world);
     let white_box_render = SpriteRender {
@@ -111,7 +112,7 @@ fn load_box_sprite_sheet(world: &mut World) -> Handle<SpriteSheet> {
         let loader = world.read_resource::<Loader>();
         let texture_storage = world.read_resource::<AssetStorage<Texture>>();
         loader.load(
-            "texture/spritesheet.png",
+            "texture/box.png",
             ImageFormat::default(),
             (),
             &texture_storage,
@@ -121,7 +122,7 @@ fn load_box_sprite_sheet(world: &mut World) -> Handle<SpriteSheet> {
     let loader = world.read_resource::<Loader>();
     let sprite_sheet_store = world.read_resource::<AssetStorage<SpriteSheet>>();
     loader.load(
-        "texture/spritesheet.ron", // Here we load the associated ron file
+        "texture/box_spritesheet.ron", // Here we load the associated ron file
         SpriteSheetFormat(texture_handle),
         (),
         &sprite_sheet_store,
