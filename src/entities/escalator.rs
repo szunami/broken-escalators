@@ -1,5 +1,5 @@
 use super::initialize_step;
-use crate::components::{Escalator, Rectangle, Side, GridLocation};
+use crate::components::{Escalator, GridLocation, Rectangle, Side};
 use crate::levels::{Direction, EscalatorConfig};
 use amethyst::{core::transform::Transform, prelude::*, renderer::SpriteRender};
 
@@ -30,29 +30,29 @@ pub fn initialize_escalator(
     let bottom_arm_y = escalator.y - escalator.height / 2 + step_height / 2;
 
     // create left arm
-    {
-        let x_velocity = 0;
-        let y_velocity = match escalator.direction {
-            Direction::CLOCKWISE => escalator.speed,
-            Direction::COUNTERCLOCKWISE => -escalator.speed,
-        };
-        for step_index in 1..(escalator.num_steps - 1) {
-            let step_y = bottom_arm_y + (step_index) * step_height;
-            initialize_step(
-                world,
-                escalator_entity,
-                left_arm_x,
-                step_y,
-                x_velocity,
-                y_velocity,
-                Side::VERTICAL,
-                step_width,
-                step_height,
-                step_sprite.clone(),
-                escalator.color_flag,
-            );
-        }
-    }
+    // {
+    //     let x_velocity = 0;
+    //     let y_velocity = match escalator.direction {
+    //         Direction::CLOCKWISE => escalator.speed,
+    //         Direction::COUNTERCLOCKWISE => -escalator.speed,
+    //     };
+    //     for step_index in 1..(escalator.num_steps - 1) {
+    //         let step_y = bottom_arm_y + (step_index) * step_height;
+    //         initialize_step(
+    //             world,
+    //             escalator_entity,
+    //             left_arm_x,
+    //             step_y,
+    //             x_velocity,
+    //             y_velocity,
+    //             Side::VERTICAL,
+    //             step_width,
+    //             step_height,
+    //             step_sprite.clone(),
+    //             escalator.color_flag,
+    //         );
+    //     }
+    // }
     // // create top left corner
     {
         let x_velocity = match escalator.direction {
@@ -61,10 +61,10 @@ pub fn initialize_escalator(
         };
         let y_velocity = -escalator.speed;
         let side = match escalator.direction {
-            Direction::CLOCKWISE => Side::DIAGONAL,
-            Direction::COUNTERCLOCKWISE => Side::VERTICAL,
+            Direction::CLOCKWISE => Side::VERTICAL,
+            Direction::COUNTERCLOCKWISE => Side::DIAGONAL,
         };
-        let step_y = bottom_arm_y + ((escalator.num_steps - 1)) * step_height;
+        let step_y = bottom_arm_y + (escalator.num_steps - 1) * step_height;
         initialize_step(
             world,
             escalator_entity,

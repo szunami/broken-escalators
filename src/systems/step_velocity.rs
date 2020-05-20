@@ -1,5 +1,9 @@
-use crate::components::{Escalator, Side, Step, Velocity, Rectangle, GridLocation};
-use crate::{utils::{touching_multiple_edges, BoundingBox}, resources::RewindableClock, resources::DownKeys};
+use crate::components::{Escalator, GridLocation, Rectangle, Side, Step, Velocity};
+use crate::{
+    resources::DownKeys,
+    resources::RewindableClock,
+    utils::{touching_multiple_edges, BoundingBox},
+};
 use amethyst::input::VirtualKeyCode;
 use amethyst::{
     derive::SystemDesc,
@@ -19,19 +23,24 @@ impl<'s> System<'s> for StepVelocitySystem {
         WriteStorage<'s, Velocity>,
     );
 
-    fn run(&mut self, (down_keys, escalators, grid_locations, rectangles, mut steps, mut velocities): Self::SystemData) {
+    fn run(
+        &mut self,
+        (down_keys, escalators, grid_locations, rectangles, mut steps, mut velocities): Self::SystemData,
+    ) {
         if !down_keys.key_downs().contains(&VirtualKeyCode::Space) {
             return;
         }
-        for (step, step_velocity, step_grid_location, step_rectangle)
-            in (&mut steps, &mut velocities, &grid_locations, &rectangles).join() {
-
+        for (step, step_velocity, step_grid_location, step_rectangle) in
+            (&mut steps, &mut velocities, &grid_locations, &rectangles).join()
+        {
             let step_box = BoundingBox::new(step_rectangle, step_grid_location);
-            
+
             let escalator = escalators.get(step.escalator).unwrap();
             let escalator_rectangle = rectangles.get(step.escalator).unwrap();
             let escalator_grid_location = grid_locations.get(step.escalator).unwrap();
             let escalator_box = BoundingBox::new(escalator_rectangle, escalator_grid_location);
+            info!("Step upper left: {:?}", (step_box.left, step_box.top));
+            info!("Top upper left: {:?}", (escalator_box.left, escalator_box.top));
 
             if touching_multiple_edges(&step_box, &escalator_box) {
                 info!("Hitting edge, changing direction");

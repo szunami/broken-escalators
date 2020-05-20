@@ -1,7 +1,8 @@
 use crate::{
-    components::{Color, Rectangle, Side, Step, StepTape, Velocity, GridLocation},
+    components::{Color, GridLocation, Rectangle, Side, Step, StepTape, Velocity},
     levels::ColorFlag,
 };
+use amethyst::core::math::Vector3;
 use amethyst::{
     core::transform::Transform, ecs::Entity, prelude::*, renderer::resources::Tint,
     renderer::SpriteRender,
@@ -22,7 +23,8 @@ pub fn initialize_step(
 ) {
     let mut transform = Transform::default();
     transform.set_translation_xyz(x as f32 * 32., y as f32 * 32., 0.);
-    
+    transform.set_scale(Vector3::new(step_width as f32, step_height as f32, 1.));
+
     info!("Registering step at {:?}", (x, y));
     info!("With velocity: {:?}", (x_velocity, y_velocity));
 

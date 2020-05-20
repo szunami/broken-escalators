@@ -1,18 +1,15 @@
+use crate::components::GridLocation;
+use amethyst::{core::transform::Transform, prelude::*, renderer::Camera};
 use amethyst::{
     derive::SystemDesc,
-    ecs::prelude::{Join, Read, System, SystemData, ReadStorage, WriteStorage},
+    ecs::prelude::{Join, Read, ReadStorage, System, SystemData, WriteStorage},
 };
-use amethyst::{core::transform::Transform, prelude::*, renderer::Camera};
-use crate::components::GridLocation;
 
 #[derive(SystemDesc)]
 pub struct GridLocationTransformSystem;
 
 impl<'s> System<'s> for GridLocationTransformSystem {
-    type SystemData = (
-        ReadStorage<'s, GridLocation>,
-        WriteStorage<'s, Transform>
-    );
+    type SystemData = (ReadStorage<'s, GridLocation>, WriteStorage<'s, Transform>);
 
     fn run(&mut self, (grid_locations, mut transforms): Self::SystemData) {
         for (grid_location, mut transform) in (&grid_locations, &mut transforms).join() {

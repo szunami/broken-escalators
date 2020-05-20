@@ -21,10 +21,30 @@ impl BoundingBox {
 
 pub fn touching_multiple_edges(inner: &BoundingBox, outer: &BoundingBox) -> bool {
     let top = if inner.top == outer.top { 1 } else { 0 };
-    let left = if inner.left == outer.left {1} else { 0};
-    let bottom = if inner.bottom == outer.bottom  {1} else {0};
-    let right = if inner.right == outer.right {1} else {0};
-    top + left + bottom + right > 1
+    let left = if inner.left == outer.left { 1 } else { 0 };
+    let bottom = if inner.bottom == outer.bottom { 1 } else { 0 };
+    let right = if inner.right == outer.right { 1 } else { 0 };
+    let sum = top + left + bottom + right;
+    info!("Sum: {:?}", (top, left, bottom, right));
+    sum > 1
+}
+
+mod tests {
+    use crate::components::{Rectangle, GridLocation};
+    use super::*;
+    #[test]
+    fn touching_multiple_edges_works() {
+        let inner = BoundingBox::new(
+            &Rectangle::new(1,1),
+            &GridLocation::new(6, 9),
+        );
+        let outer = BoundingBox::new(
+            &Rectangle::new(4, 4),
+            &GridLocation::new(8, 7),
+        );
+
+        assert!(touching_multiple_edges(&inner, &outer));
+    }
 }
 
 // pub fn is_atop(atop_candidate: &BoundingBox, base_candidate: &BoundingBox) -> bool {
