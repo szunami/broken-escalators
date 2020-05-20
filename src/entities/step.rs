@@ -37,7 +37,7 @@ pub fn initialize_step(
         .with(step_render)
         // .with(StepTape::new())
         .with(transform)
-        // .with(Color::new(color))
-        // .with(Tint(color.to_srgba()))
+        .with(Color::new(color))
+        .with(Tint(color.to_srgba()))
         .build();
 }

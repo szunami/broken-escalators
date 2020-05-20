@@ -31,6 +31,7 @@ impl Game {
 impl SimpleState for Game {
     fn on_start(&mut self, data: StateData<'_, GameData<'_, '_>>) {
         let world = data.world;
+        world.register::<Color>();
         world.register::<GridLocation>();
         world.register::<Step>();
         world.register::<Escalator>();
