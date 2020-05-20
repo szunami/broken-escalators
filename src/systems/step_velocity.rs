@@ -39,17 +39,11 @@ impl<'s> System<'s> for StepVelocitySystem {
             let escalator_rectangle = rectangles.get(step.escalator).unwrap();
             let escalator_grid_location = grid_locations.get(step.escalator).unwrap();
             let escalator_box = BoundingBox::new(escalator_rectangle, escalator_grid_location);
-            info!("Step upper left: {:?}", (step_box.left, step_box.top));
-            info!("Top upper left: {:?}", (escalator_box.left, escalator_box.top));
-
             if touching_multiple_edges(&step_box, &escalator_box) {
-                info!("Hitting edge, changing direction");
                 step.side = escalator.next_side(&step.side);
             }
-            info!("Side: {:?}", step.side);
             step_velocity.x = x_velocity_for_side(&step.side, &escalator);
             step_velocity.y = y_velocity_for_side(&step.side, &escalator);
-            info!("step_velocity: {:?}", step_velocity);
         }
     }
 }

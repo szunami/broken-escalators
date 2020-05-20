@@ -24,9 +24,7 @@ pub fn touching_multiple_edges(inner: &BoundingBox, outer: &BoundingBox) -> bool
     let left = if inner.left == outer.left { 1 } else { 0 };
     let bottom = if inner.bottom == outer.bottom { 1 } else { 0 };
     let right = if inner.right == outer.right { 1 } else { 0 };
-    let sum = top + left + bottom + right;
-    info!("Sum: {:?}", (top, left, bottom, right));
-    sum > 1
+    top + left + bottom + right > 1
 }
 
 mod tests {
