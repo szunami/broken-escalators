@@ -80,34 +80,34 @@ pub fn initialize_escalator(
         );
     }
     // create diag
-    // {
-    //     for step_index in 1..(escalator.num_steps - 1) {
-    //         let x_velocity = match escalator.direction {
-    //             Direction::CLOCKWISE => escalator.speed,
-    //             Direction::COUNTERCLOCKWISE => -escalator.speed,
-    //         };
-    //         let y_velocity = match escalator.direction {
-    //             Direction::CLOCKWISE => -escalator.speed,
-    //             Direction::COUNTERCLOCKWISE => escalator.speed,
-    //         };
-    //         let step_x = left_arm_x + (step_index as f32) * step_width;
-    //         let step_y =
-    //             bottom_arm_y + ((escalator.num_steps - step_index - 1) as f32) * step_height;
-    //         initialize_step(
-    //             world,
-    //             escalator_entity,
-    //             step_x,
-    //             step_y,
-    //             x_velocity,
-    //             y_velocity,
-    //             Side::DIAGONAL,
-    //             step_width,
-    //             step_height,
-    //             step_sprite.clone(),
-    //             escalator.color_flag,
-    //         );
-    //     }
-    // }
+    {
+        for step_index in 1..(escalator.num_steps - 1) {
+            let x_velocity = match escalator.direction {
+                Direction::CLOCKWISE => escalator.speed,
+                Direction::COUNTERCLOCKWISE => -escalator.speed,
+            };
+            let y_velocity = match escalator.direction {
+                Direction::CLOCKWISE => -escalator.speed,
+                Direction::COUNTERCLOCKWISE => escalator.speed,
+            };
+            let step_x = left_arm_x + (step_index) * step_width;
+            let step_y =
+                bottom_arm_y + (escalator.num_steps - step_index - 1) * step_height;
+            initialize_step(
+                world,
+                escalator_entity,
+                step_x,
+                step_y,
+                x_velocity,
+                y_velocity,
+                Side::DIAGONAL,
+                step_width,
+                step_height,
+                step_sprite.clone(),
+                escalator.color_flag,
+            );
+        }
+    }
     // // create bottom right corner
     // {
     //     let x_velocity = -escalator.speed;
