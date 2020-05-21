@@ -1,6 +1,6 @@
 use crate::{
     components::{Escalator, GridLocation, Rectangle, Step, Velocity},
-    resources::DownKeys,
+    resources::{RewindableClock, DownKeys},
     utils::{touching_multiple_edges, BoundingBox},
 };
 use amethyst::input::VirtualKeyCode;
@@ -14,7 +14,7 @@ pub struct StepPositionSystem;
 
 impl<'s> System<'s> for StepPositionSystem {
     type SystemData = (
-        Read<'s, DownKeys>,
+        Read<'s, RewindableClock>,
         WriteStorage<'s, Step>,
         ReadStorage<'s, Escalator>,
         ReadStorage<'s, Rectangle>,
@@ -24,9 +24,9 @@ impl<'s> System<'s> for StepPositionSystem {
 
     fn run(
         &mut self,
-        (down_keys, mut steps, escalators, rectangles, velocities, mut grid_locations): Self::SystemData,
+        (clock, mut steps, escalators, rectangles, velocities, mut grid_locations): Self::SystemData,
     ) {
-        if !down_keys.key_downs().contains(&VirtualKeyCode::Space) {
+        if !clock.going_forwards() {
             return;
         }
         for (step, step_velocity, step_location) in

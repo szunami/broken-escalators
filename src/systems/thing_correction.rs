@@ -1,5 +1,5 @@
 use crate::components::{GridLocation, Rectangle, Step, Thing};
-use crate::{resources::DownKeys, utils::overlap_exists, utils::x_overlap, utils::BoundingBox};
+use crate::{resources::{RewindableClock, DownKeys}, utils::overlap_exists, utils::x_overlap, utils::BoundingBox};
 use amethyst::input::VirtualKeyCode;
 use amethyst::{
     derive::SystemDesc,
@@ -12,7 +12,7 @@ pub struct ThingCorrectionSystem;
 impl<'s> System<'s> for ThingCorrectionSystem {
     type SystemData = (
         Entities<'s>,
-        Read<'s, DownKeys>,
+        Read<'s, RewindableClock>,
         ReadStorage<'s, Thing>,
         ReadStorage<'s, Step>,
         ReadStorage<'s, Rectangle>,
@@ -21,9 +21,9 @@ impl<'s> System<'s> for ThingCorrectionSystem {
 
     fn run(
         &mut self,
-        (entities, down_keys, things, steps, rectangles, mut grid_locations): Self::SystemData,
+        (entities, clock, things, steps, rectangles, mut grid_locations): Self::SystemData,
     ) {
-        if !down_keys.key_downs().contains(&VirtualKeyCode::Space) {
+        if !clock.going_forwards() {
             return;
         }
         for (thing, thing_entity, thing_rectangle) in (&things, &entities, &rectangles).join() {

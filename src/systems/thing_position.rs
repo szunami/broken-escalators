@@ -1,6 +1,6 @@
 use crate::{
     components::{GridLocation, Thing, Velocity},
-    resources::DownKeys,
+    resources::{RewindableClock, DownKeys},
 };
 use amethyst::input::VirtualKeyCode;
 use amethyst::{
@@ -13,14 +13,14 @@ pub struct ThingPositionSystem;
 
 impl<'s> System<'s> for ThingPositionSystem {
     type SystemData = (
-        Read<'s, DownKeys>,
+        Read<'s, RewindableClock>,
         ReadStorage<'s, Thing>,
         ReadStorage<'s, Velocity>,
         WriteStorage<'s, GridLocation>,
     );
 
-    fn run(&mut self, (down_keys, things, velocities, mut grid_locations): Self::SystemData) {
-        if !down_keys.key_downs().contains(&VirtualKeyCode::Space) {
+    fn run(&mut self, (clock, things, velocities, mut grid_locations): Self::SystemData) {
+        if !clock.going_forwards() {
             return;
         }
         for (thing, thing_velocity, thing_location) in

@@ -5,7 +5,7 @@ use crate::{
     components::Step,
     components::Thing,
     components::Velocity,
-    resources::DownKeys,
+    resources::{RewindableClock, DownKeys},
     utils::{is_atop, BoundingBox},
 };
 use amethyst::input::VirtualKeyCode;
@@ -24,7 +24,7 @@ pub struct AtopSystem;
 impl<'s> System<'s> for AtopSystem {
     type SystemData = (
         Entities<'s>,
-        Read<'s, DownKeys>,
+        Read<'s, RewindableClock>,
         ReadStorage<'s, Thing>,
         ReadStorage<'s, GridLocation>,
         WriteStorage<'s, Step>,
@@ -37,7 +37,7 @@ impl<'s> System<'s> for AtopSystem {
         &mut self,
         (
             entities,
-            down_keys,
+            clock,
             things,
             grid_locations,
             mut steps,
@@ -46,7 +46,7 @@ impl<'s> System<'s> for AtopSystem {
             mut velocities,
         ): Self::SystemData,
     ) {
-        if !down_keys.key_downs().contains(&VirtualKeyCode::Space) {
+        if !clock.going_forwards() {
             return;
         }
         // for step in (&mut steps).join() {

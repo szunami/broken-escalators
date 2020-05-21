@@ -16,7 +16,7 @@ pub struct StepVelocitySystem;
 
 impl<'s> System<'s> for StepVelocitySystem {
     type SystemData = (
-        Read<'s, DownKeys>,
+        Read<'s, RewindableClock>,
         ReadStorage<'s, Escalator>,
         ReadStorage<'s, GridLocation>,
         ReadStorage<'s, Rectangle>,
@@ -26,9 +26,9 @@ impl<'s> System<'s> for StepVelocitySystem {
 
     fn run(
         &mut self,
-        (down_keys, escalators, grid_locations, rectangles, mut steps, mut velocities): Self::SystemData,
+        (clock, escalators, grid_locations, rectangles, mut steps, mut velocities): Self::SystemData,
     ) {
-        if !down_keys.key_downs().contains(&VirtualKeyCode::Space) {
+        if !clock.going_forwards() {
             return;
         }
         for (step, step_velocity, step_grid_location, step_rectangle) in

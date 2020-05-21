@@ -1,4 +1,4 @@
-use crate::resources::RewindableClock;
+use crate::resources::{DownKeys, RewindableClock};
 use amethyst::input::{InputHandler, StringBindings, VirtualKeyCode};
 use amethyst::{
     core::timing::Time,
@@ -11,17 +11,19 @@ pub struct RewindableClockSystem;
 
 impl<'s> System<'s> for RewindableClockSystem {
     type SystemData = (
-        Read<'s, InputHandler<StringBindings>>,
-        Read<'s, Time>,
+        Read<'s, DownKeys>,
         Write<'s, RewindableClock>,
     );
 
-    fn run(&mut self, (input, time, mut clock): Self::SystemData) {
-        let clock_velocity = if input.key_is_down(VirtualKeyCode::Z) {
-            -1.
+    fn run(&mut self, (down_keys, mut clock): Self::SystemData) {
+        let velocity = if down_keys.key_downs().contains(&VirtualKeyCode::Space) {
+            1
+        } else if down_keys.key_downs().contains(&VirtualKeyCode::Z) {
+            -1
         } else {
-            1.
+            0
         };
-        clock.update_clock(clock_velocity, clock_velocity * time.delta_seconds());
+
+        clock.update_clock(velocity);
     }
 }
