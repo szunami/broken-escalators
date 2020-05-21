@@ -25,15 +25,14 @@ mod utils;
 use std::any;
 use std::env;
 use systems::{
-    constants::*,
-    core::{DownKeysSystem, FPSSystem, StepTapeSystem, ThingTapeSystem, ToggleSystem},
-    core::{PlatformSystem, RewindableClockSystem},
-    correction::StepCorrectionSystem,
-    correction::ThingCorrectionSystem,
-    position::MoveSystem,
-    velocity,
+    core::{
+        DownKeysSystem, FPSSystem, RewindableClockSystem, StepTapeSystem, ThingTapeSystem,
+        ToggleSystem,
+    },
+    velocity::AtopSystem,
+    GridLocationTransformSystem, StepPositionSystem, StepVelocitySystem, ThingCorrectionSystem,
+    ThingPositionSystem,
 };
-use velocity::{AtopSystem, CornerSystem};
 
 fn main() -> amethyst::Result<()> {
     amethyst::start_logger(Default::default());
@@ -63,44 +62,65 @@ fn main() -> amethyst::Result<()> {
         .with_bundle(FpsCounterBundle {})?
         // core systems go first
         .with(FPSSystem, any::type_name::<FPSSystem>(), &[])
-        .with(ThingTapeSystem, any::type_name::<ThingTapeSystem>(), &[])
-        .with(StepTapeSystem, any::type_name::<StepTapeSystem>(), &[])
         .with(DownKeysSystem, any::type_name::<DownKeysSystem>(), &[])
-        .with(ToggleSystem, any::type_name::<ToggleSystem>(), &[])
-        .with(PlatformSystem, any::type_name::<PlatformSystem>(), &[])
+        .with(
+            ToggleSystem,
+            any::type_name::<ToggleSystem>(),
+            &[any::type_name::<DownKeysSystem>()],
+        )
         .with(
             RewindableClockSystem,
             any::type_name::<RewindableClockSystem>(),
-            &[],
+            &[any::type_name::<DownKeysSystem>()],
         )
-        // velocity systems go second
         .with(
-            CornerSystem,
-            any::type_name::<CornerSystem>(),
-            &core_systems(),
+            StepTapeSystem,
+            any::type_name::<StepTapeSystem>(),
+            &[any::type_name::<ToggleSystem>()],
+        )
+        .with(
+            ThingTapeSystem,
+            any::type_name::<ThingTapeSystem>(),
+            &[any::type_name::<RewindableClockSystem>()],
+        )
+        .with(
+            StepVelocitySystem,
+            any::type_name::<StepVelocitySystem>(),
+            &[any::type_name::<StepTapeSystem>()],
         )
         .with(
             AtopSystem,
             any::type_name::<AtopSystem>(),
-            &atop_dependencies(),
+            &[
+                any::type_name::<StepVelocitySystem>(),
+                any::type_name::<ThingTapeSystem>(),
+            ],
         )
-        // position systems go third
         .with(
-            systems::position::MoveSystem,
-            any::type_name::<MoveSystem>(),
-            &velocity_systems(),
+            StepPositionSystem,
+            any::type_name::<StepPositionSystem>(),
+            &[
+                any::type_name::<AtopSystem>(),
+                any::type_name::<StepTapeSystem>(),
+            ],
         )
-        // correction systems go last
         .with(
-            systems::correction::StepCorrectionSystem,
-            any::type_name::<StepCorrectionSystem>(),
-            &position_systems(),
+            ThingPositionSystem,
+            any::type_name::<ThingPositionSystem>(),
+            &[any::type_name::<AtopSystem>()],
         )
-        // thing correction depends on final step coords
         .with(
-            systems::correction::ThingCorrectionSystem,
+            ThingCorrectionSystem,
             any::type_name::<ThingCorrectionSystem>(),
-            &[any::type_name::<StepCorrectionSystem>()],
+            &[any::type_name::<ThingPositionSystem>()],
+        )
+        .with(
+            GridLocationTransformSystem,
+            any::type_name::<GridLocationTransformSystem>(),
+            &[
+                any::type_name::<StepPositionSystem>(),
+                any::type_name::<ThingPositionSystem>(),
+            ],
         );
 
     let mut game = Application::new(assets_dir, game, game_data)?;

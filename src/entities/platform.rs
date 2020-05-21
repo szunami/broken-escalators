@@ -1,7 +1,9 @@
 use crate::{
-    components::{Color, Platform, Rectangle},
+    components::{Color, GridLocation, Platform, Rectangle},
     levels::PlatformConfig,
+    utils::grid_coordinate_to_transform_coordinate,
 };
+use amethyst::core::math::Vector3;
 use amethyst::{
     core::transform::Transform, prelude::*, renderer::resources::Tint, renderer::SpriteRender,
 };
@@ -12,12 +14,21 @@ pub fn initialize_platform(
     step_sprite: SpriteRender,
 ) {
     let mut transform = Transform::default();
-    transform.set_translation_xyz(platform_config.x, platform_config.y, 0.);
-
+    transform.set_translation_xyz(
+        grid_coordinate_to_transform_coordinate(platform_config.x),
+        grid_coordinate_to_transform_coordinate(platform_config.y),
+        0.,
+    );
+    transform.set_scale(Vector3::new(
+        platform_config.width as f32,
+        platform_config.height as f32,
+        1.,
+    ));
     world
         .create_entity()
         .with(Platform::default())
-        .with(Rectangle::default(
+        .with(GridLocation::new(platform_config.x, platform_config.y))
+        .with(Rectangle::new(
             platform_config.width,
             platform_config.height,
         ))

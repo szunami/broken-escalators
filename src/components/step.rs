@@ -2,25 +2,23 @@ use amethyst::ecs::prelude::{Component, DenseVecStorage, Entity};
 
 #[derive(Clone, PartialEq, Debug)]
 pub enum Side {
-    VERTICAL,
-    HORIZONTAL,
-    DIAGONAL,
+    TopLeftCorner,
+    BottomRightCorner,
+    BottomLeftCorner,
+    Left,
+    Bottom,
+    Diagonal,
 }
 
 impl Side {
-    pub fn base_x_component(&self) -> f32 {
+    pub fn is_corner(&self) -> bool {
         match self {
-            crate::components::Side::VERTICAL => 0.,
-            crate::components::Side::HORIZONTAL => -1.,
-            crate::components::Side::DIAGONAL => 1.,
-        }
-    }
-
-    pub fn base_y_component(&self) -> f32 {
-        match self {
-            crate::components::Side::VERTICAL => 1.,
-            crate::components::Side::HORIZONTAL => 0.,
-            crate::components::Side::DIAGONAL => -1.,
+            crate::components::Side::TopLeftCorner => true,
+            crate::components::Side::BottomRightCorner => true,
+            crate::components::Side::BottomLeftCorner => true,
+            crate::components::Side::Left => false,
+            crate::components::Side::Bottom => false,
+            crate::components::Side::Diagonal => false,
         }
     }
 }

@@ -1,19 +1,20 @@
 use crate::{
+    components::GridLocation,
     components::Platform,
     components::Rectangle,
     components::Step,
     components::Thing,
     components::Velocity,
+    resources::RewindableClock,
     utils::{is_atop, BoundingBox},
 };
 use amethyst::{
-    core::transform::Transform,
     derive::SystemDesc,
-    ecs::prelude::{Entities, Join, ReadStorage, System, SystemData, WriteStorage},
+    ecs::prelude::{Entities, Join, Read, ReadStorage, System, SystemData, WriteStorage},
     ecs::Entity,
 };
 
-pub const GRAVITY_VELOCITY: f32 = -32.;
+pub const GRAVITY_VELOCITY: i32 = -1;
 
 #[derive(SystemDesc)]
 pub struct AtopSystem;
@@ -21,9 +22,10 @@ pub struct AtopSystem;
 impl<'s> System<'s> for AtopSystem {
     type SystemData = (
         Entities<'s>,
+        Read<'s, RewindableClock>,
         ReadStorage<'s, Thing>,
-        ReadStorage<'s, Transform>,
-        WriteStorage<'s, Step>,
+        ReadStorage<'s, GridLocation>,
+        ReadStorage<'s, Step>,
         ReadStorage<'s, Platform>,
         ReadStorage<'s, Rectangle>,
         WriteStorage<'s, Velocity>,
@@ -31,40 +33,48 @@ impl<'s> System<'s> for AtopSystem {
 
     fn run(
         &mut self,
-        (entities, things, transforms, mut steps, platforms, rectangles, mut velocities): Self::SystemData,
+        (
+            entities,
+            clock,
+            things,
+            grid_locations,
+            steps,
+            platforms,
+            rectangles,
+            mut velocities,
+        ): Self::SystemData,
     ) {
-        for step in (&mut steps).join() {
-            step.thing_atop = None;
+        if !clock.going_forwards() {
+            return;
         }
-
-        for (_thing, thing_entity, thing_transform, thing_rectangle) in
-            (&things, &entities, &transforms, &rectangles).join()
+        for (_thing, thing_entity, thing_grid_location, thing_rectangle) in
+            (&things, &entities, &grid_locations, &rectangles).join()
         {
-            let thing_bounds = BoundingBox::new(thing_rectangle, thing_transform);
+            let thing_bounds = BoundingBox::new(thing_rectangle, thing_grid_location);
 
             let mut atop_step: Option<Entity> = None;
             let mut atop_platform = false;
-            let mut max_atopness = 0.;
-            for (_step, step_entity, step_transform, step_rectangle) in
-                (&steps, &entities, &transforms, &rectangles).join()
+            let mut max_y_velocity = GRAVITY_VELOCITY;
+
+            for (_step, step_entity, step_grid_location, step_rectangle, step_velocity) in
+                (&steps, &entities, &grid_locations, &rectangles, &velocities).join()
             {
-                let step_bounds = BoundingBox::new(step_rectangle, step_transform);
+                let step_bounds = BoundingBox::new(step_rectangle, step_grid_location);
                 let atopness = is_atop(&thing_bounds, &step_bounds);
-                if atopness && step_bounds.top > max_atopness {
+                if atopness && step_velocity.y >= max_y_velocity {
                     atop_step = Some(step_entity);
-                    max_atopness = step_bounds.top;
+                    max_y_velocity = step_velocity.y;
                 }
             }
 
-            for (_platform, platform_transform, platform_rectangle) in
-                (&platforms, &transforms, &rectangles).join()
+            for (_platform, platform_grid_location, platform_rectangle) in
+                (&platforms, &grid_locations, &rectangles).join()
             {
-                let platform_bounds = BoundingBox::new(platform_rectangle, platform_transform);
+                let platform_bounds = BoundingBox::new(platform_rectangle, platform_grid_location);
                 let atopness = is_atop(&thing_bounds, &platform_bounds);
-                if atopness && platform_bounds.top > max_atopness {
+                if atopness && max_y_velocity <= 0 {
                     atop_step = None;
                     atop_platform = true;
-                    max_atopness = platform_bounds.top;
                 }
             }
 
@@ -72,15 +82,14 @@ impl<'s> System<'s> for AtopSystem {
                 let step_velocity = velocities.get(step_entity).unwrap().clone();
                 let thing_velocity = velocities.get_mut(thing_entity).unwrap();
                 *thing_velocity = step_velocity.clone();
-                let step = steps.get_mut(step_entity).unwrap();
-                step.thing_atop = Some(thing_entity);
             } else if atop_platform {
                 let thing_velocity = velocities.get_mut(thing_entity).unwrap();
-                thing_velocity.x = 0.;
-                thing_velocity.y = 0.;
+                thing_velocity.x = 0;
+                thing_velocity.y = 0;
             } else {
+                info!("Not atop");
                 let thing_velocity = velocities.get_mut(thing_entity).unwrap();
-                thing_velocity.x = 0.;
+                thing_velocity.x = 0;
                 thing_velocity.y = GRAVITY_VELOCITY;
             }
         }

@@ -6,10 +6,16 @@ use amethyst::{
 };
 
 use crate::{
-    components::Color,
+    components::{Color, Escalator, GridLocation, Step, Thing, Velocity},
     entities::{
-        initialize_camera, initialize_clock, initialize_down_keys, initialize_escalator,
-        initialize_platform, initialize_thing,
+        initialize_background,
+        // initialize_platform, initialize_thing,
+        initialize_camera,
+        initialize_clock,
+        initialize_down_keys,
+        initialize_escalator,
+        initialize_platform,
+        initialize_thing,
     },
     levels::LevelConfig,
 };
@@ -29,6 +35,11 @@ impl SimpleState for Game {
     fn on_start(&mut self, data: StateData<'_, GameData<'_, '_>>) {
         let world = data.world;
         world.register::<Color>();
+        world.register::<GridLocation>();
+        world.register::<Step>();
+        world.register::<Escalator>();
+        world.register::<Velocity>();
+        world.register::<Thing>();
         reset_level(world, &self.level);
     }
 
@@ -65,8 +76,9 @@ fn reset_level(world: &mut World, level_path: &str) {
     initialize_camera(world);
     initialize_clock(world);
     initialize_down_keys(world);
+    initialize_background(world);
 
-    let sprite_sheet = load_sprite_sheet(world);
+    let sprite_sheet = load_box_sprite_sheet(world);
     let white_box_render = SpriteRender {
         sprite_sheet,
         sprite_number: 0,
@@ -95,7 +107,7 @@ fn reset_level(world: &mut World, level_path: &str) {
     };
 }
 
-fn load_sprite_sheet(world: &mut World) -> Handle<SpriteSheet> {
+fn load_box_sprite_sheet(world: &mut World) -> Handle<SpriteSheet> {
     // Load the sprite sheet necessary to render the graphics.
     // The texture is the pixel data
     // `texture_handle` is a cloneable reference to the texture
@@ -103,7 +115,7 @@ fn load_sprite_sheet(world: &mut World) -> Handle<SpriteSheet> {
         let loader = world.read_resource::<Loader>();
         let texture_storage = world.read_resource::<AssetStorage<Texture>>();
         loader.load(
-            "texture/spritesheet.png",
+            "texture/box.png",
             ImageFormat::default(),
             (),
             &texture_storage,
@@ -113,7 +125,7 @@ fn load_sprite_sheet(world: &mut World) -> Handle<SpriteSheet> {
     let loader = world.read_resource::<Loader>();
     let sprite_sheet_store = world.read_resource::<AssetStorage<SpriteSheet>>();
     loader.load(
-        "texture/spritesheet.ron", // Here we load the associated ron file
+        "texture/box_spritesheet.ron", // Here we load the associated ron file
         SpriteSheetFormat(texture_handle),
         (),
         &sprite_sheet_store,

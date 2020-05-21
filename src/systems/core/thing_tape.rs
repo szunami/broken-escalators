@@ -1,11 +1,9 @@
 use crate::{
-    components::{Thing, ThingTape},
+    components::{GridLocation, Thing, ThingTape},
     resources::RewindableClock,
     utils::{move_tape_backwards, move_tape_forwards},
 };
-use amethyst::input::{InputHandler, StringBindings, VirtualKeyCode};
 use amethyst::{
-    core::transform::Transform,
     derive::SystemDesc,
     ecs::prelude::{Join, Read, System, SystemData, WriteStorage},
 };
@@ -15,25 +13,26 @@ pub struct ThingTapeSystem;
 
 impl<'s> System<'s> for ThingTapeSystem {
     type SystemData = (
-        Read<'s, InputHandler<StringBindings>>,
         Read<'s, RewindableClock>,
         WriteStorage<'s, Thing>,
-        WriteStorage<'s, Transform>,
+        WriteStorage<'s, GridLocation>,
         WriteStorage<'s, ThingTape>,
     );
 
-    fn run(
-        &mut self,
-        (input, clock, mut things, mut transforms, mut thing_tapes): Self::SystemData,
-    ) {
-        for (thing, transform, thing_tape) in
-            (&mut things, &mut transforms, &mut thing_tapes).join()
+    fn run(&mut self, (clock, mut things, mut grid_locations, mut thing_tapes): Self::SystemData) {
+        if clock.velocity == 0 {
+            return;
+        }
+        for (thing, thing_grid_location, thing_tape) in
+            (&mut things, &mut grid_locations, &mut thing_tapes).join()
         {
             let snapshots = &mut thing_tape.snapshots;
-            if input.key_is_down(VirtualKeyCode::Z) {
-                move_tape_backwards(snapshots, transform, thing);
+            if clock.going_forwards() {
+                info!("Going forwards");
+                move_tape_forwards(snapshots, thing_grid_location, thing);
             } else {
-                move_tape_forwards(snapshots, transform, thing, &clock);
+                info!("Going backward");
+                move_tape_backwards(snapshots, thing_grid_location, thing);
             }
         }
     }

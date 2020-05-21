@@ -5,7 +5,7 @@ use amethyst::input::VirtualKeyCode;
 
 #[derive(Clone, Copy)]
 pub struct Escalator {
-    pub speed: f32,
+    pub speed: i32,
     pub direction: Direction,
     pub toggle_key: VirtualKeyCode,
 }
@@ -15,7 +15,7 @@ impl Component for Escalator {
 }
 
 impl Escalator {
-    pub fn new(speed: f32, direction: Direction, toggle_key: VirtualKeyCode) -> Escalator {
+    pub fn new(speed: i32, direction: Direction, toggle_key: VirtualKeyCode) -> Escalator {
         Escalator {
             speed,
             direction,
@@ -33,14 +33,20 @@ impl Escalator {
     pub fn next_side(self, side: &Side) -> Side {
         match self.direction {
             Direction::CLOCKWISE => match side {
-                Side::VERTICAL => Side::DIAGONAL,
-                Side::DIAGONAL => Side::HORIZONTAL,
-                Side::HORIZONTAL => Side::VERTICAL,
+                Side::TopLeftCorner => Side::Diagonal,
+                Side::Diagonal => Side::BottomRightCorner,
+                Side::BottomRightCorner => Side::Bottom,
+                Side::Bottom => Side::BottomLeftCorner,
+                Side::BottomLeftCorner => Side::Left,
+                Side::Left => Side::TopLeftCorner,
             },
             Direction::COUNTERCLOCKWISE => match side {
-                Side::VERTICAL => Side::HORIZONTAL,
-                Side::DIAGONAL => Side::VERTICAL,
-                Side::HORIZONTAL => Side::DIAGONAL,
+                Side::TopLeftCorner => Side::Left,
+                Side::Left => Side::BottomLeftCorner,
+                Side::BottomLeftCorner => Side::Bottom,
+                Side::Bottom => Side::BottomRightCorner,
+                Side::BottomRightCorner => Side::Diagonal,
+                Side::Diagonal => Side::TopLeftCorner,
             },
         }
     }

@@ -7,15 +7,6 @@ pub enum Direction {
     COUNTERCLOCKWISE,
 }
 
-impl Direction {
-    pub fn direction_factor(self) -> f32 {
-        match self {
-            Direction::CLOCKWISE => 1.,
-            Direction::COUNTERCLOCKWISE => -1.,
-        }
-    }
-}
-
 #[derive(Clone, Copy, Serialize, Deserialize, Debug, Eq, PartialEq)]
 pub enum ColorFlag {
     WHITE,
@@ -50,30 +41,30 @@ pub struct LevelConfig {
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct EscalatorConfig {
-    pub x: f32,
-    pub y: f32,
-    pub width: f32,
-    pub height: f32,
+    pub x: i32,
+    pub y: i32,
+    pub width: i32,
+    pub height: i32,
     pub num_steps: i32,
-    pub speed: f32,
+    pub speed: i32,
     pub direction: Direction,
     pub color_flag: ColorFlag,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct ThingConfig {
-    pub x: f32,
-    pub y: f32,
-    pub width: f32,
-    pub height: f32,
+    pub x: i32,
+    pub y: i32,
+    pub width: i32,
+    pub height: i32,
     pub color_flag: ColorFlag,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct PlatformConfig {
-    pub x: f32,
-    pub y: f32,
-    pub width: f32,
-    pub height: f32,
+    pub x: i32,
+    pub y: i32,
+    pub width: i32,
+    pub height: i32,
     pub color_flag: ColorFlag,
 }

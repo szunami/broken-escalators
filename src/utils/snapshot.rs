@@ -1,7 +1,6 @@
-use amethyst::core::transform::Transform;
+use crate::components::GridLocation;
 
 pub struct Snapshot<T> {
-    pub timestamp: f32,
     pub component: T,
-    pub transform: Transform,
+    pub grid_location: GridLocation,
 }

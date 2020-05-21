@@ -1,29 +1,25 @@
 use super::Snapshot;
-use amethyst::core::transform::Transform;
-
-use crate::resources::RewindableClock;
-use amethyst::ecs::prelude::Read;
+use crate::components::GridLocation;
 
 pub fn move_tape_backwards<T>(
     snapshots: &mut Vec<Snapshot<T>>,
-    transform: &mut Transform,
+    grid_location: &mut GridLocation,
     component: &mut T,
 ) {
     if let Some(snapshot) = snapshots.pop() {
-        transform.set_translation(*snapshot.transform.translation());
+        *grid_location = snapshot.grid_location;
+        info!("Set grid location to {:?}", grid_location);
         *component = snapshot.component;
     }
 }
 
 pub fn move_tape_forwards<T: Clone>(
     snapshots: &mut Vec<Snapshot<T>>,
-    transform: &mut Transform,
+    grid_location: &mut GridLocation,
     component: &mut T,
-    clock: &Read<RewindableClock>,
 ) {
     snapshots.push(Snapshot {
         component: component.clone(),
-        timestamp: clock.current_time,
-        transform: transform.clone(),
+        grid_location: grid_location.clone(),
     })
 }

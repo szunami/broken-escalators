@@ -1,9 +1,9 @@
 use amethyst::ecs::prelude::{Component, DenseVecStorage};
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Default)]
 pub struct Velocity {
-    pub x: f32,
-    pub y: f32,
+    pub x: i32,
+    pub y: i32,
 }
 
 impl<'s> Component for Velocity {
@@ -12,10 +12,10 @@ impl<'s> Component for Velocity {
 
 impl<'s> Velocity {
     pub fn default() -> Velocity {
-        Velocity { x: 0., y: 0. }
+        Velocity { x: 0, y: 0 }
     }
 
-    pub fn new(x: f32, y: f32) -> Velocity {
+    pub fn new(x: i32, y: i32) -> Velocity {
         Velocity { x, y }
     }
 }
