@@ -28,7 +28,7 @@ impl<'s> System<'s> for StepPositionSystem {
         if !clock.going_forwards() {
             return;
         }
-        for (step, step_velocity, step_location) in
+        for (_step, step_velocity, step_location) in
             (&steps, &velocities, &mut grid_locations).join()
         {
             step_location.x = step_location.x + step_velocity.x;

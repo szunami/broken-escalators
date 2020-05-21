@@ -22,7 +22,7 @@ impl<'s> System<'s> for ThingPositionSystem {
         if !clock.going_forwards() {
             return;
         }
-        for (thing, thing_velocity, thing_location) in
+        for (_thing, thing_velocity, thing_location) in
             (&things, &velocities, &mut grid_locations).join()
         {
             thing_location.x = thing_location.x + thing_velocity.x;

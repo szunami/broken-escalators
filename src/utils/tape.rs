@@ -1,7 +1,5 @@
 use super::Snapshot;
 use crate::components::GridLocation;
-use crate::resources::RewindableClock;
-use amethyst::ecs::prelude::Read;
 
 pub fn move_tape_backwards<T>(
     snapshots: &mut Vec<Snapshot<T>>,

@@ -11,10 +11,6 @@ impl<'s> Component for GridLocation {
 }
 
 impl<'s> GridLocation {
-    pub fn default() -> GridLocation {
-        GridLocation { x: 0, y: 0 }
-    }
-
     pub fn new(x: i32, y: i32) -> GridLocation {
         GridLocation { x, y }
     }

@@ -25,7 +25,7 @@ impl<'s> System<'s> for AtopSystem {
         Read<'s, RewindableClock>,
         ReadStorage<'s, Thing>,
         ReadStorage<'s, GridLocation>,
-        WriteStorage<'s, Step>,
+        ReadStorage<'s, Step>,
         ReadStorage<'s, Platform>,
         ReadStorage<'s, Rectangle>,
         WriteStorage<'s, Velocity>,
@@ -38,7 +38,7 @@ impl<'s> System<'s> for AtopSystem {
             clock,
             things,
             grid_locations,
-            mut steps,
+            steps,
             platforms,
             rectangles,
             mut velocities,
@@ -47,9 +47,6 @@ impl<'s> System<'s> for AtopSystem {
         if !clock.going_forwards() {
             return;
         }
-        // for step in (&mut steps).join() {
-        //     step.thing_atop = None;
-        // }
         for (_thing, thing_entity, thing_grid_location, thing_rectangle) in
             (&things, &entities, &grid_locations, &rectangles).join()
         {
@@ -85,8 +82,6 @@ impl<'s> System<'s> for AtopSystem {
                 let step_velocity = velocities.get(step_entity).unwrap().clone();
                 let thing_velocity = velocities.get_mut(thing_entity).unwrap();
                 *thing_velocity = step_velocity.clone();
-            // let step = steps.get_mut(step_entity).unwrap();
-            // step.thing_atop = Some(thing_entity);
             } else if atop_platform {
                 let thing_velocity = velocities.get_mut(thing_entity).unwrap();
                 thing_velocity.x = 0;

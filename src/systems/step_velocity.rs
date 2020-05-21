@@ -1,8 +1,7 @@
-use crate::components::{Escalator, GridLocation, Rectangle, Side, Step, Velocity};
+use crate::components::{Escalator, Side, Step, Velocity};
 use crate::{
     levels::Direction,
     resources::RewindableClock,
-    utils::BoundingBox,
 };
 use amethyst::{
     derive::SystemDesc,
@@ -16,40 +15,24 @@ impl<'s> System<'s> for StepVelocitySystem {
     type SystemData = (
         Read<'s, RewindableClock>,
         ReadStorage<'s, Escalator>,
-        ReadStorage<'s, GridLocation>,
-        ReadStorage<'s, Rectangle>,
         WriteStorage<'s, Step>,
         WriteStorage<'s, Velocity>,
     );
 
     fn run(
         &mut self,
-        (clock, escalators, grid_locations, rectangles, mut steps, mut velocities): Self::SystemData,
+        (clock, escalators, mut steps, mut velocities): Self::SystemData,
     ) {
         if !clock.going_forwards() {
             return;
         }
-        for (step, step_velocity, step_grid_location, step_rectangle) in
-            (&mut steps, &mut velocities, &grid_locations, &rectangles).join()
+        for (step, step_velocity  ) in
+            (&mut steps, &mut velocities).join()
         {
-            let step_box = BoundingBox::new(step_rectangle, step_grid_location);
 
             let escalator = escalators.get(step.escalator).unwrap();
-            let escalator_rectangle = rectangles.get(step.escalator).unwrap();
-            let escalator_grid_location = grid_locations.get(step.escalator).unwrap();
-            let escalator_box = BoundingBox::new(escalator_rectangle, escalator_grid_location);
-            // if touching_multiple_edges(&step_box, &escalator_box) && !step.side.is_corner() {
-            //     step.side = escalator.next_side(&step.side);
-            //     info!("Newly at corner, setting to {:?}", step.side);
-            // }
-            // if !touching_multiple_edges(&step_box, &escalator_box) && step.side.is_corner() {
-            //     step.side = escalator.next_side(&step.side);
-            //     info!("No longer at corner, setting to {:?}", step.side);
-            // }
-            info!("Side is: {:?}", step.side);
             step_velocity.x = x_velocity_for_side_and_direction(&step.side, &escalator);
             step_velocity.y = y_velocity_for_side(&step.side, &escalator);
-            info!("Step velocity: {:?}", step_velocity);
         }
     }
 }
