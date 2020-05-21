@@ -1,6 +1,5 @@
 pub mod down_keys;
 pub mod fps;
-pub mod platform;
 pub mod rewindable_clock;
 pub mod step_tape;
 pub mod thing_tape;
