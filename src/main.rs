@@ -90,8 +90,8 @@ fn main() -> amethyst::Result<()> {
             GridLocationTransformSystem,
             any::type_name::<GridLocationTransformSystem>(),
             &[any::type_name::<StepPositionSystem>()],
-        );
-    // .with(ToggleSystem, any::type_name::<ToggleSystem>(), &[])
+        )
+    .with(ToggleSystem, any::type_name::<ToggleSystem>(), &[]);
     // .with(PlatformSystem, any::type_name::<PlatformSystem>(), &[])
     // .with(
     //     RewindableClockSystem,
