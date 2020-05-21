@@ -37,8 +37,7 @@ impl<'s> System<'s> for ThingCorrectionSystem {
 
                 if overlap_exists(&thing_box, &step_box) {
                     info!("Found overlap between {:?} and {:?}", thing_box, step_box);
-                    thing_grid_location.x =
-                        thing_grid_location.x + x_overlap(&thing_box, &step_box);
+                    thing_grid_location.x += x_overlap(&thing_box, &step_box);
                 }
             }
 

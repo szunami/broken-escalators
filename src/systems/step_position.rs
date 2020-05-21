@@ -31,8 +31,8 @@ impl<'s> System<'s> for StepPositionSystem {
         for (_step, step_velocity, step_location) in
             (&steps, &velocities, &mut grid_locations).join()
         {
-            step_location.x = step_location.x + step_velocity.x;
-            step_location.y = step_location.y + step_velocity.y;
+            step_location.x += step_velocity.x;
+            step_location.y += step_velocity.y;
             info!("step_position: {:?}", step_location);
         }
 
