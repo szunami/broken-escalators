@@ -49,14 +49,37 @@ mod tests {
     fn is_atop_works() {
         let above = BoundingBox::new(
             &Rectangle::new(2,2),
+            // l = 5, r = 7
+            // t = 8, 10
             &GridLocation::new(6, 9),
         );
         let base = BoundingBox::new(
             &Rectangle::new(4, 2),
+            // l = 6, r = 10,
+            // b = 5, t = 7
             &GridLocation::new(8, 6),
         );
 
         assert!(is_atop(&above, &base));
+    }
+
+    #[test]
+    fn overlap_exists_works() {
+        let above = BoundingBox::new(
+            &Rectangle::new(4,4),
+            &GridLocation::new(6, 14),
+        );
+        // left = 4, r = 8
+        // top = 16, bottom = 12
+        let base = BoundingBox::new(
+            &Rectangle::new(2, 2),
+            &GridLocation::new(4, 13),
+        );
+
+        // left = 3, r = 5
+        // top = 15, bottom = 11
+
+        assert!(overlap_exists(&above, &base));
     }
 }
 
@@ -75,32 +98,27 @@ pub fn is_atop(atop_candidate: &BoundingBox, base_candidate: &BoundingBox) -> bo
 //     b.top - a.bottom
 // }
 
-// // how much do we have to move a such that it does not collide with b
-// pub fn x_overlap(a: &BoundingBox, b: &BoundingBox) -> f32 {
-//     if !overlap_exists(a, b) {
-//         return 0.;
-//     }
+// how much do we have to move a such that it does not collide with b
+pub fn x_overlap(a: &BoundingBox, b: &BoundingBox) -> i32 {
+    if a.left < b.left {
+        return b.left - a.right;
+    }
+    b.right - a.left
+}
 
-//     if a.left < b.left {
-//         return b.left - a.right;
-//     }
+pub fn overlap_exists(a: &BoundingBox, b: &BoundingBox) -> bool {
+    if !overlaps(a.left, a.right, b.left, b.right) {
+        return false;
+    }
 
-//     b.right - a.left
-// }
-
-// fn overlap_exists(a: &BoundingBox, b: &BoundingBox) -> bool {
-//     if !overlaps(a.left, a.right, b.left, b.right) {
-//         return false;
-//     }
-
-//     if !overlaps(a.bottom, a.top, b.bottom, b.top) {
-//         return false;
-//     }
-//     true
-// }
+    if !overlaps(a.bottom, a.top, b.bottom, b.top) {
+        return false;
+    }
+    true
+}
 
 fn overlaps(a: i32, b: i32, x: i32, y: i32) -> bool {
-    (a <= x && b >= x) || (x <= a && y >= a)
+    (a <= x && b > x) || (x <= a && y > a)
 }
 
 // pub fn extrusion(container: &BoundingBox, containee: &BoundingBox) -> f32 {
