@@ -27,7 +27,7 @@ pub fn initialize_thing(world: &mut World, thing_config: ThingConfig, sprite_ren
         .with(GridLocation::new(thing_config.x, thing_config.y))
         .with(Velocity::default())
         .with(Rectangle::new(thing_config.width, thing_config.height))
-        // .with(ThingTape::new())
+        .with(ThingTape::new())
         .with(Velocity::default())
         .with(sprite_render)
         .with(transform)

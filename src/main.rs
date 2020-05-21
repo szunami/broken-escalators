@@ -26,7 +26,7 @@ use std::any;
 use std::env;
 use systems::{
     constants::*,
-    core::{DownKeysSystem, FPSSystem, StepTapeSystem, ToggleSystem},
+    core::{DownKeysSystem, FPSSystem, StepTapeSystem, ToggleSystem, ThingTapeSystem},
     velocity::AtopSystem,
     GridLocationTransformSystem, StepPositionSystem, StepVelocitySystem, ThingCorrectionSystem,
     ThingPositionSystem,
@@ -60,9 +60,9 @@ fn main() -> amethyst::Result<()> {
         .with_bundle(FpsCounterBundle {})?
         // core systems go first
         // .with(FPSSystem, any::type_name::<FPSSystem>(), &[])
-        // .with(ThingTapeSystem, any::type_name::<ThingTapeSystem>(), &[])
         .with(DownKeysSystem, any::type_name::<DownKeysSystem>(), &[])
         .with(StepTapeSystem, any::type_name::<StepTapeSystem>(), &[any::type_name::<DownKeysSystem>()])
+        .with(ThingTapeSystem, any::type_name::<ThingTapeSystem>(), &[any::type_name::<DownKeysSystem>()])
         .with(
             StepVelocitySystem,
             any::type_name::<StepVelocitySystem>(),
@@ -71,7 +71,7 @@ fn main() -> amethyst::Result<()> {
         .with(
             AtopSystem,
             any::type_name::<AtopSystem>(),
-            &[any::type_name::<StepVelocitySystem>()],
+            &[any::type_name::<StepVelocitySystem>(), any::type_name::<ThingTapeSystem>()],
         )
         .with(
             StepPositionSystem,
