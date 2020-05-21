@@ -30,7 +30,7 @@ impl<'s> System<'s> for ThingCorrectionSystem {
             // let thing_box = BoundingBox::new(thing_rectangle, thing_gr)
             for (step, step_entity, step_rectangle) in (&steps, &entities, &rectangles).join() {
                 let step_grid_location = grid_locations.get(step_entity).unwrap().clone();
-                let step_box = BoundingBox::new(step_rectangle, step_grid_location);
+                let step_box = BoundingBox::new(&step_rectangle, &step_grid_location);
 
                 let mut thing_grid_location = grid_locations.get_mut(thing_entity).unwrap();
                 let thing_box = BoundingBox::new(thing_rectangle, thing_grid_location);

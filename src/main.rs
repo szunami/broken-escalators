@@ -26,7 +26,7 @@ use std::any;
 use std::env;
 use systems::{
     constants::*,
-    core::{DownKeysSystem, FPSSystem, StepTapeSystem, ThingTapeSystem, ToggleSystem},
+    core::{DownKeysSystem, FPSSystem, StepTapeSystem, ToggleSystem},
     velocity::AtopSystem,
     GridLocationTransformSystem, StepPositionSystem, StepVelocitySystem, ThingCorrectionSystem,
     ThingPositionSystem,

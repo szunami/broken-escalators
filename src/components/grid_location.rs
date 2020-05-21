@@ -1,6 +1,6 @@
 use amethyst::ecs::prelude::{Component, DenseVecStorage};
 
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub struct GridLocation {
     pub x: i32,
     pub y: i32,
