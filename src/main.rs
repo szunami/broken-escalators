@@ -61,12 +61,12 @@ fn main() -> amethyst::Result<()> {
         // core systems go first
         // .with(FPSSystem, any::type_name::<FPSSystem>(), &[])
         // .with(ThingTapeSystem, any::type_name::<ThingTapeSystem>(), &[])
-        // .with(StepTapeSystem, any::type_name::<StepTapeSystem>(), &[])
         .with(DownKeysSystem, any::type_name::<DownKeysSystem>(), &[])
+        .with(StepTapeSystem, any::type_name::<StepTapeSystem>(), &[any::type_name::<DownKeysSystem>()])
         .with(
             StepVelocitySystem,
             any::type_name::<StepVelocitySystem>(),
-            &[],
+            &[any::type_name::<StepTapeSystem>()],
         )
         .with(
             AtopSystem,
@@ -76,7 +76,7 @@ fn main() -> amethyst::Result<()> {
         .with(
             StepPositionSystem,
             any::type_name::<StepPositionSystem>(),
-            &[any::type_name::<AtopSystem>()],
+            &[any::type_name::<AtopSystem>(), any::type_name::<StepTapeSystem>()],
         )
         .with(
             ThingPositionSystem,

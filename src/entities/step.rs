@@ -40,7 +40,7 @@ pub fn initialize_step(
         .with(Velocity::new(x_velocity, y_velocity))
         .with(Rectangle::new(step_width, step_height))
         .with(step_render)
-        // .with(StepTape::new())
+        .with(StepTape::new())
         .with(transform)
         .with(Color::new(color))
         .with(Tint(color.to_srgba()))
