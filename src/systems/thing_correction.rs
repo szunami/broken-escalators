@@ -41,6 +41,11 @@ impl<'s> System<'s> for ThingCorrectionSystem {
                         thing_grid_location.x + x_overlap(&thing_box, &step_box);
                 }
             }
+
+            let mut thing_grid_location = grid_locations.get_mut(thing_entity).unwrap();
+            if thing_grid_location.y < 0 {
+                thing_grid_location.y += 32;
+            }
         }
     }
 }
