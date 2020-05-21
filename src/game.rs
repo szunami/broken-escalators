@@ -14,7 +14,7 @@ use crate::{
         initialize_clock,
         initialize_down_keys,
         initialize_escalator,
-        initialize_thing,
+        initialize_thing, initialize_platform,
     },
     levels::LevelConfig,
 };
@@ -95,9 +95,9 @@ fn reset_level(world: &mut World, level_path: &str) {
                 initialize_thing(world, thing, white_box_render.clone());
             }
 
-            // for platform in level.platforms {
-            //     initialize_platform(world, platform, white_box_render.clone());
-            // }
+            for platform in level.platforms {
+                initialize_platform(world, platform, white_box_render.clone());
+            }
         }
         Err(e) => {
             warn!("Failed to load level at path {}.", level_path);
