@@ -66,7 +66,7 @@ impl<'s> System<'s> for AtopSystem {
             {
                 let step_bounds = BoundingBox::new(step_rectangle, step_grid_location);
                 let atopness = is_atop(&thing_bounds, &step_bounds);
-                if atopness && step_velocity.y > max_y_velocity {
+                if atopness && step_velocity.y >= max_y_velocity {
                     atop_step = Some(step_entity);
                     max_y_velocity = step_velocity.y;
                 }
