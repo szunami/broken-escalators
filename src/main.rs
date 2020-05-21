@@ -122,33 +122,6 @@ fn main() -> amethyst::Result<()> {
                 any::type_name::<ThingPositionSystem>(),
             ],
         );
-    // .with(PlatformSystem, any::type_name::<PlatformSystem>(), &[])
-
-    // // velocity systems go second
-    // .with(
-    //     CornerSystem,
-    //     any::type_name::<CornerSystem>(),
-    //     &core_systems(),
-    // )
-
-    // // position systems go third
-    // .with(
-    //     systems::position::MoveSystem,
-    //     any::type_name::<MoveSystem>(),
-    //     &velocity_systems(),
-    // )
-    // // correction systems go last
-    // .with(
-    //     systems::correction::StepCorrectionSystem,
-    //     any::type_name::<StepCorrectionSystem>(),
-    //     &position_systems(),
-    // )
-    // // thing correction depends on final step coords
-    // .with(
-    //     systems::correction::ThingCorrectionSystem,
-    //     any::type_name::<ThingCorrectionSystem>(),
-    //     &[any::type_name::<StepCorrectionSystem>()],
-    // );
 
     let mut game = Application::new(assets_dir, game, game_data)?;
     game.run();

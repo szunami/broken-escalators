@@ -53,10 +53,6 @@ impl<'s> System<'s> for StepPositionSystem {
                 step.side = escalator.next_side(&step.side);
                 info!("No longer at corner, setting to {:?}", step.side);
             }
-            // info!("Side is: {:?}", step.side);
-            // step_velocity.x = x_velocity_for_side_and_direction(&step.side, &escalator);
-            // step_velocity.y = y_velocity_for_side(&step.side, &escalator);
-            // info!("Step velocity: {:?}", step_velocity);
         }
     }
 }

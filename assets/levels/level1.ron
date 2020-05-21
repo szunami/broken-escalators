@@ -10,16 +10,6 @@ LevelConfig(
             direction: COUNTERCLOCKWISE,
             color_flag: BLUE
         ),
-        // EscalatorConfig(
-        //     x: 336.,
-        //     y: 208.,
-        //     width: 96.,
-        //     height: 96.,
-        //     num_steps: 3,
-        //     speed: 32.,
-        //     direction: COUNTERCLOCKWISE,
-        //     color_flag: YELLOW
-        // ),
     ],
     things: [
         ThingConfig(
@@ -29,13 +19,6 @@ LevelConfig(
             height: 4,
             color_flag: YELLOW,
         ),
-        // ThingConfig(
-        //     x: 336.,
-        //     y: 240.,
-        //     width: 32.,
-        //     height: 32.,
-        //     color_flag: BLUE
-        // ),
     ],
     platforms: [
         PlatformConfig(

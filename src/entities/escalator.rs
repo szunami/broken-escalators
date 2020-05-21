@@ -53,7 +53,7 @@ pub fn initialize_escalator(
             );
         }
     }
-    // // create top left corner
+    // create top left corner
     {
         let x_velocity = match escalator.direction {
             Direction::CLOCKWISE => escalator.speed,
@@ -103,7 +103,7 @@ pub fn initialize_escalator(
             );
         }
     }
-    // // create bottom right corner
+    // create bottom right corner
     {
         let x_velocity = -escalator.speed;
         let y_velocity = match escalator.direction {
