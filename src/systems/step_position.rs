@@ -1,6 +1,6 @@
 use crate::{
     components::{Escalator, GridLocation, Rectangle, Step, Velocity},
-    resources::{RewindableClock, DownKeys},
+    resources::{DownKeys, RewindableClock},
     utils::{touching_multiple_edges, BoundingBox},
 };
 use amethyst::input::VirtualKeyCode;

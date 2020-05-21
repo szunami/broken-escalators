@@ -1,12 +1,12 @@
 use crate::{
-    components::{Color, Platform, Rectangle, GridLocation},
-    levels::PlatformConfig, utils::grid_coordinate_to_transform_coordinate,
+    components::{Color, GridLocation, Platform, Rectangle},
+    levels::PlatformConfig,
+    utils::grid_coordinate_to_transform_coordinate,
 };
+use amethyst::core::math::Vector3;
 use amethyst::{
     core::transform::Transform, prelude::*, renderer::resources::Tint, renderer::SpriteRender,
 };
-use amethyst::core::math::Vector3;
-
 
 pub fn initialize_platform(
     world: &mut World,

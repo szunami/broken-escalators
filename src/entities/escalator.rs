@@ -45,7 +45,7 @@ pub fn initialize_escalator(
                 step_y,
                 x_velocity,
                 y_velocity,
-                Side::VERTICAL,
+                Side::Left,
                 step_width,
                 step_height,
                 step_sprite.clone(),
@@ -68,7 +68,7 @@ pub fn initialize_escalator(
             step_y,
             x_velocity,
             y_velocity,
-            Side::TOPPER_LEFT_CORNER,
+            Side::TopLeftCorner,
             step_width,
             step_height,
             step_sprite.clone(),
@@ -87,8 +87,7 @@ pub fn initialize_escalator(
                 Direction::COUNTERCLOCKWISE => escalator.speed,
             };
             let step_x = left_arm_x + (step_index) * step_width;
-            let step_y =
-                bottom_arm_y + (escalator.num_steps - step_index - 1) * step_height;
+            let step_y = bottom_arm_y + (escalator.num_steps - step_index - 1) * step_height;
             initialize_step(
                 world,
                 escalator_entity,
@@ -96,7 +95,7 @@ pub fn initialize_escalator(
                 step_y,
                 x_velocity,
                 y_velocity,
-                Side::DIAGONAL,
+                Side::Diagonal,
                 step_width,
                 step_height,
                 step_sprite.clone(),
@@ -119,7 +118,7 @@ pub fn initialize_escalator(
             bottom_arm_y,
             x_velocity,
             y_velocity,
-            Side::LOWER_RIGHT_CORNER,
+            Side::BottomRightCorner,
             step_width,
             step_height,
             step_sprite.clone(),
@@ -142,7 +141,7 @@ pub fn initialize_escalator(
                 bottom_arm_y,
                 x_velocity,
                 y_velocity,
-                Side::HORIZONTAL,
+                Side::Bottom,
                 step_width,
                 step_height,
                 step_sprite.clone(),
@@ -168,7 +167,7 @@ pub fn initialize_escalator(
                 bottom_arm_y,
                 x_velocity,
                 y_velocity,
-                Side::LOWER_LEFT_CORNER,
+                Side::BottomLeftCorner,
                 step_width,
                 step_height,
                 step_sprite,

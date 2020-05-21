@@ -1,5 +1,5 @@
 use crate::{
-    components::{Thing, ThingTape, GridLocation},
+    components::{GridLocation, Thing, ThingTape},
     resources::{DownKeys, RewindableClock},
     utils::{move_tape_backwards, move_tape_forwards},
 };
@@ -23,7 +23,7 @@ impl<'s> System<'s> for ThingTapeSystem {
 
     fn run(&mut self, (clock, mut things, mut grid_locations, mut thing_tapes): Self::SystemData) {
         if clock.velocity == 0 {
-            return
+            return;
         }
         for (thing, thing_grid_location, thing_tape) in
             (&mut things, &mut grid_locations, &mut thing_tapes).join()
@@ -33,7 +33,7 @@ impl<'s> System<'s> for ThingTapeSystem {
                 info!("Going forwards");
                 move_tape_forwards(snapshots, thing_grid_location, thing);
             } else {
-            info!("Going backward");
+                info!("Going backward");
                 move_tape_backwards(snapshots, thing_grid_location, thing);
             }
         }

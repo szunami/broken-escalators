@@ -10,10 +10,7 @@ use amethyst::{
 pub struct RewindableClockSystem;
 
 impl<'s> System<'s> for RewindableClockSystem {
-    type SystemData = (
-        Read<'s, DownKeys>,
-        Write<'s, RewindableClock>,
-    );
+    type SystemData = (Read<'s, DownKeys>, Write<'s, RewindableClock>);
 
     fn run(&mut self, (down_keys, mut clock): Self::SystemData) {
         let velocity = if down_keys.key_downs().contains(&VirtualKeyCode::Space) {

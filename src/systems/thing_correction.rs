@@ -1,5 +1,10 @@
 use crate::components::{GridLocation, Rectangle, Step, Thing};
-use crate::{resources::{RewindableClock, DownKeys}, utils::overlap_exists, utils::x_overlap, utils::BoundingBox};
+use crate::{
+    resources::{DownKeys, RewindableClock},
+    utils::overlap_exists,
+    utils::x_overlap,
+    utils::BoundingBox,
+};
 use amethyst::input::VirtualKeyCode;
 use amethyst::{
     derive::SystemDesc,

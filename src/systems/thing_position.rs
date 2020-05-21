@@ -1,6 +1,6 @@
 use crate::{
     components::{GridLocation, Thing, Velocity},
-    resources::{RewindableClock, DownKeys},
+    resources::{DownKeys, RewindableClock},
 };
 use amethyst::input::VirtualKeyCode;
 use amethyst::{

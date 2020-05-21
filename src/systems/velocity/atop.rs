@@ -5,7 +5,7 @@ use crate::{
     components::Step,
     components::Thing,
     components::Velocity,
-    resources::{RewindableClock, DownKeys},
+    resources::{DownKeys, RewindableClock},
     utils::{is_atop, BoundingBox},
 };
 use amethyst::input::VirtualKeyCode;
@@ -89,13 +89,11 @@ impl<'s> System<'s> for AtopSystem {
                 *thing_velocity = step_velocity.clone();
             // let step = steps.get_mut(step_entity).unwrap();
             // step.thing_atop = Some(thing_entity);
-            }
-            else if atop_platform {
+            } else if atop_platform {
                 let thing_velocity = velocities.get_mut(thing_entity).unwrap();
                 thing_velocity.x = 0;
                 thing_velocity.y = 0;
-            }
-            else {
+            } else {
                 info!("Not atop");
                 let thing_velocity = velocities.get_mut(thing_entity).unwrap();
                 thing_velocity.x = 0;

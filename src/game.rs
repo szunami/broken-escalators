@@ -14,7 +14,8 @@ use crate::{
         initialize_clock,
         initialize_down_keys,
         initialize_escalator,
-        initialize_thing, initialize_platform,
+        initialize_platform,
+        initialize_thing,
     },
     levels::LevelConfig,
 };

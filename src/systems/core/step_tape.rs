@@ -1,7 +1,7 @@
 use crate::{
-    components::{Step, StepTape, GridLocation},
-    resources::RewindableClock,   resources::DownKeys,
-
+    components::{GridLocation, Step, StepTape},
+    resources::DownKeys,
+    resources::RewindableClock,
     utils::{move_tape_backwards, move_tape_forwards},
 };
 use amethyst::input::VirtualKeyCode;
@@ -23,9 +23,11 @@ impl<'s> System<'s> for StepTapeSystem {
 
     fn run(&mut self, (clock, mut steps, mut grid_locations, mut step_tapes): Self::SystemData) {
         if clock.velocity == 0 {
-            return
+            return;
         }
-        for (step, step_grid_location, step_tape) in (&mut steps, &mut grid_locations, &mut step_tapes).join() {
+        for (step, step_grid_location, step_tape) in
+            (&mut steps, &mut grid_locations, &mut step_tapes).join()
+        {
             let snapshots = &mut step_tape.snapshots;
             if clock.going_forwards() {
                 info!("Going forwards");

@@ -26,7 +26,10 @@ use std::any;
 use std::env;
 use systems::{
     constants::*,
-    core::{DownKeysSystem, FPSSystem, StepTapeSystem, ToggleSystem, ThingTapeSystem, RewindableClockSystem},
+    core::{
+        DownKeysSystem, FPSSystem, RewindableClockSystem, StepTapeSystem, ThingTapeSystem,
+        ToggleSystem,
+    },
     velocity::AtopSystem,
     GridLocationTransformSystem, StepPositionSystem, StepVelocitySystem, ThingCorrectionSystem,
     ThingPositionSystem,
@@ -61,14 +64,26 @@ fn main() -> amethyst::Result<()> {
         // core systems go first
         // .with(FPSSystem, any::type_name::<FPSSystem>(), &[])
         .with(DownKeysSystem, any::type_name::<DownKeysSystem>(), &[])
-        .with(ToggleSystem, any::type_name::<ToggleSystem>(), &[any::type_name::<DownKeysSystem>()])
+        .with(
+            ToggleSystem,
+            any::type_name::<ToggleSystem>(),
+            &[any::type_name::<DownKeysSystem>()],
+        )
         .with(
             RewindableClockSystem,
             any::type_name::<RewindableClockSystem>(),
             &[any::type_name::<DownKeysSystem>()],
         )
-        .with(StepTapeSystem, any::type_name::<StepTapeSystem>(), &[any::type_name::<ToggleSystem>()])
-        .with(ThingTapeSystem, any::type_name::<ThingTapeSystem>(), &[any::type_name::<RewindableClockSystem>()])
+        .with(
+            StepTapeSystem,
+            any::type_name::<StepTapeSystem>(),
+            &[any::type_name::<ToggleSystem>()],
+        )
+        .with(
+            ThingTapeSystem,
+            any::type_name::<ThingTapeSystem>(),
+            &[any::type_name::<RewindableClockSystem>()],
+        )
         .with(
             StepVelocitySystem,
             any::type_name::<StepVelocitySystem>(),
@@ -77,12 +92,18 @@ fn main() -> amethyst::Result<()> {
         .with(
             AtopSystem,
             any::type_name::<AtopSystem>(),
-            &[any::type_name::<StepVelocitySystem>(), any::type_name::<ThingTapeSystem>()],
+            &[
+                any::type_name::<StepVelocitySystem>(),
+                any::type_name::<ThingTapeSystem>(),
+            ],
         )
         .with(
             StepPositionSystem,
             any::type_name::<StepPositionSystem>(),
-            &[any::type_name::<AtopSystem>(), any::type_name::<StepTapeSystem>()],
+            &[
+                any::type_name::<AtopSystem>(),
+                any::type_name::<StepTapeSystem>(),
+            ],
         )
         .with(
             ThingPositionSystem,
@@ -97,7 +118,10 @@ fn main() -> amethyst::Result<()> {
         .with(
             GridLocationTransformSystem,
             any::type_name::<GridLocationTransformSystem>(),
-            &[any::type_name::<StepPositionSystem>(), any::type_name::<ThingPositionSystem>()],
+            &[
+                any::type_name::<StepPositionSystem>(),
+                any::type_name::<ThingPositionSystem>(),
+            ],
         );
     // .with(PlatformSystem, any::type_name::<PlatformSystem>(), &[])
 

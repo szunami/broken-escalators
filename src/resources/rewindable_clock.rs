@@ -16,8 +16,6 @@ impl RewindableClock {
 
 impl Default for RewindableClock {
     fn default() -> Self {
-        RewindableClock {
-            velocity: 0,
-        }
+        RewindableClock { velocity: 0 }
     }
 }

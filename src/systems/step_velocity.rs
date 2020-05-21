@@ -59,35 +59,35 @@ impl<'s> System<'s> for StepVelocitySystem {
 pub fn x_velocity_for_side_and_direction(side: &Side, escalator: &Escalator) -> i32 {
     escalator.speed
         * match (escalator.direction, side) {
-            (Direction::CLOCKWISE, Side::TOPPER_LEFT_CORNER) => 1,
-            (Direction::CLOCKWISE, Side::DIAGONAL) => 1,
-            (Direction::CLOCKWISE, Side::LOWER_RIGHT_CORNER) => -1,
-            (Direction::CLOCKWISE, Side::HORIZONTAL) => -1,
-            (Direction::CLOCKWISE, Side::LOWER_LEFT_CORNER) => 0,
-            (Direction::CLOCKWISE, Side::VERTICAL) => 0,
-            (Direction::COUNTERCLOCKWISE, Side::TOPPER_LEFT_CORNER) => 0,
-            (Direction::COUNTERCLOCKWISE, Side::VERTICAL) => 0,
-            (Direction::COUNTERCLOCKWISE, Side::LOWER_LEFT_CORNER) => 1,
-            (Direction::COUNTERCLOCKWISE, Side::HORIZONTAL) => 1,
-            (Direction::COUNTERCLOCKWISE, Side::LOWER_RIGHT_CORNER) => -1,
-            (Direction::COUNTERCLOCKWISE, Side::DIAGONAL) => -1,
+            (Direction::CLOCKWISE, Side::TopLeftCorner) => 1,
+            (Direction::CLOCKWISE, Side::Diagonal) => 1,
+            (Direction::CLOCKWISE, Side::BottomRightCorner) => -1,
+            (Direction::CLOCKWISE, Side::Bottom) => -1,
+            (Direction::CLOCKWISE, Side::BottomLeftCorner) => 0,
+            (Direction::CLOCKWISE, Side::Left) => 0,
+            (Direction::COUNTERCLOCKWISE, Side::TopLeftCorner) => 0,
+            (Direction::COUNTERCLOCKWISE, Side::Left) => 0,
+            (Direction::COUNTERCLOCKWISE, Side::BottomLeftCorner) => 1,
+            (Direction::COUNTERCLOCKWISE, Side::Bottom) => 1,
+            (Direction::COUNTERCLOCKWISE, Side::BottomRightCorner) => -1,
+            (Direction::COUNTERCLOCKWISE, Side::Diagonal) => -1,
         }
 }
 
 pub fn y_velocity_for_side(side: &Side, escalator: &Escalator) -> i32 {
     escalator.speed
         * match (escalator.direction, side) {
-            (Direction::CLOCKWISE, Side::TOPPER_LEFT_CORNER) => -1,
-            (Direction::CLOCKWISE, Side::DIAGONAL) => -1,
-            (Direction::CLOCKWISE, Side::LOWER_RIGHT_CORNER) => 0,
-            (Direction::CLOCKWISE, Side::HORIZONTAL) => 0,
-            (Direction::CLOCKWISE, Side::LOWER_LEFT_CORNER) => 1,
-            (Direction::CLOCKWISE, Side::VERTICAL) => 1,
-            (Direction::COUNTERCLOCKWISE, Side::TOPPER_LEFT_CORNER) => -1,
-            (Direction::COUNTERCLOCKWISE, Side::VERTICAL) => -1,
-            (Direction::COUNTERCLOCKWISE, Side::LOWER_LEFT_CORNER) => 0,
-            (Direction::COUNTERCLOCKWISE, Side::HORIZONTAL) => 0,
-            (Direction::COUNTERCLOCKWISE, Side::LOWER_RIGHT_CORNER) => 1,
-            (Direction::COUNTERCLOCKWISE, Side::DIAGONAL) => 1,
+            (Direction::CLOCKWISE, Side::TopLeftCorner) => -1,
+            (Direction::CLOCKWISE, Side::Diagonal) => -1,
+            (Direction::CLOCKWISE, Side::BottomRightCorner) => 0,
+            (Direction::CLOCKWISE, Side::Bottom) => 0,
+            (Direction::CLOCKWISE, Side::BottomLeftCorner) => 1,
+            (Direction::CLOCKWISE, Side::Left) => 1,
+            (Direction::COUNTERCLOCKWISE, Side::TopLeftCorner) => -1,
+            (Direction::COUNTERCLOCKWISE, Side::Left) => -1,
+            (Direction::COUNTERCLOCKWISE, Side::BottomLeftCorner) => 0,
+            (Direction::COUNTERCLOCKWISE, Side::Bottom) => 0,
+            (Direction::COUNTERCLOCKWISE, Side::BottomRightCorner) => 1,
+            (Direction::COUNTERCLOCKWISE, Side::Diagonal) => 1,
         }
 }

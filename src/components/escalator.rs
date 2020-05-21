@@ -33,20 +33,20 @@ impl Escalator {
     pub fn next_side(self, side: &Side) -> Side {
         match self.direction {
             Direction::CLOCKWISE => match side {
-                Side::TOPPER_LEFT_CORNER => Side::DIAGONAL,
-                Side::DIAGONAL => Side::LOWER_RIGHT_CORNER,
-                Side::LOWER_RIGHT_CORNER => Side::HORIZONTAL,
-                Side::HORIZONTAL => Side::LOWER_LEFT_CORNER,
-                Side::LOWER_LEFT_CORNER => Side::VERTICAL,
-                Side::VERTICAL => Side::TOPPER_LEFT_CORNER,
+                Side::TopLeftCorner => Side::Diagonal,
+                Side::Diagonal => Side::BottomRightCorner,
+                Side::BottomRightCorner => Side::Bottom,
+                Side::Bottom => Side::BottomLeftCorner,
+                Side::BottomLeftCorner => Side::Left,
+                Side::Left => Side::TopLeftCorner,
             },
             Direction::COUNTERCLOCKWISE => match side {
-                Side::TOPPER_LEFT_CORNER => Side::VERTICAL,
-                Side::VERTICAL => Side::LOWER_LEFT_CORNER,
-                Side::LOWER_LEFT_CORNER => Side::HORIZONTAL,
-                Side::HORIZONTAL => Side::LOWER_RIGHT_CORNER,
-                Side::LOWER_RIGHT_CORNER => Side::DIAGONAL,
-                Side::DIAGONAL => Side::TOPPER_LEFT_CORNER,
+                Side::TopLeftCorner => Side::Left,
+                Side::Left => Side::BottomLeftCorner,
+                Side::BottomLeftCorner => Side::Bottom,
+                Side::Bottom => Side::BottomRightCorner,
+                Side::BottomRightCorner => Side::Diagonal,
+                Side::Diagonal => Side::TopLeftCorner,
             },
         }
     }
