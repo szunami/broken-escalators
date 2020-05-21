@@ -1,9 +1,6 @@
 use crate::components::{GridLocation, Rectangle, Step, Thing};
 use crate::{
-    resources::RewindableClock,
-    utils::overlap_exists,
-    utils::x_overlap,
-    utils::BoundingBox,
+    resources::RewindableClock, utils::overlap_exists, utils::x_overlap, utils::BoundingBox,
 };
 use amethyst::{
     derive::SystemDesc,

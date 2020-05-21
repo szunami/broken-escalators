@@ -5,7 +5,7 @@ use crate::{
     components::Step,
     components::Thing,
     components::Velocity,
-    resources::{RewindableClock},
+    resources::RewindableClock,
     utils::{is_atop, BoundingBox},
 };
 use amethyst::{

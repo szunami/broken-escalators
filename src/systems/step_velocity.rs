@@ -1,8 +1,5 @@
 use crate::components::{Escalator, Side, Step, Velocity};
-use crate::{
-    levels::Direction,
-    resources::RewindableClock,
-};
+use crate::{levels::Direction, resources::RewindableClock};
 use amethyst::{
     derive::SystemDesc,
     ecs::prelude::{Join, Read, ReadStorage, System, SystemData, WriteStorage},
@@ -19,17 +16,11 @@ impl<'s> System<'s> for StepVelocitySystem {
         WriteStorage<'s, Velocity>,
     );
 
-    fn run(
-        &mut self,
-        (clock, escalators, mut steps, mut velocities): Self::SystemData,
-    ) {
+    fn run(&mut self, (clock, escalators, mut steps, mut velocities): Self::SystemData) {
         if !clock.going_forwards() {
             return;
         }
-        for (step, step_velocity  ) in
-            (&mut steps, &mut velocities).join()
-        {
-
+        for (step, step_velocity) in (&mut steps, &mut velocities).join() {
             let escalator = escalators.get(step.escalator).unwrap();
             step_velocity.x = x_velocity_for_side_and_direction(&step.side, &escalator);
             step_velocity.y = y_velocity_for_side(&step.side, &escalator);
