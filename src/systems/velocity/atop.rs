@@ -58,7 +58,7 @@ impl<'s> System<'s> for AtopSystem {
             let thing_bounds = BoundingBox::new(thing_rectangle, thing_grid_location);
 
             let mut atop_step: Option<Entity> = None;
-            // let mut atop_platform = false;
+            let mut atop_platform = false;
             let mut max_y_velocity = GRAVITY_VELOCITY;
 
             for (_step, step_entity, step_grid_location, step_rectangle, step_velocity) in
@@ -72,17 +72,16 @@ impl<'s> System<'s> for AtopSystem {
                 }
             }
 
-            // for (_platform, platform_transform, platform_rectangle) in
-            //     (&platforms, &transforms, &rectangles).join()
-            // {
-            //     let platform_bounds = BoundingBox::new(platform_rectangle, platform_transform);
-            //     let atopness = is_atop(&thing_bounds, &platform_bounds);
-            //     if atopness && platform_bounds.top > max_atopness {
-            //         atop_step = None;
-            //         atop_platform = true;
-            //         max_atopness = platform_bounds.top;
-            //     }
-            // }
+            for (_platform, platform_grid_location, platform_rectangle) in
+                (&platforms, &grid_locations, &rectangles).join()
+            {
+                let platform_bounds = BoundingBox::new(platform_rectangle, platform_grid_location);
+                let atopness = is_atop(&thing_bounds, &platform_bounds);
+                if atopness && max_y_velocity <= 0 {
+                    atop_step = None;
+                    atop_platform = true;
+                }
+            }
 
             if let Some(step_entity) = atop_step {
                 let step_velocity = velocities.get(step_entity).unwrap().clone();
@@ -91,11 +90,11 @@ impl<'s> System<'s> for AtopSystem {
             // let step = steps.get_mut(step_entity).unwrap();
             // step.thing_atop = Some(thing_entity);
             }
-            // else if atop_platform {
-            //     let thing_velocity = velocities.get_mut(thing_entity).unwrap();
-            //     thing_velocity.x = 0.;
-            //     thing_velocity.y = 0.;
-            // }
+            else if atop_platform {
+                let thing_velocity = velocities.get_mut(thing_entity).unwrap();
+                thing_velocity.x = 0;
+                thing_velocity.y = 0;
+            }
             else {
                 info!("Not atop");
                 let thing_velocity = velocities.get_mut(thing_entity).unwrap();
