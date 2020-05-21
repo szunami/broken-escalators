@@ -1,12 +1,12 @@
 use amethyst::{
     assets::{AssetStorage, Handle, Loader},
+    core::transform::Transform,
     input::{is_close_requested, is_key_down, InputHandler, StringBindings, VirtualKeyCode},
+    prelude::*,
     renderer::{ImageFormat, SpriteRender, SpriteSheet, SpriteSheetFormat, Texture},
-core::transform::Transform, prelude::*};
+};
 
-pub fn initialize_background(
-    world: &mut World,
-) {
+pub fn initialize_background(world: &mut World) {
     let mut transform = Transform::default();
     transform.set_translation_xyz(512., 512., -1.);
 

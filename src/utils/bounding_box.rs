@@ -29,18 +29,12 @@ pub fn touching_multiple_edges(inner: &BoundingBox, outer: &BoundingBox) -> bool
 }
 
 mod tests {
-    use crate::components::{Rectangle, GridLocation};
     use super::*;
+    use crate::components::{GridLocation, Rectangle};
     #[test]
     fn touching_multiple_edges_works() {
-        let inner = BoundingBox::new(
-            &Rectangle::new(1,1),
-            &GridLocation::new(6, 9),
-        );
-        let outer = BoundingBox::new(
-            &Rectangle::new(4, 4),
-            &GridLocation::new(8, 7),
-        );
+        let inner = BoundingBox::new(&Rectangle::new(1, 1), &GridLocation::new(6, 9));
+        let outer = BoundingBox::new(&Rectangle::new(4, 4), &GridLocation::new(8, 7));
 
         assert!(touching_multiple_edges(&inner, &outer));
     }
@@ -48,7 +42,7 @@ mod tests {
     #[test]
     fn is_atop_works() {
         let above = BoundingBox::new(
-            &Rectangle::new(2,2),
+            &Rectangle::new(2, 2),
             // l = 5, r = 7
             // t = 8, 10
             &GridLocation::new(6, 9),
@@ -65,16 +59,10 @@ mod tests {
 
     #[test]
     fn overlap_exists_works() {
-        let above = BoundingBox::new(
-            &Rectangle::new(4,4),
-            &GridLocation::new(6, 14),
-        );
+        let above = BoundingBox::new(&Rectangle::new(4, 4), &GridLocation::new(6, 14));
         // left = 4, r = 8
         // top = 16, bottom = 12
-        let base = BoundingBox::new(
-            &Rectangle::new(2, 2),
-            &GridLocation::new(4, 13),
-        );
+        let base = BoundingBox::new(&Rectangle::new(2, 2), &GridLocation::new(4, 13));
 
         // left = 3, r = 5
         // top = 15, bottom = 11
@@ -87,7 +75,12 @@ pub fn is_atop(atop_candidate: &BoundingBox, base_candidate: &BoundingBox) -> bo
     if atop_candidate.bottom != base_candidate.top {
         return false;
     }
-    overlaps(atop_candidate.left, atop_candidate.right, base_candidate.left, base_candidate.right)
+    overlaps(
+        atop_candidate.left,
+        atop_candidate.right,
+        base_candidate.left,
+        base_candidate.right,
+    )
 }
 
 // // how much do we have to move a such that it does not collide with b

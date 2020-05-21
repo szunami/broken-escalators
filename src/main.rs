@@ -27,7 +27,9 @@ use std::env;
 use systems::{
     constants::*,
     core::{DownKeysSystem, FPSSystem, StepTapeSystem, ThingTapeSystem, ToggleSystem},
-    velocity::AtopSystem, GridLocationTransformSystem, StepPositionSystem, StepVelocitySystem, ThingPositionSystem, ThingCorrectionSystem,
+    velocity::AtopSystem,
+    GridLocationTransformSystem, StepPositionSystem, StepVelocitySystem, ThingCorrectionSystem,
+    ThingPositionSystem,
 };
 
 fn main() -> amethyst::Result<()> {
@@ -91,7 +93,7 @@ fn main() -> amethyst::Result<()> {
             any::type_name::<GridLocationTransformSystem>(),
             &[any::type_name::<StepPositionSystem>()],
         )
-    .with(ToggleSystem, any::type_name::<ToggleSystem>(), &[]);
+        .with(ToggleSystem, any::type_name::<ToggleSystem>(), &[]);
     // .with(PlatformSystem, any::type_name::<PlatformSystem>(), &[])
     // .with(
     //     RewindableClockSystem,

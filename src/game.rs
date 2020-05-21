@@ -6,13 +6,15 @@ use amethyst::{
 };
 
 use crate::{
-    components::{Color, Escalator, GridLocation, Step, Velocity, Thing},
+    components::{Color, Escalator, GridLocation, Step, Thing, Velocity},
     entities::{
+        initialize_background,
+        // initialize_platform, initialize_thing,
         initialize_camera,
         initialize_clock,
         initialize_down_keys,
-        initialize_escalator, initialize_thing, initialize_background,
-        // initialize_platform, initialize_thing,
+        initialize_escalator,
+        initialize_thing,
     },
     levels::LevelConfig,
 };

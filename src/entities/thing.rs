@@ -1,20 +1,25 @@
 use crate::{
-    components::{Color, Rectangle, Thing, GridLocation, ThingTape, Velocity},
-    levels::ThingConfig, utils::grid_coordinate_to_transform_coordinate,
+    components::{Color, GridLocation, Rectangle, Thing, ThingTape, Velocity},
+    levels::ThingConfig,
+    utils::grid_coordinate_to_transform_coordinate,
 };
+use amethyst::core::math::Vector3;
 use amethyst::{
     core::transform::Transform, prelude::*, renderer::resources::Tint, renderer::SpriteRender,
 };
-use amethyst::core::math::Vector3;
-
 
 pub fn initialize_thing(world: &mut World, thing_config: ThingConfig, sprite_render: SpriteRender) {
     let mut transform = Transform::default();
     transform.set_translation_xyz(
         grid_coordinate_to_transform_coordinate(thing_config.x),
         grid_coordinate_to_transform_coordinate(thing_config.y),
-        0.);
-    transform.set_scale(Vector3::new(thing_config.width as f32, thing_config.height as f32, 1.));
+        0.,
+    );
+    transform.set_scale(Vector3::new(
+        thing_config.width as f32,
+        thing_config.height as f32,
+        1.,
+    ));
 
     world
         .create_entity()

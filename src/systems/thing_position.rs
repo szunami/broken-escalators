@@ -1,11 +1,11 @@
-use amethyst::{
-    derive::SystemDesc,
-    ecs::prelude::{Join, Read, System, SystemData, ReadStorage, WriteStorage},
-};
-use amethyst::input::VirtualKeyCode;
 use crate::{
     components::{GridLocation, Thing, Velocity},
     resources::DownKeys,
+};
+use amethyst::input::VirtualKeyCode;
+use amethyst::{
+    derive::SystemDesc,
+    ecs::prelude::{Join, Read, ReadStorage, System, SystemData, WriteStorage},
 };
 
 #[derive(SystemDesc)]

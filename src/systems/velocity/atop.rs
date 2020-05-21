@@ -1,21 +1,20 @@
 use crate::{
-    resources::DownKeys,
+    components::GridLocation,
     components::Platform,
     components::Rectangle,
     components::Step,
     components::Thing,
     components::Velocity,
-    components::GridLocation,
+    resources::DownKeys,
     utils::{is_atop, BoundingBox},
 };
+use amethyst::input::VirtualKeyCode;
 use amethyst::{
     core::transform::Transform,
     derive::SystemDesc,
-    ecs::prelude::{Entities, Join,Read,  ReadStorage, System, SystemData, WriteStorage},
+    ecs::prelude::{Entities, Join, Read, ReadStorage, System, SystemData, WriteStorage},
     ecs::Entity,
 };
-use amethyst::input::VirtualKeyCode;
-
 
 pub const GRAVITY_VELOCITY: i32 = -1;
 
@@ -36,7 +35,16 @@ impl<'s> System<'s> for AtopSystem {
 
     fn run(
         &mut self,
-        (entities, down_keys, things, grid_locations, mut steps, platforms, rectangles, mut velocities): Self::SystemData,
+        (
+            entities,
+            down_keys,
+            things,
+            grid_locations,
+            mut steps,
+            platforms,
+            rectangles,
+            mut velocities,
+        ): Self::SystemData,
     ) {
         if !down_keys.key_downs().contains(&VirtualKeyCode::Space) {
             return;
@@ -80,8 +88,8 @@ impl<'s> System<'s> for AtopSystem {
                 let step_velocity = velocities.get(step_entity).unwrap().clone();
                 let thing_velocity = velocities.get_mut(thing_entity).unwrap();
                 *thing_velocity = step_velocity.clone();
-                // let step = steps.get_mut(step_entity).unwrap();
-                // step.thing_atop = Some(thing_entity);
+            // let step = steps.get_mut(step_entity).unwrap();
+            // step.thing_atop = Some(thing_entity);
             }
             // else if atop_platform {
             //     let thing_velocity = velocities.get_mut(thing_entity).unwrap();

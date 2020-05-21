@@ -1,6 +1,7 @@
 use crate::{
     components::{Color, GridLocation, Rectangle, Side, Step, StepTape, Velocity},
-    levels::ColorFlag, utils::grid_coordinate_to_transform_coordinate,
+    levels::ColorFlag,
+    utils::grid_coordinate_to_transform_coordinate,
 };
 use amethyst::core::math::Vector3;
 use amethyst::{
@@ -25,7 +26,8 @@ pub fn initialize_step(
     transform.set_translation_xyz(
         grid_coordinate_to_transform_coordinate(x),
         grid_coordinate_to_transform_coordinate(y),
-        0.);
+        0.,
+    );
     transform.set_scale(Vector3::new(step_width as f32, step_height as f32, 1.));
 
     info!("Registering step at {:?}", (x, y));
