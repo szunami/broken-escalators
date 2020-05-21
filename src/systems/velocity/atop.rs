@@ -5,12 +5,10 @@ use crate::{
     components::Step,
     components::Thing,
     components::Velocity,
-    resources::{DownKeys, RewindableClock},
+    resources::{RewindableClock},
     utils::{is_atop, BoundingBox},
 };
-use amethyst::input::VirtualKeyCode;
 use amethyst::{
-    core::transform::Transform,
     derive::SystemDesc,
     ecs::prelude::{Entities, Join, Read, ReadStorage, System, SystemData, WriteStorage},
     ecs::Entity,

@@ -1,11 +1,9 @@
 use crate::{
     components::{GridLocation, Thing, ThingTape},
-    resources::{DownKeys, RewindableClock},
+    resources::RewindableClock,
     utils::{move_tape_backwards, move_tape_forwards},
 };
-use amethyst::input::{InputHandler, StringBindings, VirtualKeyCode};
 use amethyst::{
-    core::transform::Transform,
     derive::SystemDesc,
     ecs::prelude::{Join, Read, System, SystemData, WriteStorage},
 };

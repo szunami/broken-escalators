@@ -1,11 +1,9 @@
 use crate::components::{Escalator, GridLocation, Rectangle, Side, Step, Velocity};
 use crate::{
     levels::Direction,
-    resources::DownKeys,
     resources::RewindableClock,
-    utils::{touching_multiple_edges, BoundingBox},
+    utils::BoundingBox,
 };
-use amethyst::input::VirtualKeyCode;
 use amethyst::{
     derive::SystemDesc,
     ecs::prelude::{Join, Read, ReadStorage, System, SystemData, WriteStorage},

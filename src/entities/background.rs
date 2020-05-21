@@ -1,7 +1,6 @@
 use amethyst::{
     assets::{AssetStorage, Handle, Loader},
     core::transform::Transform,
-    input::{is_close_requested, is_key_down, InputHandler, StringBindings, VirtualKeyCode},
     prelude::*,
     renderer::{ImageFormat, SpriteRender, SpriteSheet, SpriteSheetFormat, Texture},
 };

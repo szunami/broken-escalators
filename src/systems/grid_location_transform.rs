@@ -1,8 +1,8 @@
 use crate::components::GridLocation;
-use amethyst::{core::transform::Transform, prelude::*, renderer::Camera};
+use amethyst::core::transform::Transform;
 use amethyst::{
     derive::SystemDesc,
-    ecs::prelude::{Join, Read, ReadStorage, System, SystemData, WriteStorage},
+    ecs::prelude::{Join,  ReadStorage, System, SystemData, WriteStorage},
 };
 
 #[derive(SystemDesc)]

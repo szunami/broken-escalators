@@ -1,10 +1,8 @@
 use crate::{
     components::{GridLocation, Step, StepTape},
-    resources::DownKeys,
     resources::RewindableClock,
     utils::{move_tape_backwards, move_tape_forwards},
 };
-use amethyst::input::VirtualKeyCode;
 use amethyst::{
     derive::SystemDesc,
     ecs::prelude::{Join, Read, System, SystemData, WriteStorage},

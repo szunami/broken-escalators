@@ -1,7 +1,6 @@
 use crate::resources::{DownKeys, RewindableClock};
-use amethyst::input::{InputHandler, StringBindings, VirtualKeyCode};
+use amethyst::input::{VirtualKeyCode};
 use amethyst::{
-    core::timing::Time,
     derive::SystemDesc,
     ecs::prelude::{Read, System, SystemData, Write},
 };

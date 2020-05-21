@@ -1,8 +1,7 @@
 use crate::{
     components::{GridLocation, Thing, Velocity},
-    resources::{DownKeys, RewindableClock},
+    resources::RewindableClock,
 };
-use amethyst::input::VirtualKeyCode;
 use amethyst::{
     derive::SystemDesc,
     ecs::prelude::{Join, Read, ReadStorage, System, SystemData, WriteStorage},
