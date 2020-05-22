@@ -27,8 +27,8 @@ impl<'s> System<'s> for AbsoluteStepVelocitySystem {
         for (step, step_entity) in (&steps, &entities).join() {
             let escalator_velocity = velocities.get(step.escalator).unwrap().clone();
             let mut step_velocity = velocities.get_mut(step_entity).unwrap();
-            step_velocity.absolute[0] = step_velocity.intrinsic[0];
-            step_velocity.absolute[1] = step_velocity.intrinsic[1];
+            step_velocity.absolute[0] = escalator_velocity.absolute[0] + step_velocity.intrinsic[0];
+            step_velocity.absolute[1] = escalator_velocity.absolute[1] + step_velocity.intrinsic[1];
             info!("Step velocity: {:?}", step_velocity);
         }
     }
