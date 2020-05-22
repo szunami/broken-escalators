@@ -27,8 +27,8 @@ use std::env;
 use systems::{
     core::{DownKeysSystem, RewindableClockSystem, StepTapeSystem, ThingTapeSystem, ToggleSystem},
     velocity::AtopSystem,
-    GridLocationTransformSystem, StepPositionSystem, IntrinsicStepVelocitySystem, AbsoluteStepVelocitySystem, ThingCorrectionSystem,
-    ThingPositionSystem, AbsoluteThingVelocity
+    AbsoluteStepVelocitySystem, AbsoluteThingVelocity, GridLocationTransformSystem,
+    IntrinsicStepVelocitySystem, StepPositionSystem, ThingCorrectionSystem, ThingPositionSystem,
 };
 
 fn main() -> amethyst::Result<()> {
@@ -104,8 +104,8 @@ fn main() -> amethyst::Result<()> {
             // this is probably overly restrictive for now
             &[
                 any::type_name::<AbsoluteStepVelocitySystem>(),
-                any::type_name::<AtopSystem>()
-            ]
+                any::type_name::<AtopSystem>(),
+            ],
         )
         .with(
             StepPositionSystem,

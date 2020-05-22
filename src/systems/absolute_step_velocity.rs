@@ -1,12 +1,11 @@
+use crate::{
+    components::{Step, Velocity},
+    resources::RewindableClock,
+};
 use amethyst::{
     derive::SystemDesc,
-    ecs::prelude::{Join, Read, System, SystemData, ReadStorage, WriteStorage},
+    ecs::prelude::{Join, Read, ReadStorage, System, SystemData, WriteStorage},
 };
-use crate::{
-    resources::RewindableClock,
-    components::{Step, Velocity}
-};
-
 
 #[derive(SystemDesc)]
 pub struct AbsoluteStepVelocitySystem;
