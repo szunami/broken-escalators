@@ -24,3 +24,6 @@ pub use absolute_thing_velocity::{AbsoluteThingVelocity, velocity};
 
 mod escalator_absolute_velocity;
 pub use escalator_absolute_velocity::AbsoluteEscalatorVelocitySystem;
+
+mod escalator_position;
+pub use escalator_position::EscalatorPositionSystem;

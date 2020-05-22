@@ -29,7 +29,7 @@ use systems::{
     velocity::AtopSystem,
     AbsoluteStepVelocitySystem, AbsoluteThingVelocity, GridLocationTransformSystem,
     IntrinsicStepVelocitySystem, StepPositionSystem, ThingCorrectionSystem, ThingPositionSystem,
-    AbsoluteEscalatorVelocitySystem,
+    AbsoluteEscalatorVelocitySystem, EscalatorPositionSystem
 };
 
 fn main() -> amethyst::Result<()> {
@@ -115,6 +115,13 @@ fn main() -> amethyst::Result<()> {
                 any::type_name::<IntrinsicStepVelocitySystem>(),
                 any::type_name::<AtopSystem>(),
 
+            ],
+        )
+        .with(
+            EscalatorPositionSystem,
+            any::type_name::<EscalatorPositionSystem>(),
+            &[
+                any::type_name::<AbsoluteEscalatorVelocitySystem>(),
             ],
         )
         .with(
