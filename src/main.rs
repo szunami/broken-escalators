@@ -111,14 +111,14 @@ fn main() -> amethyst::Result<()> {
             StepPositionSystem,
             any::type_name::<StepPositionSystem>(),
             &[
-                any::type_name::<AtopSystem>(),
+                any::type_name::<AbsoluteStepVelocitySystem>(),
                 any::type_name::<StepTapeSystem>(),
             ],
         )
         .with(
             ThingPositionSystem,
             any::type_name::<ThingPositionSystem>(),
-            &[any::type_name::<AtopSystem>()],
+            &[any::type_name::<AbsoluteThingVelocity>()],
         )
         .with(
             ThingCorrectionSystem,
