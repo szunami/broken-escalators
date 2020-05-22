@@ -4,6 +4,7 @@ use std::collections::HashSet;
 #[derive(Eq, PartialEq, Debug, Hash)]
 pub enum BaseEntity {
     Step(Entity),
+    Platform(Entity),
 }
 
 pub struct Atop {

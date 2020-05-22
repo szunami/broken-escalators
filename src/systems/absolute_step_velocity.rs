@@ -26,7 +26,7 @@ impl<'s> System<'s> for AbsoluteStepVelocitySystem {
         for (step, step_velocity) in (&steps, &mut velocities).join() {
             step_velocity.absolute[0] = step_velocity.intrinsic[0];
             step_velocity.absolute[1] = step_velocity.intrinsic[1];
-            info!("Step velocity: {:?}", step_velocity);
+            debug!("Step velocity: {:?}", step_velocity);
         }
     }
 }

@@ -24,7 +24,7 @@ impl<'s> System<'s> for IntrinsicStepVelocitySystem {
             let escalator = escalators.get(step.escalator).unwrap();
             step_velocity.intrinsic[0] = x_velocity_for_side_and_direction(&step.side, &escalator);
             step_velocity.intrinsic[1] = y_velocity_for_side(&step.side, &escalator);
-            info!("Step velocity: {:?}", step_velocity);
+            debug!("Step velocity: {:?}", step_velocity);
         }
     }
 }

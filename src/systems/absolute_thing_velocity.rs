@@ -11,6 +11,8 @@ use amethyst::{
 #[derive(SystemDesc)]
 pub struct AbsoluteThingVelocity;
 
+pub const GRAVITY_VELOCITY: i32 = -1;
+
 impl<'s> System<'s> for AbsoluteThingVelocity {
     type SystemData = (
         Entities<'s>,
@@ -51,10 +53,11 @@ fn velocity<'s>(
                     // velocity(&step_atop, atops, velocities)
                     velocities.get(*entity).unwrap().absolute
                 }
+                BaseEntity::Platform(_) => Vector3::new(0, 0, 0),
             }
         })
         .collect();
-    atop_velocities.push(Vector3::new(0, -1, 0));
+    atop_velocities.push(Vector3::new(0, GRAVITY_VELOCITY, 0));
     let z = *atop_velocities
         .iter()
         .max_by_key(|velocity| velocity[1])

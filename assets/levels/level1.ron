@@ -21,13 +21,13 @@ LevelConfig(
         ),
     ],
     platforms: [
-        // PlatformConfig(
-        //     x: 2,
-        //     y: 2,
-        //     width: 4,
-        //     height: 4,
-        //     color_flag: YELLOW
-        // ),
+        PlatformConfig(
+            x: 2,
+            y: 2,
+            width: 4,
+            height: 4,
+            color_flag: YELLOW
+        ),
         // PlatformConfig(
         //     x: 22,
         //     y: 12,
