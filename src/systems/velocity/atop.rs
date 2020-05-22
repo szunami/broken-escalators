@@ -1,5 +1,5 @@
 use crate::{
-    components::{Atop, GridLocation, Platform, Rectangle, Step, Thing, Velocity},
+    components::{Atop, GridLocation, Platform, Rectangle, Step, Thing, Velocity, BaseEntity},
     resources::RewindableClock,
     utils::{is_atop, BoundingBox},
 };
@@ -45,9 +45,11 @@ impl<'s> System<'s> for AtopSystem {
             return;
         }
         // for each atop
-        for (_thing, thing_entity, thing_grid_location, thing_rectangle) in
-            (&things, &entities, &grid_locations, &rectangles).join()
+        // need to reset atops!
+        for (_thing, thing_entity, thing_grid_location, thing_rectangle, thing_atop) in
+            (&things, &entities, &grid_locations, &rectangles, &mut atops).join()
         {
+            thing_atop.bases.clear();
             let thing_bounds = BoundingBox::new(thing_rectangle, thing_grid_location);
 
             let mut atop_step: Option<Entity> = None;
@@ -61,9 +63,13 @@ impl<'s> System<'s> for AtopSystem {
             {
                 let step_bounds = BoundingBox::new(step_rectangle, step_grid_location);
                 let atopness = is_atop(&thing_bounds, &step_bounds);
-                if atopness && step_velocity.y >= max_y_velocity {
-                    atop_step = Some(step_entity);
-                    max_y_velocity = step_velocity.y;
+                if atopness {
+                    thing_atop.bases.insert(BaseEntity::Step(step_entity));
+
+                    if step_velocity.y >= max_y_velocity {
+                        atop_step = Some(step_entity);
+                        max_y_velocity = step_velocity.y;
+                    }
                 }
             }
 
@@ -92,6 +98,8 @@ impl<'s> System<'s> for AtopSystem {
                 thing_velocity.x = 0;
                 thing_velocity.y = GRAVITY_VELOCITY;
             }
+
+            info!("Thing {:?} is atop {:?}", thing_entity, thing_atop.bases);
         }
     }
 }

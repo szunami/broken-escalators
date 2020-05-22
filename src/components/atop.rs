@@ -7,7 +7,7 @@ pub enum BaseEntity {
 }
 
 pub struct Atop {
-    bases: HashSet<BaseEntity>,
+    pub bases: HashSet<BaseEntity>,
 }
 
 impl<'s> Component for Atop {
