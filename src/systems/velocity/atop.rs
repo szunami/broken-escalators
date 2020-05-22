@@ -58,7 +58,6 @@ impl<'s> System<'s> for AtopSystem {
                     thing_atop.bases.insert(BaseEntity::Step(step_entity));
                 }
             }
-
             for (_platform, platform_entity, platform_grid_location, platform_rectangle) in
                 (&platforms, &entities, &grid_locations, &rectangles).join()
             {
@@ -67,6 +66,21 @@ impl<'s> System<'s> for AtopSystem {
                     thing_atop
                         .bases
                         .insert(BaseEntity::Platform(platform_entity));
+                }
+            }
+            for (
+                other_thing,
+                other_thing_entity,
+                other_thing_grid_location,
+                other_thing_rectangle,
+            ) in (&things, &entities, &grid_locations, &rectangles).join()
+            {
+                let other_thing_bounds =
+                    BoundingBox::new(other_thing_rectangle, other_thing_grid_location);
+                if is_atop(&thing_bounds, &other_thing_bounds) {
+                    thing_atop
+                        .bases
+                        .insert(BaseEntity::Thing(other_thing_entity));
                 }
             }
             info!("Thing {:?} is atop {:?}", thing_entity, thing_atop.bases);

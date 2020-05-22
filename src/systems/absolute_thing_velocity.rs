@@ -54,6 +54,11 @@ fn velocity<'s>(
                     velocities.get(*entity).unwrap().absolute
                 }
                 BaseEntity::Platform(_) => Vector3::new(0, 0, 0),
+                BaseEntity::Thing(entity) => {
+                    // recursion here
+                    let thing_atop = atops.get(*entity).unwrap();
+                    velocity(&thing_atop, atops, velocities)
+                }
             }
         })
         .collect();

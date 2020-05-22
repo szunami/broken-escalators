@@ -5,6 +5,7 @@ use std::collections::HashSet;
 pub enum BaseEntity {
     Step(Entity),
     Platform(Entity),
+    Thing(Entity),
 }
 
 pub struct Atop {
