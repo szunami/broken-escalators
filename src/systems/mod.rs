@@ -20,4 +20,7 @@ mod absolute_step_velocity;
 pub use absolute_step_velocity::AbsoluteStepVelocitySystem;
 
 mod absolute_thing_velocity;
-pub use absolute_thing_velocity::AbsoluteThingVelocity;
+pub use absolute_thing_velocity::{AbsoluteThingVelocity, velocity};
+
+mod escalator_absolute_velocity;
+pub use escalator_absolute_velocity::AbsoluteEscalatorVelocitySystem;

@@ -1,0 +1,25 @@
+LevelConfig(
+    escalators: [
+        EscalatorConfig(
+            x: 12,
+            y: 16,
+            width: 16,
+            height: 16,
+            num_steps: 4,
+            speed: 1,
+            direction: COUNTERCLOCKWISE,
+            color_flag: BLUE
+        ),
+    ],
+    things: [
+    ],
+    platforms: [
+        PlatformConfig(
+            x: 12,
+            y: 2,
+            width: 4,
+            height: 4,
+            color_flag: YELLOW
+        ),
+    ],
+)

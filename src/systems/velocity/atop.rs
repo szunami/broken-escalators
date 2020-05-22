@@ -1,5 +1,5 @@
 use crate::{
-    components::{Atop, BaseEntity, GridLocation, Platform, Rectangle, Step, Thing, Velocity},
+    components::{Atop, BaseEntity, Escalator, GridLocation, Platform, Rectangle, Step, Thing, Velocity},
     resources::RewindableClock,
     utils::{is_atop, BoundingBox},
 };
@@ -7,7 +7,6 @@ use amethyst::{
     derive::SystemDesc,
     ecs::{
         prelude::{Entities, Join, Read, ReadStorage, System, SystemData, WriteStorage},
-        Entity,
     },
 };
 
@@ -19,6 +18,7 @@ impl<'s> System<'s> for AtopSystem {
         Entities<'s>,
         Read<'s, RewindableClock>,
         ReadStorage<'s, Thing>,
+        ReadStorage<'s, Escalator>,
         ReadStorage<'s, GridLocation>,
         ReadStorage<'s, Step>,
         ReadStorage<'s, Platform>,
@@ -33,6 +33,7 @@ impl<'s> System<'s> for AtopSystem {
             entities,
             clock,
             things,
+            escalators,
             grid_locations,
             steps,
             platforms,
@@ -44,7 +45,6 @@ impl<'s> System<'s> for AtopSystem {
         if !clock.going_forwards() {
             return;
         }
-        // for each atop
         for (_thing, thing_entity, thing_grid_location, thing_rectangle, thing_atop) in
             (&things, &entities, &grid_locations, &rectangles, &mut atops).join()
         {
@@ -84,6 +84,24 @@ impl<'s> System<'s> for AtopSystem {
                 }
             }
             info!("Thing {:?} is atop {:?}", thing_entity, thing_atop.bases);
+        }
+
+        for (escalator, escalator_entity, escalator_grid_location, escalator_rectangle, escalator_atop) in
+            (&escalators, &entities, &grid_locations, &rectangles, &mut atops).join() {
+
+                for (_platform, platform_entity, platform_grid_location, platform_rectangle) in
+                (&platforms, &entities, &grid_locations, &rectangles).join()
+            {
+                let platform_bounds = BoundingBox::new(platform_rectangle, platform_grid_location);
+                let escalator_bounds = BoundingBox::new(escalator_rectangle, escalator_grid_location);
+
+                if is_atop(&escalator_bounds, &platform_bounds) {
+                    escalator_atop
+                        .bases
+                        .insert(BaseEntity::Platform(platform_entity));
+                }
+            }
+            info!("Escalator {:?} is atop {:?}", escalator_entity, escalator_atop.bases);
         }
     }
 }

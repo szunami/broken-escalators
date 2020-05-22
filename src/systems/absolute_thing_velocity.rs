@@ -18,12 +18,11 @@ impl<'s> System<'s> for AbsoluteThingVelocity {
         Entities<'s>,
         Read<'s, RewindableClock>,
         ReadStorage<'s, Thing>,
-        ReadStorage<'s, Step>,
         ReadStorage<'s, Atop>,
         WriteStorage<'s, Velocity>,
     );
 
-    fn run(&mut self, (entities, clock, things, steps, atops, mut velocities): Self::SystemData) {
+    fn run(&mut self, (entities, clock, things, atops, mut velocities): Self::SystemData) {
         if !clock.going_forwards() {
             return;
         }
@@ -37,7 +36,7 @@ impl<'s> System<'s> for AbsoluteThingVelocity {
 }
 
 // iterate down chain of atops
-fn velocity<'s>(
+pub fn velocity<'s>(
     atop: &Atop,
     atops: &ReadStorage<'s, Atop>,
     velocities: &WriteStorage<'s, Velocity>,
@@ -63,9 +62,8 @@ fn velocity<'s>(
         })
         .collect();
     atop_velocities.push(Vector3::new(0, GRAVITY_VELOCITY, 0));
-    let z = *atop_velocities
+    *atop_velocities
         .iter()
         .max_by_key(|velocity| velocity[1])
-        .unwrap();
-    return z;
+        .unwrap()
 }

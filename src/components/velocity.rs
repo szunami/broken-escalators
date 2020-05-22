@@ -19,8 +19,4 @@ impl<'s> Velocity {
             absolute: Vector3::new(0, 0, 0),
         }
     }
-
-    // pub fn new(x: i32, y: i32) -> Velocity {
-    //     Velocity { x, y }
-    // }
 }
