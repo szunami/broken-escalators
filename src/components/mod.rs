@@ -20,3 +20,6 @@ pub use self::velocity::Velocity;
 
 mod grid_location;
 pub use self::grid_location::GridLocation;
+
+mod atop;
+pub use self::atop::{Atop, BaseEntity};

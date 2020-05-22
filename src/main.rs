@@ -83,6 +83,7 @@ fn main() -> amethyst::Result<()> {
             any::type_name::<ThingTapeSystem>(),
             &[any::type_name::<RewindableClockSystem>()],
         )
+        // escalator tape system
         .with(
             StepVelocitySystem,
             any::type_name::<StepVelocitySystem>(),

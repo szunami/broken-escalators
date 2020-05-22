@@ -1,10 +1,5 @@
 use crate::{
-    components::GridLocation,
-    components::Platform,
-    components::Rectangle,
-    components::Step,
-    components::Thing,
-    components::Velocity,
+    components::{Atop, GridLocation, Platform, Rectangle, Step, Thing, Velocity},
     resources::RewindableClock,
     utils::{is_atop, BoundingBox},
 };
@@ -29,6 +24,7 @@ impl<'s> System<'s> for AtopSystem {
         ReadStorage<'s, Platform>,
         ReadStorage<'s, Rectangle>,
         WriteStorage<'s, Velocity>,
+        WriteStorage<'s, Atop>,
     );
 
     fn run(
@@ -47,6 +43,7 @@ impl<'s> System<'s> for AtopSystem {
         if !clock.going_forwards() {
             return;
         }
+        // for each atop
         for (_thing, thing_entity, thing_grid_location, thing_rectangle) in
             (&things, &entities, &grid_locations, &rectangles).join()
         {
@@ -55,6 +52,8 @@ impl<'s> System<'s> for AtopSystem {
             let mut atop_step: Option<Entity> = None;
             let mut atop_platform = false;
             let mut max_y_velocity = GRAVITY_VELOCITY;
+
+            // for each base
 
             for (_step, step_entity, step_grid_location, step_rectangle, step_velocity) in
                 (&steps, &entities, &grid_locations, &rectangles, &velocities).join()
