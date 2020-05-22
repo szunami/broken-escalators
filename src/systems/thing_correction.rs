@@ -36,7 +36,7 @@ impl<'s> System<'s> for ThingCorrectionSystem {
                 let thing_box = BoundingBox::new(thing_rectangle, thing_grid_location);
 
                 if overlap_exists(&thing_box, &step_box) {
-                    info!("Found overlap between {:?} and {:?}", thing_box, step_box);
+                    debug!("Found overlap between {:?} and {:?}", thing_box, step_box);
                     thing_grid_location.x += x_overlap(&thing_box, &step_box);
                 }
             }

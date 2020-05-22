@@ -27,7 +27,7 @@ impl<'s> System<'s> for ThingPositionSystem {
         {
             thing_location.x += thing_velocity.x;
             thing_location.y += thing_velocity.y;
-            info!("thing_position: {:?}", thing_location);
+            debug!("thing_position: {:?}", thing_location);
         }
     }
 }

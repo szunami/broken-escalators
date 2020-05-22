@@ -25,10 +25,7 @@ mod utils;
 use std::any;
 use std::env;
 use systems::{
-    core::{
-        DownKeysSystem, FPSSystem, RewindableClockSystem, StepTapeSystem, ThingTapeSystem,
-        ToggleSystem,
-    },
+    core::{DownKeysSystem, RewindableClockSystem, StepTapeSystem, ThingTapeSystem, ToggleSystem},
     velocity::AtopSystem,
     GridLocationTransformSystem, StepPositionSystem, StepVelocitySystem, ThingCorrectionSystem,
     ThingPositionSystem,
@@ -61,7 +58,6 @@ fn main() -> amethyst::Result<()> {
         .with_bundle(input_bundle)?
         .with_bundle(FpsCounterBundle {})?
         // core systems go first
-        .with(FPSSystem, any::type_name::<FPSSystem>(), &[])
         .with(DownKeysSystem, any::type_name::<DownKeysSystem>(), &[])
         .with(
             ToggleSystem,

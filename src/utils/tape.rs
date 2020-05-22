@@ -8,7 +8,7 @@ pub fn move_tape_backwards<T>(
 ) {
     if let Some(snapshot) = snapshots.pop() {
         *grid_location = snapshot.grid_location;
-        info!("Set grid location to {:?}", grid_location);
+        debug!("Set grid location to {:?}", grid_location);
         *component = snapshot.component;
     }
 }

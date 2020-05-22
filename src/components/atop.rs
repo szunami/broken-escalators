@@ -1,6 +1,7 @@
 use amethyst::ecs::prelude::{Component, DenseVecStorage, Entity};
 use std::collections::HashSet;
 
+#[derive(Eq, PartialEq, Debug, Hash)]
 pub enum BaseEntity {
     Step(Entity),
 }

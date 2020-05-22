@@ -38,6 +38,7 @@ impl<'s> System<'s> for AtopSystem {
             platforms,
             rectangles,
             mut velocities,
+            mut atops,
         ): Self::SystemData,
     ) {
         if !clock.going_forwards() {
@@ -86,7 +87,7 @@ impl<'s> System<'s> for AtopSystem {
                 thing_velocity.x = 0;
                 thing_velocity.y = 0;
             } else {
-                info!("Not atop");
+                debug!("Not atop");
                 let thing_velocity = velocities.get_mut(thing_entity).unwrap();
                 thing_velocity.x = 0;
                 thing_velocity.y = GRAVITY_VELOCITY;

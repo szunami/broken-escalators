@@ -28,10 +28,10 @@ impl<'s> System<'s> for ThingTapeSystem {
         {
             let snapshots = &mut thing_tape.snapshots;
             if clock.going_forwards() {
-                info!("Going forwards");
+                debug!("Going forwards");
                 move_tape_forwards(snapshots, thing_grid_location, thing);
             } else {
-                info!("Going backward");
+                debug!("Going backward");
                 move_tape_backwards(snapshots, thing_grid_location, thing);
             }
         }

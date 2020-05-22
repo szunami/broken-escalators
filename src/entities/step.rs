@@ -30,8 +30,8 @@ pub fn initialize_step(
     );
     transform.set_scale(Vector3::new(step_width as f32, step_height as f32, 1.));
 
-    info!("Registering step at {:?}", (x, y));
-    info!("With velocity: {:?}", (x_velocity, y_velocity));
+    debug!("Registering step at {:?}", (x, y));
+    debug!("With velocity: {:?}", (x_velocity, y_velocity));
 
     world
         .create_entity()

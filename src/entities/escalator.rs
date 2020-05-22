@@ -10,7 +10,7 @@ pub fn initialize_escalator(
 ) {
     let mut transform = Transform::default();
     transform.set_translation_xyz(escalator.x as f32 * 32., escalator.y as f32 * 32., 0.);
-    info!("Registering escalator at: {:?}", transform.translation());
+    debug!("Registering escalator at: {:?}", transform.translation());
 
     let escalator_entity = world
         .create_entity()
