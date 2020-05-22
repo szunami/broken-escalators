@@ -89,18 +89,31 @@ impl<'s> System<'s> for AtopSystem {
         for (escalator, escalator_entity, escalator_grid_location, escalator_rectangle, escalator_atop) in
             (&escalators, &entities, &grid_locations, &rectangles, &mut atops).join() {
 
-                for (_platform, platform_entity, platform_grid_location, platform_rectangle) in
+            escalator_atop.bases.clear();
+
+            let escalator_bounds = BoundingBox::new(escalator_rectangle, escalator_grid_location);
+
+
+            for (_platform, platform_entity, platform_grid_location, platform_rectangle) in
                 (&platforms, &entities, &grid_locations, &rectangles).join()
             {
                 let platform_bounds = BoundingBox::new(platform_rectangle, platform_grid_location);
-                let escalator_bounds = BoundingBox::new(escalator_rectangle, escalator_grid_location);
-
                 if is_atop(&escalator_bounds, &platform_bounds) {
                     escalator_atop
                         .bases
                         .insert(BaseEntity::Platform(platform_entity));
                 }
             }
+
+        for (_step, step_entity, step_grid_location, step_rectangle, step_velocity) in
+            (&steps, &entities, &grid_locations, &rectangles, &velocities).join()
+        {
+            let step_bounds = BoundingBox::new(step_rectangle, step_grid_location);
+
+            if is_atop(&escalator_bounds, &step_bounds) {
+                escalator_atop.bases.insert(BaseEntity::Step(step_entity));
+            }
+        }
             info!("Escalator {:?} is atop {:?}", escalator_entity, escalator_atop.bases);
         }
     }
