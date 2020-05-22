@@ -87,25 +87,11 @@ fn main() -> amethyst::Result<()> {
             &[any::type_name::<StepTapeSystem>()],
         )
         .with(
-            AbsoluteStepVelocitySystem,
-            any::type_name::<AbsoluteStepVelocitySystem>(),
-            &[any::type_name::<IntrinsicStepVelocitySystem>()],
-        )
-        .with(
             AtopSystem,
             any::type_name::<AtopSystem>(),
             &[
                 any::type_name::<IntrinsicStepVelocitySystem>(),
                 any::type_name::<ThingTapeSystem>(),
-            ],
-        )
-        .with(
-            AbsoluteThingVelocity,
-            any::type_name::<AbsoluteThingVelocity>(),
-            // this is probably overly restrictive for now
-            &[
-                any::type_name::<IntrinsicStepVelocitySystem>(),
-                any::type_name::<AtopSystem>(),
             ],
         )
         .with(
@@ -115,6 +101,20 @@ fn main() -> amethyst::Result<()> {
                 any::type_name::<IntrinsicStepVelocitySystem>(),
                 any::type_name::<AtopSystem>(),
 
+            ],
+        )
+        .with(
+            AbsoluteStepVelocitySystem,
+            any::type_name::<AbsoluteStepVelocitySystem>(),
+            &[any::type_name::<AbsoluteEscalatorVelocitySystem>()],
+        )
+        .with(
+            AbsoluteThingVelocity,
+            any::type_name::<AbsoluteThingVelocity>(),
+            // this is probably overly restrictive for now
+            &[
+                any::type_name::<IntrinsicStepVelocitySystem>(),
+                any::type_name::<AtopSystem>(),
             ],
         )
         .with(
