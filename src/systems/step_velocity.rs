@@ -22,8 +22,8 @@ impl<'s> System<'s> for StepVelocitySystem {
         }
         for (step, step_velocity) in (&mut steps, &mut velocities).join() {
             let escalator = escalators.get(step.escalator).unwrap();
-            step_velocity.x = x_velocity_for_side_and_direction(&step.side, &escalator);
-            step_velocity.y = y_velocity_for_side(&step.side, &escalator);
+            // step_velocity.x = x_velocity_for_side_and_direction(&step.side, &escalator);
+            // step_velocity.y = y_velocity_for_side(&step.side, &escalator);
         }
     }
 }

@@ -37,7 +37,7 @@ pub fn initialize_step(
         .create_entity()
         .with(Step::new(escalator_entity, side))
         .with(GridLocation::new(x, y))
-        .with(Velocity::new(x_velocity, y_velocity))
+        .with(Velocity::default())
         .with(Rectangle::new(step_width, step_height))
         .with(step_render)
         .with(StepTape::new())

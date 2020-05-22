@@ -1,5 +1,5 @@
 use crate::{
-    components::{Atop, GridLocation, Platform, Rectangle, Step, Thing, Velocity, BaseEntity},
+    components::{Atop, BaseEntity, GridLocation, Platform, Rectangle, Step, Thing, Velocity},
     resources::RewindableClock,
     utils::{is_atop, BoundingBox},
 };
@@ -45,7 +45,6 @@ impl<'s> System<'s> for AtopSystem {
             return;
         }
         // for each atop
-        // need to reset atops!
         for (_thing, thing_entity, thing_grid_location, thing_rectangle, thing_atop) in
             (&things, &entities, &grid_locations, &rectangles, &mut atops).join()
         {
@@ -66,10 +65,10 @@ impl<'s> System<'s> for AtopSystem {
                 if atopness {
                     thing_atop.bases.insert(BaseEntity::Step(step_entity));
 
-                    if step_velocity.y >= max_y_velocity {
-                        atop_step = Some(step_entity);
-                        max_y_velocity = step_velocity.y;
-                    }
+                    // if step_velocity.y >= max_y_velocity {
+                    //     atop_step = Some(step_entity);
+                    //     max_y_velocity = step_velocity.y;
+                    // }
                 }
             }
 
@@ -84,20 +83,20 @@ impl<'s> System<'s> for AtopSystem {
                 }
             }
 
-            if let Some(step_entity) = atop_step {
-                let step_velocity = velocities.get(step_entity).unwrap().clone();
-                let thing_velocity = velocities.get_mut(thing_entity).unwrap();
-                *thing_velocity = step_velocity.clone();
-            } else if atop_platform {
-                let thing_velocity = velocities.get_mut(thing_entity).unwrap();
-                thing_velocity.x = 0;
-                thing_velocity.y = 0;
-            } else {
-                debug!("Not atop");
-                let thing_velocity = velocities.get_mut(thing_entity).unwrap();
-                thing_velocity.x = 0;
-                thing_velocity.y = GRAVITY_VELOCITY;
-            }
+            // if let Some(step_entity) = atop_step {
+            //     // let step_velocity = velocities.get(step_entity).unwrap().clone();
+            //     // let thing_velocity = velocities.get_mut(thing_entity).unwrap();
+            //     // *thing_velocity = step_velocity.clone();
+            // } else if atop_platform {
+            //     // let thing_velocity = velocities.get_mut(thing_entity).unwrap();
+            //     // thing_velocity.x = 0;
+            //     // thing_velocity.y = 0;
+            // } else {
+            //     debug!("Not atop");
+            //     let thing_velocity = velocities.get_mut(thing_entity).unwrap();
+            //     thing_velocity.x = 0;
+            //     thing_velocity.y = GRAVITY_VELOCITY;
+            // }
 
             info!("Thing {:?} is atop {:?}", thing_entity, thing_atop.bases);
         }
