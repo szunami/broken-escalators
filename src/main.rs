@@ -27,7 +27,7 @@ use std::env;
 use systems::{
     core::{DownKeysSystem, RewindableClockSystem, StepTapeSystem, ThingTapeSystem, ToggleSystem},
     velocity::AtopSystem,
-    GridLocationTransformSystem, StepPositionSystem, StepVelocitySystem, ThingCorrectionSystem,
+    GridLocationTransformSystem, StepPositionSystem, IntrinsicStepVelocitySystem, AbsoluteStepVelocitySystem, ThingCorrectionSystem,
     ThingPositionSystem,
 };
 
@@ -81,15 +81,20 @@ fn main() -> amethyst::Result<()> {
         )
         // escalator tape system
         .with(
-            StepVelocitySystem,
-            any::type_name::<StepVelocitySystem>(),
+            IntrinsicStepVelocitySystem,
+            any::type_name::<IntrinsicStepVelocitySystem>(),
             &[any::type_name::<StepTapeSystem>()],
+        )
+        .with(
+            AbsoluteStepVelocitySystem,
+            any::type_name::<AbsoluteStepVelocitySystem>(),
+            &[any::type_name::<IntrinsicStepVelocitySystem>()],
         )
         .with(
             AtopSystem,
             any::type_name::<AtopSystem>(),
             &[
-                any::type_name::<StepVelocitySystem>(),
+                any::type_name::<IntrinsicStepVelocitySystem>(),
                 any::type_name::<ThingTapeSystem>(),
             ],
         )
