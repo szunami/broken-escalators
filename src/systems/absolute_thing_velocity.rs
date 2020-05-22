@@ -6,6 +6,8 @@ use crate::{
     components::{Thing, Step, Atop, Velocity, BaseEntity},
     resources::RewindableClock
 };
+use amethyst::core::math::Vector3;
+
 
 #[derive(SystemDesc)]
 pub struct AbsoluteThingVelocity;
@@ -25,27 +27,27 @@ impl<'s> System<'s> for AbsoluteThingVelocity {
             return;
         }
         for (thing, thing_entity, thing_atop) in (&things, &entities, &atops).join() {
-            let mut x = 0;
-            let mut y = 0;
-            if (!thing_atop.bases.is_empty()) {
-                // this should max over all entities
-                let maybe_base_entity = thing_atop.bases.iter().next();
-                // this should check atop of base_entity and so on
-                // also need to make sure that absolute velocity of the base has been updated first
-                let maybe_base_velocity = maybe_base_entity.map(|base_entity| {
-                    match base_entity {
-                        BaseEntity::Step(entity) => velocities.get(*entity).unwrap().clone()
-                    }
-                });
-                if let Some(base_velocity) = maybe_base_velocity {
-                    x += base_velocity.absolute[0];
-                    y += base_velocity.absolute[1];
-                }
-            }
+            let absolute_velocity = velocity(&thing_atop, &atops, &velocities);
             let mut thing_velocity = velocities.get_mut(thing_entity).unwrap();
-            thing_velocity.absolute[0] = x;
-            thing_velocity.absolute[1] = y;
+            thing_velocity.absolute = absolute_velocity;
             info!("Thing velocity: {:?}", thing_velocity);
         }
     }
+}
+
+// iterate down chain of atops
+fn velocity<'s>(atop: &Atop, atops: &ReadStorage<'s, Atop>, velocities: &WriteStorage<'s, Velocity>) -> Vector3<i32> {
+    let mut atop_velocities: Vec<Vector3<i32>> = atop.bases.iter().map(|base_entity| {
+        match base_entity {
+            BaseEntity::Step(entity) => {
+                // recursion here
+                // let step_atop = atops.get(*entity).unwrap();
+                // velocity(&step_atop, atops, velocities)
+                velocities.get(*entity).unwrap().absolute
+            }
+        }
+    }).collect();
+    atop_velocities.push(Vector3::new(0, -1, 0));
+    let z = *atop_velocities.iter().max_by_key(|velocity| velocity[1]).unwrap();
+    return z;
 }
