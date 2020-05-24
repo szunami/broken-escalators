@@ -1,9 +1,9 @@
+use crate::components::{Escalator, GridLocation, Velocity};
+use crate::resources::RewindableClock;
 use amethyst::{
     derive::SystemDesc,
-    ecs::prelude::{Join, Read, System, SystemData, ReadStorage, WriteStorage},
+    ecs::prelude::{Join, Read, ReadStorage, System, SystemData, WriteStorage},
 };
-use crate::components::{Escalator, Velocity, GridLocation};
-use crate::resources::RewindableClock;
 
 #[derive(SystemDesc)]
 pub struct EscalatorPositionSystem;
@@ -27,6 +27,5 @@ impl<'s> System<'s> for EscalatorPositionSystem {
             escalator_location.y += escalator_velocity.absolute[1];
             info!("escalator_position: {:?}", escalator_location);
         }
-
     }
 }

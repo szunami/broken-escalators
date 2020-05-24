@@ -1,10 +1,11 @@
+use crate::{
+    components::{Escalator, EscalatorTape, GridLocation},
+    resources::RewindableClock,
+    utils::{move_tape_backwards, move_tape_forwards},
+};
 use amethyst::{
     derive::SystemDesc,
     ecs::prelude::{Join, Read, ReadStorage, System, SystemData, WriteStorage},
-};
-use crate::{
-    components::{Escalator, GridLocation, EscalatorTape},
-    resources::RewindableClock, utils::{move_tape_forwards, move_tape_backwards}
 };
 
 #[derive(SystemDesc)]
@@ -18,7 +19,10 @@ impl<'s> System<'s> for EscalatorTapeSystem {
         WriteStorage<'s, EscalatorTape>,
     );
 
-    fn run(&mut self, (clock, mut escalators, mut grid_locations, mut escalator_tapes): Self::SystemData) {
+    fn run(
+        &mut self,
+        (clock, mut escalators, mut grid_locations, mut escalator_tapes): Self::SystemData,
+    ) {
         if clock.velocity == 0 {
             return;
         }

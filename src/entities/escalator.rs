@@ -1,5 +1,5 @@
 use super::initialize_step;
-use crate::components::{Escalator, GridLocation, Rectangle, Side, Atop, Velocity, EscalatorTape};
+use crate::components::{Atop, Escalator, EscalatorTape, GridLocation, Rectangle, Side, Velocity};
 use crate::levels::{Direction, EscalatorConfig};
 use amethyst::{core::transform::Transform, prelude::*, renderer::SpriteRender};
 

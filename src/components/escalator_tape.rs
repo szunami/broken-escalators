@@ -1,6 +1,6 @@
-use amethyst::ecs::prelude::{Component, DenseVecStorage};
 use super::Escalator;
 use crate::utils::Snapshot;
+use amethyst::ecs::prelude::{Component, DenseVecStorage};
 
 pub struct EscalatorTape {
     pub snapshots: Vec<Snapshot<Escalator>>,
@@ -12,8 +12,6 @@ impl<'s> Component for EscalatorTape {
 
 impl<'s> EscalatorTape {
     pub fn default() -> EscalatorTape {
-        EscalatorTape {
-            snapshots: vec![]
-        }
+        EscalatorTape { snapshots: vec![] }
     }
 }

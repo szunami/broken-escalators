@@ -1,13 +1,13 @@
 use crate::{
-    components::{Atop, BaseEntity, Escalator, GridLocation, Platform, Rectangle, Step, Thing, Velocity},
+    components::{
+        Atop, BaseEntity, Escalator, GridLocation, Platform, Rectangle, Step, Thing, Velocity,
+    },
     resources::RewindableClock,
     utils::{is_atop, BoundingBox},
 };
 use amethyst::{
     derive::SystemDesc,
-    ecs::{
-        prelude::{Entities, Join, Read, ReadStorage, System, SystemData, WriteStorage},
-    },
+    ecs::prelude::{Entities, Join, Read, ReadStorage, System, SystemData, WriteStorage},
 };
 
 #[derive(SystemDesc)]
@@ -86,35 +86,76 @@ impl<'s> System<'s> for AtopSystem {
             info!("Thing {:?} is atop {:?}", thing_entity, thing_atop.bases);
         }
 
-        for (escalator, escalator_entity, escalator_grid_location, escalator_rectangle, escalator_atop) in
-            (&escalators, &entities, &grid_locations, &rectangles, &mut atops).join() {
-
+        for (escalator, escalator_atop) in (&escalators, &mut atops).join() {
             escalator_atop.bases.clear();
+        }
 
-            let escalator_bounds = BoundingBox::new(escalator_rectangle, escalator_grid_location);
-
+        for (step, step_entity, step_grid_location, step_rectangle, step_velocity) in
+            (&steps, &entities, &grid_locations, &rectangles, &velocities).join()
+        {
+            let step_bounds = BoundingBox::new(step_rectangle, step_grid_location);
+            let mut escalator_atop = atops.get_mut(step.escalator).unwrap();
 
             for (_platform, platform_entity, platform_grid_location, platform_rectangle) in
                 (&platforms, &entities, &grid_locations, &rectangles).join()
             {
                 let platform_bounds = BoundingBox::new(platform_rectangle, platform_grid_location);
-                if is_atop(&escalator_bounds, &platform_bounds) {
+                if is_atop(&step_bounds, &platform_bounds) {
                     escalator_atop
                         .bases
                         .insert(BaseEntity::Platform(platform_entity));
                 }
             }
 
-        for (_step, step_entity, step_grid_location, step_rectangle, step_velocity) in
-            (&steps, &entities, &grid_locations, &rectangles, &velocities).join()
-        {
-            let step_bounds = BoundingBox::new(step_rectangle, step_grid_location);
+            info!(
+                "Escalator {:?} is atop {:?}",
+                step.escalator, escalator_atop.bases
+            );
+        }
 
-            if is_atop(&escalator_bounds, &step_bounds) {
-                escalator_atop.bases.insert(BaseEntity::Step(step_entity));
-            }
-        }
-            info!("Escalator {:?} is atop {:?}", escalator_entity, escalator_atop.bases);
-        }
+        // for (
+        //     escalator,
+        //     escalator_entity,
+        //     escalator_grid_location,
+        //     escalator_rectangle,
+        //     escalator_atop,
+        // ) in (
+        //     &escalators,
+        //     &entities,
+        //     &grid_locations,
+        //     &rectangles,
+        //     &mut atops,
+        // )
+        //     .join()
+        // {
+        //     escalator_atop.bases.clear();
+
+        //     let escalator_bounds = BoundingBox::new(escalator_rectangle, escalator_grid_location);
+
+        //     for (_platform, platform_entity, platform_grid_location, platform_rectangle) in
+        //         (&platforms, &entities, &grid_locations, &rectangles).join()
+        //     {
+        //         let platform_bounds = BoundingBox::new(platform_rectangle, platform_grid_location);
+        //         if is_atop(&escalator_bounds, &platform_bounds) {
+        //             escalator_atop
+        //                 .bases
+        //                 .insert(BaseEntity::Platform(platform_entity));
+        //         }
+        //     }
+
+        //     for (_step, step_entity, step_grid_location, step_rectangle, step_velocity) in
+        //         (&steps, &entities, &grid_locations, &rectangles, &velocities).join()
+        //     {
+        //         let step_bounds = BoundingBox::new(step_rectangle, step_grid_location);
+
+        //         if is_atop(&escalator_bounds, &step_bounds) {
+        //             escalator_atop.bases.insert(BaseEntity::Step(step_entity));
+        //         }
+        //     }
+        //     info!(
+        //         "Escalator {:?} is atop {:?}",
+        //         escalator_entity, escalator_atop.bases
+        //     );
+        // }
     }
 }
