@@ -16,16 +16,17 @@ impl<'s> System<'s> for AbsoluteEscalatorVelocitySystem {
         Entities<'s>,
         Read<'s, RewindableClock>,
         ReadStorage<'s, Escalator>,
+        ReadStorage<'s, Step>,
         ReadStorage<'s, Atop>,
         WriteStorage<'s, Velocity>,
     );
 
-    fn run(&mut self, (entities, clock, escalators, atops, mut velocities): Self::SystemData) {
+    fn run(&mut self, (entities, clock, escalators, steps, atops, mut velocities): Self::SystemData) {
         if !clock.going_forwards() {
             return;
         }
         for (escalator, escalator_entity, escalator_atop) in (&escalators, &entities, &atops).join() {
-            let absolute_velocity = velocity(&escalator_atop, &atops, &velocities);
+            let absolute_velocity = velocity(&escalator_atop, &atops, &steps, &velocities);
             let mut escalator_velocity = velocities.get_mut(escalator_entity).unwrap();
             escalator_velocity.absolute = absolute_velocity;
             info!("Escalator velocity: {:?}", escalator_velocity);

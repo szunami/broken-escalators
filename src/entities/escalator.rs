@@ -1,5 +1,5 @@
 use super::initialize_step;
-use crate::components::{Escalator, GridLocation, Rectangle, Side, Atop, Velocity};
+use crate::components::{Escalator, GridLocation, Rectangle, Side, Atop, Velocity, EscalatorTape};
 use crate::levels::{Direction, EscalatorConfig};
 use amethyst::{core::transform::Transform, prelude::*, renderer::SpriteRender};
 
@@ -24,6 +24,7 @@ pub fn initialize_escalator(
         .with(transform)
         .with(Atop::default())
         .with(Velocity::default())
+        .with(EscalatorTape::default())
         .build();
 
     let step_height = escalator.height / escalator.num_steps;

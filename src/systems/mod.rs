@@ -27,3 +27,6 @@ pub use escalator_absolute_velocity::AbsoluteEscalatorVelocitySystem;
 
 mod escalator_position;
 pub use escalator_position::EscalatorPositionSystem;
+
+mod escalator_tape;
+pub use escalator_tape::EscalatorTapeSystem;

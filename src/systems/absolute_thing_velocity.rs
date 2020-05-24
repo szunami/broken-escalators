@@ -18,16 +18,17 @@ impl<'s> System<'s> for AbsoluteThingVelocity {
         Entities<'s>,
         Read<'s, RewindableClock>,
         ReadStorage<'s, Thing>,
+        ReadStorage<'s, Step>,
         ReadStorage<'s, Atop>,
         WriteStorage<'s, Velocity>,
     );
 
-    fn run(&mut self, (entities, clock, things, atops, mut velocities): Self::SystemData) {
+    fn run(&mut self, (entities, clock, things, steps, atops, mut velocities): Self::SystemData) {
         if !clock.going_forwards() {
             return;
         }
         for (thing, thing_entity, thing_atop) in (&things, &entities, &atops).join() {
-            let absolute_velocity = velocity(&thing_atop, &atops, &velocities);
+            let absolute_velocity = velocity(&thing_atop, &atops, &steps, &velocities);
             let mut thing_velocity = velocities.get_mut(thing_entity).unwrap();
             thing_velocity.absolute = absolute_velocity;
             info!("Thing velocity: {:?}", thing_velocity);
@@ -39,6 +40,7 @@ impl<'s> System<'s> for AbsoluteThingVelocity {
 pub fn velocity<'s>(
     atop: &Atop,
     atops: &ReadStorage<'s, Atop>,
+    steps: &ReadStorage<'s, Step>,
     velocities: &WriteStorage<'s, Velocity>,
 ) -> Vector3<i32> {
     let mut atop_velocities: Vec<Vector3<i32>> = atop
@@ -48,15 +50,17 @@ pub fn velocity<'s>(
             match base_entity {
                 BaseEntity::Step(entity) => {
                     // recursion here
-                    // let step_atop = atops.get(*entity).unwrap();
-                    // velocity(&step_atop, atops, velocities)
-                    velocities.get(*entity).unwrap().absolute
+                    let step = steps.get(*entity).unwrap();
+                    let escalator_atop = atops.get(step.escalator).unwrap();
+                    let step_velocity = velocities.get(*entity).unwrap().intrinsic;
+                    let inherited_velocity = velocity(&escalator_atop, atops, steps, velocities);
+                    step_velocity + inherited_velocity
                 }
                 BaseEntity::Platform(_) => Vector3::new(0, 0, 0),
                 BaseEntity::Thing(entity) => {
                     // recursion here
                     let thing_atop = atops.get(*entity).unwrap();
-                    velocity(&thing_atop, atops, velocities)
+                    velocity(&thing_atop, atops, steps, velocities)
                 }
             }
         })

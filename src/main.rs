@@ -29,7 +29,7 @@ use systems::{
     velocity::AtopSystem,
     AbsoluteStepVelocitySystem, AbsoluteThingVelocity, GridLocationTransformSystem,
     IntrinsicStepVelocitySystem, StepPositionSystem, ThingCorrectionSystem, ThingPositionSystem,
-    AbsoluteEscalatorVelocitySystem, EscalatorPositionSystem
+    AbsoluteEscalatorVelocitySystem, EscalatorPositionSystem, EscalatorTapeSystem,
 };
 
 fn main() -> amethyst::Result<()> {
@@ -78,6 +78,11 @@ fn main() -> amethyst::Result<()> {
         .with(
             ThingTapeSystem,
             any::type_name::<ThingTapeSystem>(),
+            &[any::type_name::<RewindableClockSystem>()],
+        )
+        .with(
+            EscalatorTapeSystem,
+            any::type_name::<EscalatorTapeSystem>(),
             &[any::type_name::<RewindableClockSystem>()],
         )
         // escalator tape system
