@@ -107,6 +107,20 @@ impl<'s> System<'s> for AtopSystem {
                 }
             }
 
+            for (other_step, other_step_entity, other_step_grid_location, other_step_rectangle, other_step_velocity) in
+                (&steps, &entities, &grid_locations, &rectangles, &velocities).join()
+            {
+                if other_step.escalator == step.escalator {
+                    info!("Same escalator, skipping.");
+                    continue;
+                }
+                let other_step_bounds = BoundingBox::new(other_step_rectangle, other_step_grid_location);
+
+                if is_atop(&step_bounds, &other_step_bounds) {
+                    escalator_atop.bases.insert(BaseEntity::Step(other_step_entity));
+                }
+            }
+
             info!(
                 "Escalator {:?} is atop {:?}",
                 step.escalator, escalator_atop.bases
