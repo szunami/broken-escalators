@@ -1,20 +1,12 @@
 use crate::{
-    components::GridLocation,
-    components::Platform,
-    components::Rectangle,
-    components::Step,
-    components::Thing,
-    components::Velocity,
+    components::{Atop, BaseEntity, Escalator, GridLocation, Platform, Rectangle, Step, Thing},
     resources::RewindableClock,
     utils::{is_atop, BoundingBox},
 };
 use amethyst::{
     derive::SystemDesc,
     ecs::prelude::{Entities, Join, Read, ReadStorage, System, SystemData, WriteStorage},
-    ecs::Entity,
 };
-
-pub const GRAVITY_VELOCITY: i32 = -1;
 
 #[derive(SystemDesc)]
 pub struct AtopSystem;
@@ -24,11 +16,12 @@ impl<'s> System<'s> for AtopSystem {
         Entities<'s>,
         Read<'s, RewindableClock>,
         ReadStorage<'s, Thing>,
+        ReadStorage<'s, Escalator>,
         ReadStorage<'s, GridLocation>,
         ReadStorage<'s, Step>,
         ReadStorage<'s, Platform>,
         ReadStorage<'s, Rectangle>,
-        WriteStorage<'s, Velocity>,
+        WriteStorage<'s, Atop>,
     );
 
     fn run(
@@ -37,61 +30,100 @@ impl<'s> System<'s> for AtopSystem {
             entities,
             clock,
             things,
+            escalators,
             grid_locations,
             steps,
             platforms,
             rectangles,
-            mut velocities,
+            mut atops,
         ): Self::SystemData,
     ) {
         if !clock.going_forwards() {
             return;
         }
-        for (_thing, thing_entity, thing_grid_location, thing_rectangle) in
-            (&things, &entities, &grid_locations, &rectangles).join()
+        for (_thing, thing_entity, thing_grid_location, thing_rectangle, thing_atop) in
+            (&things, &entities, &grid_locations, &rectangles, &mut atops).join()
         {
+            thing_atop.bases.clear();
             let thing_bounds = BoundingBox::new(thing_rectangle, thing_grid_location);
-
-            let mut atop_step: Option<Entity> = None;
-            let mut atop_platform = false;
-            let mut max_y_velocity = GRAVITY_VELOCITY;
-
-            for (_step, step_entity, step_grid_location, step_rectangle, step_velocity) in
-                (&steps, &entities, &grid_locations, &rectangles, &velocities).join()
+            for (_step, step_entity, step_grid_location, step_rectangle) in
+                (&steps, &entities, &grid_locations, &rectangles).join()
             {
                 let step_bounds = BoundingBox::new(step_rectangle, step_grid_location);
-                let atopness = is_atop(&thing_bounds, &step_bounds);
-                if atopness && step_velocity.y >= max_y_velocity {
-                    atop_step = Some(step_entity);
-                    max_y_velocity = step_velocity.y;
+                if is_atop(&thing_bounds, &step_bounds) {
+                    thing_atop.bases.insert(BaseEntity::Step(step_entity));
                 }
             }
-
-            for (_platform, platform_grid_location, platform_rectangle) in
-                (&platforms, &grid_locations, &rectangles).join()
+            for (_platform, platform_entity, platform_grid_location, platform_rectangle) in
+                (&platforms, &entities, &grid_locations, &rectangles).join()
             {
                 let platform_bounds = BoundingBox::new(platform_rectangle, platform_grid_location);
-                let atopness = is_atop(&thing_bounds, &platform_bounds);
-                if atopness && max_y_velocity <= 0 {
-                    atop_step = None;
-                    atop_platform = true;
+                if is_atop(&thing_bounds, &platform_bounds) {
+                    thing_atop
+                        .bases
+                        .insert(BaseEntity::Platform(platform_entity));
+                }
+            }
+            for (
+                _other_thing,
+                other_thing_entity,
+                other_thing_grid_location,
+                other_thing_rectangle,
+            ) in (&things, &entities, &grid_locations, &rectangles).join()
+            {
+                let other_thing_bounds =
+                    BoundingBox::new(other_thing_rectangle, other_thing_grid_location);
+                if is_atop(&thing_bounds, &other_thing_bounds) {
+                    thing_atop
+                        .bases
+                        .insert(BaseEntity::Thing(other_thing_entity));
+                }
+            }
+            debug!("Thing {:?} is atop {:?}", thing_entity, thing_atop.bases);
+        }
+
+        for (_escalator, escalator_atop) in (&escalators, &mut atops).join() {
+            escalator_atop.bases.clear();
+        }
+
+        for (step, step_grid_location, step_rectangle) in
+            (&steps, &grid_locations, &rectangles).join()
+        {
+            let step_bounds = BoundingBox::new(step_rectangle, step_grid_location);
+            let escalator_atop = atops.get_mut(step.escalator).unwrap();
+
+            for (_platform, platform_entity, platform_grid_location, platform_rectangle) in
+                (&platforms, &entities, &grid_locations, &rectangles).join()
+            {
+                let platform_bounds = BoundingBox::new(platform_rectangle, platform_grid_location);
+                if is_atop(&step_bounds, &platform_bounds) {
+                    escalator_atop
+                        .bases
+                        .insert(BaseEntity::Platform(platform_entity));
                 }
             }
 
-            if let Some(step_entity) = atop_step {
-                let step_velocity = velocities.get(step_entity).unwrap().clone();
-                let thing_velocity = velocities.get_mut(thing_entity).unwrap();
-                *thing_velocity = step_velocity.clone();
-            } else if atop_platform {
-                let thing_velocity = velocities.get_mut(thing_entity).unwrap();
-                thing_velocity.x = 0;
-                thing_velocity.y = 0;
-            } else {
-                info!("Not atop");
-                let thing_velocity = velocities.get_mut(thing_entity).unwrap();
-                thing_velocity.x = 0;
-                thing_velocity.y = GRAVITY_VELOCITY;
+            for (other_step, other_step_entity, other_step_grid_location, other_step_rectangle) in
+                (&steps, &entities, &grid_locations, &rectangles).join()
+            {
+                if other_step.escalator == step.escalator {
+                    debug!("Same escalator, skipping.");
+                    continue;
+                }
+                let other_step_bounds =
+                    BoundingBox::new(other_step_rectangle, other_step_grid_location);
+
+                if is_atop(&step_bounds, &other_step_bounds) {
+                    escalator_atop
+                        .bases
+                        .insert(BaseEntity::Step(other_step_entity));
+                }
             }
+
+            debug!(
+                "Escalator {:?} is atop {:?}",
+                step.escalator, escalator_atop.bases
+            );
         }
     }
 }

@@ -25,13 +25,12 @@ mod utils;
 use std::any;
 use std::env;
 use systems::{
-    core::{
-        DownKeysSystem, FPSSystem, RewindableClockSystem, StepTapeSystem, ThingTapeSystem,
-        ToggleSystem,
-    },
+    core::{DownKeysSystem, RewindableClockSystem, StepTapeSystem, ThingTapeSystem, ToggleSystem},
     velocity::AtopSystem,
-    GridLocationTransformSystem, StepPositionSystem, StepVelocitySystem, ThingCorrectionSystem,
-    ThingPositionSystem,
+    AbsoluteEscalatorVelocitySystem, AbsoluteStepVelocitySystem, AbsoluteThingVelocity,
+    EscalatorCorrectionSystem, EscalatorPositionSystem, EscalatorTapeSystem,
+    GridLocationTransformSystem, IntrinsicStepVelocitySystem, StepPositionSystem,
+    ThingCorrectionSystem, ThingPositionSystem,
 };
 
 fn main() -> amethyst::Result<()> {
@@ -61,7 +60,6 @@ fn main() -> amethyst::Result<()> {
         .with_bundle(input_bundle)?
         .with_bundle(FpsCounterBundle {})?
         // core systems go first
-        .with(FPSSystem, any::type_name::<FPSSystem>(), &[])
         .with(DownKeysSystem, any::type_name::<DownKeysSystem>(), &[])
         .with(
             ToggleSystem,
@@ -84,30 +82,68 @@ fn main() -> amethyst::Result<()> {
             &[any::type_name::<RewindableClockSystem>()],
         )
         .with(
-            StepVelocitySystem,
-            any::type_name::<StepVelocitySystem>(),
+            EscalatorTapeSystem,
+            any::type_name::<EscalatorTapeSystem>(),
+            &[any::type_name::<RewindableClockSystem>()],
+        )
+        // escalator tape system
+        .with(
+            IntrinsicStepVelocitySystem,
+            any::type_name::<IntrinsicStepVelocitySystem>(),
             &[any::type_name::<StepTapeSystem>()],
         )
         .with(
             AtopSystem,
             any::type_name::<AtopSystem>(),
             &[
-                any::type_name::<StepVelocitySystem>(),
+                any::type_name::<IntrinsicStepVelocitySystem>(),
                 any::type_name::<ThingTapeSystem>(),
             ],
+        )
+        .with(
+            AbsoluteEscalatorVelocitySystem,
+            any::type_name::<AbsoluteEscalatorVelocitySystem>(),
+            &[
+                any::type_name::<IntrinsicStepVelocitySystem>(),
+                any::type_name::<AtopSystem>(),
+            ],
+        )
+        .with(
+            AbsoluteStepVelocitySystem,
+            any::type_name::<AbsoluteStepVelocitySystem>(),
+            &[any::type_name::<AbsoluteEscalatorVelocitySystem>()],
+        )
+        .with(
+            AbsoluteThingVelocity,
+            any::type_name::<AbsoluteThingVelocity>(),
+            // this is probably overly restrictive for now
+            &[
+                any::type_name::<IntrinsicStepVelocitySystem>(),
+                any::type_name::<AtopSystem>(),
+            ],
+        )
+        .with(
+            EscalatorPositionSystem,
+            any::type_name::<EscalatorPositionSystem>(),
+            &[any::type_name::<AbsoluteEscalatorVelocitySystem>()],
         )
         .with(
             StepPositionSystem,
             any::type_name::<StepPositionSystem>(),
             &[
-                any::type_name::<AtopSystem>(),
+                any::type_name::<AbsoluteStepVelocitySystem>(),
                 any::type_name::<StepTapeSystem>(),
             ],
         )
         .with(
             ThingPositionSystem,
             any::type_name::<ThingPositionSystem>(),
-            &[any::type_name::<AtopSystem>()],
+            &[any::type_name::<AbsoluteThingVelocity>()],
+        )
+        .with(
+            EscalatorCorrectionSystem,
+            any::type_name::<EscalatorCorrectionSystem>(),
+            &[any::type_name::<StepPositionSystem>()],
         )
         .with(
             ThingCorrectionSystem,
@@ -118,8 +154,8 @@ fn main() -> amethyst::Result<()> {
             GridLocationTransformSystem,
             any::type_name::<GridLocationTransformSystem>(),
             &[
-                any::type_name::<StepPositionSystem>(),
-                any::type_name::<ThingPositionSystem>(),
+                any::type_name::<EscalatorCorrectionSystem>(),
+                any::type_name::<ThingCorrectionSystem>(),
             ],
         );
 

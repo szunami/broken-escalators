@@ -1,5 +1,5 @@
 use super::initialize_step;
-use crate::components::{Escalator, GridLocation, Rectangle, Side};
+use crate::components::{Atop, Escalator, EscalatorTape, GridLocation, Rectangle, Side, Velocity};
 use crate::levels::{Direction, EscalatorConfig};
 use amethyst::{core::transform::Transform, prelude::*, renderer::SpriteRender};
 
@@ -10,7 +10,7 @@ pub fn initialize_escalator(
 ) {
     let mut transform = Transform::default();
     transform.set_translation_xyz(escalator.x as f32 * 32., escalator.y as f32 * 32., 0.);
-    info!("Registering escalator at: {:?}", transform.translation());
+    debug!("Registering escalator at: {:?}", transform.translation());
 
     let escalator_entity = world
         .create_entity()
@@ -22,6 +22,9 @@ pub fn initialize_escalator(
         .with(GridLocation::new(escalator.x, escalator.y))
         .with(Rectangle::new(escalator.width, escalator.height))
         .with(transform)
+        .with(Atop::default())
+        .with(Velocity::default())
+        .with(EscalatorTape::default())
         .build();
 
     let step_height = escalator.height / escalator.num_steps;

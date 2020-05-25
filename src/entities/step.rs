@@ -30,14 +30,14 @@ pub fn initialize_step(
     );
     transform.set_scale(Vector3::new(step_width as f32, step_height as f32, 1.));
 
-    info!("Registering step at {:?}", (x, y));
-    info!("With velocity: {:?}", (x_velocity, y_velocity));
+    debug!("Registering step at {:?}", (x, y));
+    debug!("With velocity: {:?}", (x_velocity, y_velocity));
 
     world
         .create_entity()
         .with(Step::new(escalator_entity, side))
         .with(GridLocation::new(x, y))
-        .with(Velocity::new(x_velocity, y_velocity))
+        .with(Velocity::default())
         .with(Rectangle::new(step_width, step_height))
         .with(step_render)
         .with(StepTape::new())

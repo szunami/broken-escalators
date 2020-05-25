@@ -28,12 +28,12 @@ LevelConfig(
             height: 4,
             color_flag: YELLOW
         ),
-        PlatformConfig(
-            x: 22,
-            y: 12,
-            width: 4,
-            height: 4,
-            color_flag: YELLOW
-        ),
+        // PlatformConfig(
+        //     x: 22,
+        //     y: 12,
+        //     width: 4,
+        //     height: 4,
+        //     color_flag: YELLOW
+        // ),
     ],
 )

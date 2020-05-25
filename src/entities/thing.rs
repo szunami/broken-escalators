@@ -1,5 +1,5 @@
 use crate::{
-    components::{Color, GridLocation, Rectangle, Thing, ThingTape, Velocity},
+    components::{Atop, Color, GridLocation, Rectangle, Thing, ThingTape, Velocity},
     levels::ThingConfig,
     utils::grid_coordinate_to_transform_coordinate,
 };
@@ -29,6 +29,7 @@ pub fn initialize_thing(world: &mut World, thing_config: ThingConfig, sprite_ren
         .with(Rectangle::new(thing_config.width, thing_config.height))
         .with(ThingTape::new())
         .with(Velocity::default())
+        .with(Atop::default())
         .with(sprite_render)
         .with(transform)
         .with(Color::new(thing_config.color_flag))

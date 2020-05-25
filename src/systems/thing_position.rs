@@ -25,9 +25,9 @@ impl<'s> System<'s> for ThingPositionSystem {
         for (_thing, thing_velocity, thing_location) in
             (&things, &velocities, &mut grid_locations).join()
         {
-            thing_location.x += thing_velocity.x;
-            thing_location.y += thing_velocity.y;
-            info!("thing_position: {:?}", thing_location);
+            thing_location.x += thing_velocity.absolute[0];
+            thing_location.y += thing_velocity.absolute[1];
+            debug!("thing_position: {:?}", thing_location);
         }
     }
 }

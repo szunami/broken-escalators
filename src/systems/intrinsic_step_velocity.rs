@@ -6,9 +6,9 @@ use amethyst::{
 };
 
 #[derive(SystemDesc)]
-pub struct StepVelocitySystem;
+pub struct IntrinsicStepVelocitySystem;
 
-impl<'s> System<'s> for StepVelocitySystem {
+impl<'s> System<'s> for IntrinsicStepVelocitySystem {
     type SystemData = (
         Read<'s, RewindableClock>,
         ReadStorage<'s, Escalator>,
@@ -22,8 +22,9 @@ impl<'s> System<'s> for StepVelocitySystem {
         }
         for (step, step_velocity) in (&mut steps, &mut velocities).join() {
             let escalator = escalators.get(step.escalator).unwrap();
-            step_velocity.x = x_velocity_for_side_and_direction(&step.side, &escalator);
-            step_velocity.y = y_velocity_for_side(&step.side, &escalator);
+            step_velocity.intrinsic[0] = x_velocity_for_side_and_direction(&step.side, &escalator);
+            step_velocity.intrinsic[1] = y_velocity_for_side(&step.side, &escalator);
+            debug!("Step velocity: {:?}", step_velocity);
         }
     }
 }

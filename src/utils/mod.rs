@@ -1,5 +1,5 @@
 pub use self::bounding_box::{
-    is_atop, overlap_exists, touching_multiple_edges, x_overlap, BoundingBox,
+    is_atop, overlap_exists, touching_multiple_edges, x_overlap, y_overlap, BoundingBox,
 };
 pub use self::grid::grid_coordinate_to_transform_coordinate;
 pub use self::snapshot::Snapshot;

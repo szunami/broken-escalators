@@ -1,8 +1,8 @@
 pub mod core;
 pub mod velocity;
 
-mod step_velocity;
-pub use step_velocity::StepVelocitySystem;
+mod intrinsic_step_velocity;
+pub use intrinsic_step_velocity::IntrinsicStepVelocitySystem;
 
 mod step_position;
 pub use step_position::StepPositionSystem;
@@ -15,3 +15,21 @@ pub use thing_position::ThingPositionSystem;
 
 mod thing_correction;
 pub use thing_correction::ThingCorrectionSystem;
+
+mod absolute_step_velocity;
+pub use absolute_step_velocity::AbsoluteStepVelocitySystem;
+
+mod absolute_thing_velocity;
+pub use absolute_thing_velocity::{velocity, AbsoluteThingVelocity};
+
+mod escalator_absolute_velocity;
+pub use escalator_absolute_velocity::AbsoluteEscalatorVelocitySystem;
+
+mod escalator_position;
+pub use escalator_position::EscalatorPositionSystem;
+
+mod escalator_tape;
+pub use escalator_tape::EscalatorTapeSystem;
+
+mod escalator_correction;
+pub use escalator_correction::EscalatorCorrectionSystem;
