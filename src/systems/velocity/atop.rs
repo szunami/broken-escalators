@@ -1,7 +1,5 @@
 use crate::{
-    components::{
-        Atop, BaseEntity, Escalator, GridLocation, Platform, Rectangle, Step, Thing,
-    },
+    components::{Atop, BaseEntity, Escalator, GridLocation, Platform, Rectangle, Step, Thing},
     resources::RewindableClock,
     utils::{is_atop, BoundingBox},
 };
@@ -105,12 +103,8 @@ impl<'s> System<'s> for AtopSystem {
                 }
             }
 
-            for (
-                other_step,
-                other_step_entity,
-                other_step_grid_location,
-                other_step_rectangle,
-            ) in (&steps, &entities, &grid_locations, &rectangles).join()
+            for (other_step, other_step_entity, other_step_grid_location, other_step_rectangle) in
+                (&steps, &entities, &grid_locations, &rectangles).join()
             {
                 if other_step.escalator == step.escalator {
                     info!("Same escalator, skipping.");

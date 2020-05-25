@@ -27,7 +27,8 @@ impl<'s> System<'s> for AbsoluteEscalatorVelocitySystem {
         if !clock.going_forwards() {
             return;
         }
-        for (_escalator, escalator_entity, escalator_atop) in (&escalators, &entities, &atops).join()
+        for (_escalator, escalator_entity, escalator_atop) in
+            (&escalators, &entities, &atops).join()
         {
             let absolute_velocity = velocity(&escalator_atop, &atops, &steps, &velocities);
             let mut escalator_velocity = velocities.get_mut(escalator_entity).unwrap();
