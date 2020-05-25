@@ -31,10 +31,10 @@ impl<'s> System<'s> for EscalatorTapeSystem {
         {
             let snapshots = &mut escalator_tape.snapshots;
             if clock.going_forwards() {
-                info!("Going forwards");
+                debug!("Going forwards");
                 move_tape_forwards(snapshots, escalator_grid_location, escalator);
             } else {
-                info!("Going backward");
+                debug!("Going backward");
                 // probably need to handle direction specially!
                 move_tape_backwards(snapshots, escalator_grid_location, escalator);
             }

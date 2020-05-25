@@ -25,7 +25,7 @@ impl<'s> System<'s> for EscalatorPositionSystem {
         {
             escalator_location.x += escalator_velocity.absolute[0];
             escalator_location.y += escalator_velocity.absolute[1];
-            info!("escalator_position: {:?}", escalator_location);
+            debug!("escalator_position: {:?}", escalator_location);
         }
     }
 }

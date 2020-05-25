@@ -29,7 +29,7 @@ impl<'s> System<'s> for AbsoluteStepVelocitySystem {
             let step_velocity = velocities.get_mut(step_entity).unwrap();
             step_velocity.absolute[0] = escalator_velocity.absolute[0] + step_velocity.intrinsic[0];
             step_velocity.absolute[1] = escalator_velocity.absolute[1] + step_velocity.intrinsic[1];
-            info!("Step velocity: {:?}", step_velocity);
+            debug!("Step velocity: {:?}", step_velocity);
         }
     }
 }

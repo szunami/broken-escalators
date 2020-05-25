@@ -31,7 +31,7 @@ impl<'s> System<'s> for AbsoluteThingVelocity {
             let absolute_velocity = velocity(&thing_atop, &atops, &steps, &velocities);
             let mut thing_velocity = velocities.get_mut(thing_entity).unwrap();
             thing_velocity.absolute = absolute_velocity;
-            info!("Thing velocity: {:?}", thing_velocity);
+            debug!("Thing velocity: {:?}", thing_velocity);
         }
     }
 }

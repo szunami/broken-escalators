@@ -79,7 +79,7 @@ impl<'s> System<'s> for AtopSystem {
                         .insert(BaseEntity::Thing(other_thing_entity));
                 }
             }
-            info!("Thing {:?} is atop {:?}", thing_entity, thing_atop.bases);
+            debug!("Thing {:?} is atop {:?}", thing_entity, thing_atop.bases);
         }
 
         for (_escalator, escalator_atop) in (&escalators, &mut atops).join() {
@@ -107,7 +107,7 @@ impl<'s> System<'s> for AtopSystem {
                 (&steps, &entities, &grid_locations, &rectangles).join()
             {
                 if other_step.escalator == step.escalator {
-                    info!("Same escalator, skipping.");
+                    debug!("Same escalator, skipping.");
                     continue;
                 }
                 let other_step_bounds =
@@ -120,7 +120,7 @@ impl<'s> System<'s> for AtopSystem {
                 }
             }
 
-            info!(
+            debug!(
                 "Escalator {:?} is atop {:?}",
                 step.escalator, escalator_atop.bases
             );

@@ -49,11 +49,11 @@ impl<'s> System<'s> for EscalatorCorrectionSystem {
                 let step_grid_location = grid_locations.get_mut(step_entity).unwrap();
                 let step_box = BoundingBox::new(&step_rectangle, &step_grid_location);
                 if overlap_exists(&step_box, &other_step_box) {
-                    info!(
+                    debug!(
                         "Found overlap between {:?} and {:?}",
                         step_entity, other_step_entity
                     );
-                    info!("x overlap is {:?}", x_overlap(&step_box, &other_step_box));
+                    debug!("x overlap is {:?}", x_overlap(&step_box, &other_step_box));
                     let step_atop = atops.get(step.escalator).unwrap();
 
                     // is step atop other_step's escalator?
@@ -64,7 +64,7 @@ impl<'s> System<'s> for EscalatorCorrectionSystem {
                                 let step_step_is_atop = steps.get(*entity).unwrap();
                                 if step_step_is_atop.escalator == other_step.escalator {
                                     // we're atop other step's escalator! we get corrected
-                                    info!("Need to apply correction to this step");
+                                    debug!("Need to apply correction to this step");
                                     escalator_corrections.insert(
                                         step.escalator,
                                         x_overlap(&step_box, &other_step_box),
@@ -79,7 +79,7 @@ impl<'s> System<'s> for EscalatorCorrectionSystem {
             }
         }
 
-        info!("Corrections: {:?}", escalator_corrections);
+        debug!("Corrections: {:?}", escalator_corrections);
 
         for (_escalator, escalator_entity, escalator_grid_location) in
             (&escalators, &entities, &mut grid_locations).join()

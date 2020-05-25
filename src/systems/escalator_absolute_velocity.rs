@@ -33,7 +33,7 @@ impl<'s> System<'s> for AbsoluteEscalatorVelocitySystem {
             let absolute_velocity = velocity(&escalator_atop, &atops, &steps, &velocities);
             let mut escalator_velocity = velocities.get_mut(escalator_entity).unwrap();
             escalator_velocity.absolute = absolute_velocity;
-            info!("Escalator velocity: {:?}", escalator_velocity);
+            debug!("Escalator velocity: {:?}", escalator_velocity);
         }
     }
 }
