@@ -35,6 +35,7 @@ impl<'s> System<'s> for EscalatorTapeSystem {
                 move_tape_forwards(snapshots, escalator_grid_location, escalator);
             } else {
                 info!("Going backward");
+                // probably need to handle direction specially!
                 move_tape_backwards(snapshots, escalator_grid_location, escalator);
             }
         }

@@ -28,8 +28,9 @@ use systems::{
     core::{DownKeysSystem, RewindableClockSystem, StepTapeSystem, ThingTapeSystem, ToggleSystem},
     velocity::AtopSystem,
     AbsoluteEscalatorVelocitySystem, AbsoluteStepVelocitySystem, AbsoluteThingVelocity,
-    EscalatorPositionSystem, EscalatorTapeSystem, GridLocationTransformSystem,
-    IntrinsicStepVelocitySystem, StepPositionSystem, ThingCorrectionSystem, ThingPositionSystem,
+    EscalatorCorrectionSystem, EscalatorPositionSystem, EscalatorTapeSystem,
+    GridLocationTransformSystem, IntrinsicStepVelocitySystem, StepPositionSystem,
+    ThingCorrectionSystem, ThingPositionSystem,
 };
 
 fn main() -> amethyst::Result<()> {
@@ -140,6 +141,11 @@ fn main() -> amethyst::Result<()> {
             &[any::type_name::<AbsoluteThingVelocity>()],
         )
         .with(
+            EscalatorCorrectionSystem,
+            any::type_name::<EscalatorCorrectionSystem>(),
+            &[any::type_name::<StepPositionSystem>()],
+        )
+        .with(
             ThingCorrectionSystem,
             any::type_name::<ThingCorrectionSystem>(),
             &[any::type_name::<ThingPositionSystem>()],
@@ -148,8 +154,8 @@ fn main() -> amethyst::Result<()> {
             GridLocationTransformSystem,
             any::type_name::<GridLocationTransformSystem>(),
             &[
-                any::type_name::<StepPositionSystem>(),
-                any::type_name::<ThingPositionSystem>(),
+                any::type_name::<EscalatorCorrectionSystem>(),
+                any::type_name::<ThingCorrectionSystem>(),
             ],
         );
 

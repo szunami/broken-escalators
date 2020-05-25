@@ -30,3 +30,6 @@ pub use escalator_position::EscalatorPositionSystem;
 
 mod escalator_tape;
 pub use escalator_tape::EscalatorTapeSystem;
+
+mod escalator_correction;
+pub use escalator_correction::EscalatorCorrectionSystem;
