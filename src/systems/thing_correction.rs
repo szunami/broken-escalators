@@ -1,6 +1,6 @@
 use crate::components::{GridLocation, Rectangle, Step, Thing};
 use crate::{
-    resources::RewindableClock, utils::overlap_exists, utils::x_overlap, utils::BoundingBox,
+    resources::RewindableClock, utils::{y_overlap, overlap_exists}, utils::x_overlap, utils::BoundingBox,
 };
 use amethyst::{
     derive::SystemDesc,
@@ -38,7 +38,13 @@ impl<'s> System<'s> for ThingCorrectionSystem {
                 if overlap_exists(&thing_box, &step_box) {
                     // choose between y and x overlap based on abs?
                     debug!("Found overlap between {:?} and {:?}", thing_box, step_box);
-                    thing_grid_location.x += x_overlap(&thing_box, &step_box);
+                    let x= x_overlap(&thing_box, &step_box);
+                    let y = y_overlap(&thing_box, &step_box);
+                    if x.abs() < y.abs() {
+                        thing_grid_location.x += x;
+                    } else {
+                        thing_grid_location.y += y;
+                    }
                 }
             }
 

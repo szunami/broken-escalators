@@ -47,6 +47,14 @@ pub fn x_overlap(a: &BoundingBox, b: &BoundingBox) -> i32 {
     b.right - a.left
 }
 
+// how much do we have to move a such that it does not collide with b
+pub fn y_overlap(a: &BoundingBox, b: &BoundingBox) -> i32 {
+    if a.bottom < b.bottom {
+        return b.bottom - a.top;
+    }
+    b.top - a.bottom
+}
+
 pub fn overlap_exists(a: &BoundingBox, b: &BoundingBox) -> bool {
     if !overlaps(a.left, a.right, b.left, b.right) {
         return false;
