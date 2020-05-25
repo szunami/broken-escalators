@@ -1,10 +1,10 @@
-use crate::components::{Atop, GridLocation, Rectangle,  Escalator, Step, Thing, BaseEntity};
+use crate::components::{Atop, BaseEntity, Escalator, GridLocation, Rectangle, Step, Thing};
 use crate::{
     resources::RewindableClock, utils::overlap_exists, utils::x_overlap, utils::BoundingBox,
 };
 use amethyst::{
     derive::SystemDesc,
-    ecs::prelude::{Entity, Entities, Join, Read, ReadStorage, System, SystemData, WriteStorage},
+    ecs::prelude::{Entities, Entity, Join, Read, ReadStorage, System, SystemData, WriteStorage},
 };
 use std::collections::HashMap;
 
@@ -68,7 +68,7 @@ impl<'s> System<'s> for EscalatorCorrectionSystem {
                                     info!("Need to apply correction to this step");
                                     escalator_corrections.insert(
                                         step.escalator,
-                                        x_overlap(&step_box, &other_step_box)
+                                        x_overlap(&step_box, &other_step_box),
                                     );
                                 }
                             }
@@ -82,18 +82,23 @@ impl<'s> System<'s> for EscalatorCorrectionSystem {
 
         info!("Corrections: {:?}", escalator_corrections);
 
-        for (_escalator, escalator_entity, mut escalator_grid_location) in (&escalators, &entities, &mut grid_locations).join() {
-            escalator_corrections.get(&escalator_entity).map(|correction| {
-                escalator_grid_location.x += correction;
-            });
+        for (_escalator, escalator_entity, mut escalator_grid_location) in
+            (&escalators, &entities, &mut grid_locations).join()
+        {
+            escalator_corrections
+                .get(&escalator_entity)
+                .map(|correction| {
+                    escalator_grid_location.x += correction;
+                });
         }
 
         for (step, mut step_grid_location) in (&steps, &mut grid_locations).join() {
-            escalator_corrections.get(&step.escalator).map(|correction| {
-                step_grid_location.x += correction;
-            });
+            escalator_corrections
+                .get(&step.escalator)
+                .map(|correction| {
+                    step_grid_location.x += correction;
+                });
         }
-
 
         //     let step_grid_location = grid_locations.get(step_entity).unwrap().clone();
         //     let step_box = BoundingBox::new(&step_rectangle, &step_grid_location);
