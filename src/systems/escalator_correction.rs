@@ -1,4 +1,4 @@
-use crate::components::{Atop, BaseEntity, Escalator, GridLocation, Rectangle, Step, Thing};
+use crate::components::{Atop, BaseEntity, Escalator, GridLocation, Rectangle, Step};
 use crate::{
     resources::RewindableClock, utils::overlap_exists, utils::x_overlap, utils::BoundingBox,
 };
@@ -15,7 +15,6 @@ impl<'s> System<'s> for EscalatorCorrectionSystem {
     type SystemData = (
         Entities<'s>,
         Read<'s, RewindableClock>,
-        ReadStorage<'s, Thing>,
         ReadStorage<'s, Step>,
         ReadStorage<'s, Escalator>,
         ReadStorage<'s, Rectangle>,
@@ -25,7 +24,7 @@ impl<'s> System<'s> for EscalatorCorrectionSystem {
 
     fn run(
         &mut self,
-        (entities, clock, things, steps, escalators, rectangles, atops, mut grid_locations): Self::SystemData,
+        (entities, clock, steps, escalators, rectangles, atops, mut grid_locations): Self::SystemData,
     ) {
         if !clock.going_forwards() {
             return;
@@ -47,7 +46,7 @@ impl<'s> System<'s> for EscalatorCorrectionSystem {
                 let other_step_box =
                     BoundingBox::new(&other_step_rectangle, &other_step_grid_location);
 
-                let mut step_grid_location = grid_locations.get_mut(step_entity).unwrap();
+                let step_grid_location = grid_locations.get_mut(step_entity).unwrap();
                 let step_box = BoundingBox::new(&step_rectangle, &step_grid_location);
                 if overlap_exists(&step_box, &other_step_box) {
                     info!(
@@ -82,7 +81,7 @@ impl<'s> System<'s> for EscalatorCorrectionSystem {
 
         info!("Corrections: {:?}", escalator_corrections);
 
-        for (_escalator, escalator_entity, mut escalator_grid_location) in
+        for (_escalator, escalator_entity, escalator_grid_location) in
             (&escalators, &entities, &mut grid_locations).join()
         {
             escalator_corrections
@@ -92,24 +91,12 @@ impl<'s> System<'s> for EscalatorCorrectionSystem {
                 });
         }
 
-        for (step, mut step_grid_location) in (&steps, &mut grid_locations).join() {
+        for (step, step_grid_location) in (&steps, &mut grid_locations).join() {
             escalator_corrections
                 .get(&step.escalator)
                 .map(|correction| {
                     step_grid_location.x += correction;
                 });
         }
-
-        //     let step_grid_location = grid_locations.get(step_entity).unwrap().clone();
-        //     let step_box = BoundingBox::new(&step_rectangle, &step_grid_location);
-
-        //     let mut thing_grid_location = grid_locations.get_mut(thing_entity).unwrap();
-        //     let thing_box = BoundingBox::new(thing_rectangle, thing_grid_location);
-
-        //     if overlap_exists(&thing_box, &step_box) {
-        //         debug!("Found overlap between {:?} and {:?}", thing_box, step_box);
-        //         thing_grid_location.x += x_overlap(&thing_box, &step_box);
-        //     }
-        // }
     }
 }

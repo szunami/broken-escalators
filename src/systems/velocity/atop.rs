@@ -67,7 +67,7 @@ impl<'s> System<'s> for AtopSystem {
                 }
             }
             for (
-                other_thing,
+                _other_thing,
                 other_thing_entity,
                 other_thing_grid_location,
                 other_thing_rectangle,
@@ -84,15 +84,15 @@ impl<'s> System<'s> for AtopSystem {
             info!("Thing {:?} is atop {:?}", thing_entity, thing_atop.bases);
         }
 
-        for (escalator, escalator_atop) in (&escalators, &mut atops).join() {
+        for (_escalator, escalator_atop) in (&escalators, &mut atops).join() {
             escalator_atop.bases.clear();
         }
 
-        for (step, step_entity, step_grid_location, step_rectangle) in
-            (&steps, &entities, &grid_locations, &rectangles).join()
+        for (step, step_grid_location, step_rectangle) in
+            (&steps, &grid_locations, &rectangles).join()
         {
             let step_bounds = BoundingBox::new(step_rectangle, step_grid_location);
-            let mut escalator_atop = atops.get_mut(step.escalator).unwrap();
+            let escalator_atop = atops.get_mut(step.escalator).unwrap();
 
             for (_platform, platform_entity, platform_grid_location, platform_rectangle) in
                 (&platforms, &entities, &grid_locations, &rectangles).join()

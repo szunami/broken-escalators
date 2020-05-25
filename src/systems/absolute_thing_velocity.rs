@@ -27,7 +27,7 @@ impl<'s> System<'s> for AbsoluteThingVelocity {
         if !clock.going_forwards() {
             return;
         }
-        for (thing, thing_entity, thing_atop) in (&things, &entities, &atops).join() {
+        for (_thing, thing_entity, thing_atop) in (&things, &entities, &atops).join() {
             let absolute_velocity = velocity(&thing_atop, &atops, &steps, &velocities);
             let mut thing_velocity = velocities.get_mut(thing_entity).unwrap();
             thing_velocity.absolute = absolute_velocity;
