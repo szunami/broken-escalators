@@ -5,7 +5,7 @@ use crate::{
 };
 use amethyst::{
     derive::SystemDesc,
-    ecs::prelude::{Join, Read, ReadStorage, System, SystemData, WriteStorage},
+    ecs::prelude::{Join, Read, System, SystemData, WriteStorage},
 };
 
 #[derive(SystemDesc)]

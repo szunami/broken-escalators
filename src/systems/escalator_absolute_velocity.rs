@@ -1,9 +1,8 @@
 use crate::systems::absolute_thing_velocity::velocity;
 use crate::{
-    components::{Atop, BaseEntity, Escalator, Step, Thing, Velocity},
+    components::{Atop, Escalator, Step, Velocity},
     resources::RewindableClock,
 };
-use amethyst::core::math::Vector3;
 use amethyst::{
     derive::SystemDesc,
     ecs::prelude::{Entities, Join, Read, ReadStorage, System, SystemData, WriteStorage},

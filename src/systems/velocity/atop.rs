@@ -1,6 +1,6 @@
 use crate::{
     components::{
-        Atop, BaseEntity, Escalator, GridLocation, Platform, Rectangle, Step, Thing, Velocity,
+        Atop, BaseEntity, Escalator, GridLocation, Platform, Rectangle, Step, Thing,
     },
     resources::RewindableClock,
     utils::{is_atop, BoundingBox},
@@ -23,7 +23,6 @@ impl<'s> System<'s> for AtopSystem {
         ReadStorage<'s, Step>,
         ReadStorage<'s, Platform>,
         ReadStorage<'s, Rectangle>,
-        WriteStorage<'s, Velocity>,
         WriteStorage<'s, Atop>,
     );
 
@@ -38,7 +37,6 @@ impl<'s> System<'s> for AtopSystem {
             steps,
             platforms,
             rectangles,
-            mut velocities,
             mut atops,
         ): Self::SystemData,
     ) {
@@ -50,8 +48,8 @@ impl<'s> System<'s> for AtopSystem {
         {
             thing_atop.bases.clear();
             let thing_bounds = BoundingBox::new(thing_rectangle, thing_grid_location);
-            for (_step, step_entity, step_grid_location, step_rectangle, step_velocity) in
-                (&steps, &entities, &grid_locations, &rectangles, &velocities).join()
+            for (_step, step_entity, step_grid_location, step_rectangle) in
+                (&steps, &entities, &grid_locations, &rectangles).join()
             {
                 let step_bounds = BoundingBox::new(step_rectangle, step_grid_location);
                 if is_atop(&thing_bounds, &step_bounds) {
@@ -90,8 +88,8 @@ impl<'s> System<'s> for AtopSystem {
             escalator_atop.bases.clear();
         }
 
-        for (step, step_entity, step_grid_location, step_rectangle, step_velocity) in
-            (&steps, &entities, &grid_locations, &rectangles, &velocities).join()
+        for (step, step_entity, step_grid_location, step_rectangle) in
+            (&steps, &entities, &grid_locations, &rectangles).join()
         {
             let step_bounds = BoundingBox::new(step_rectangle, step_grid_location);
             let mut escalator_atop = atops.get_mut(step.escalator).unwrap();
@@ -112,8 +110,7 @@ impl<'s> System<'s> for AtopSystem {
                 other_step_entity,
                 other_step_grid_location,
                 other_step_rectangle,
-                other_step_velocity,
-            ) in (&steps, &entities, &grid_locations, &rectangles, &velocities).join()
+            ) in (&steps, &entities, &grid_locations, &rectangles).join()
             {
                 if other_step.escalator == step.escalator {
                     info!("Same escalator, skipping.");
@@ -134,50 +131,5 @@ impl<'s> System<'s> for AtopSystem {
                 step.escalator, escalator_atop.bases
             );
         }
-
-        // for (
-        //     escalator,
-        //     escalator_entity,
-        //     escalator_grid_location,
-        //     escalator_rectangle,
-        //     escalator_atop,
-        // ) in (
-        //     &escalators,
-        //     &entities,
-        //     &grid_locations,
-        //     &rectangles,
-        //     &mut atops,
-        // )
-        //     .join()
-        // {
-        //     escalator_atop.bases.clear();
-
-        //     let escalator_bounds = BoundingBox::new(escalator_rectangle, escalator_grid_location);
-
-        //     for (_platform, platform_entity, platform_grid_location, platform_rectangle) in
-        //         (&platforms, &entities, &grid_locations, &rectangles).join()
-        //     {
-        //         let platform_bounds = BoundingBox::new(platform_rectangle, platform_grid_location);
-        //         if is_atop(&escalator_bounds, &platform_bounds) {
-        //             escalator_atop
-        //                 .bases
-        //                 .insert(BaseEntity::Platform(platform_entity));
-        //         }
-        //     }
-
-        //     for (_step, step_entity, step_grid_location, step_rectangle, step_velocity) in
-        //         (&steps, &entities, &grid_locations, &rectangles, &velocities).join()
-        //     {
-        //         let step_bounds = BoundingBox::new(step_rectangle, step_grid_location);
-
-        //         if is_atop(&escalator_bounds, &step_bounds) {
-        //             escalator_atop.bases.insert(BaseEntity::Step(step_entity));
-        //         }
-        //     }
-        //     info!(
-        //         "Escalator {:?} is atop {:?}",
-        //         escalator_entity, escalator_atop.bases
-        //     );
-        // }
     }
 }
