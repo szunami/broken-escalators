@@ -53,7 +53,7 @@ impl<'s> System<'s> for ThingCorrectionSystem {
 
             let mut thing_grid_location = grid_locations.get_mut(thing_entity).unwrap();
             if thing_grid_location.y < 0 {
-                thing_grid_location.y += 32;
+                // thing_grid_location.y += 32;
             }
         }
     }
