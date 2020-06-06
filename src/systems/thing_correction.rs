@@ -1,10 +1,8 @@
-use crate::components::{GridLocation, Rectangle, Step, Thing};
 use crate::{
     resources::RewindableClock,
-    utils::x_overlap,
-    utils::BoundingBox,
-    utils::{overlap_exists, y_overlap},
-};
+    utils::{overlap_exists, y_overlap, BoundingBox, x_overlap},
+    entities::ARENA_HEIGHT,
+components::{GridLocation, Rectangle, Step, Thing}};
 use amethyst::{
     derive::SystemDesc,
     ecs::prelude::{Entities, Join, Read, ReadStorage, System, SystemData, WriteStorage},
@@ -53,7 +51,7 @@ impl<'s> System<'s> for ThingCorrectionSystem {
 
             let mut thing_grid_location = grid_locations.get_mut(thing_entity).unwrap();
             if thing_grid_location.y < 0 {
-                // thing_grid_location.y += 32;
+                thing_grid_location.y += (ARENA_HEIGHT / 32.) as i32;
             }
         }
     }

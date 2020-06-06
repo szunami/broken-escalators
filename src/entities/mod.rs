@@ -8,7 +8,7 @@ mod step;
 mod thing;
 
 pub use self::background::initialize_background;
-pub use self::camera::initialize_camera;
+pub use self::camera::{initialize_camera, ARENA_HEIGHT, ARENA_WIDTH};
 pub use self::down_keys::initialize_down_keys;
 pub use self::escalator::initialize_escalator;
 pub use self::rewindable_clock::initialize_clock;
