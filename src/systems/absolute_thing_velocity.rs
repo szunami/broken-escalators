@@ -43,7 +43,7 @@ pub fn velocity<'s>(
     steps: &ReadStorage<'s, Step>,
     velocities: &WriteStorage<'s, Velocity>,
 ) -> Vector3<i32> {
-    let mut atop_velocities: Vec<Vector3<i32>> = atop
+    let atop_velocities: Vec<Vector3<i32>> = atop
         .bases
         .iter()
         .map(|base_entity| {
