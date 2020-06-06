@@ -43,7 +43,7 @@ pub fn velocity<'s>(
     steps: &ReadStorage<'s, Step>,
     velocities: &WriteStorage<'s, Velocity>,
 ) -> Vector3<i32> {
-    let mut atop_velocities: Vec<Vector3<i32>> = atop
+    let atop_velocities: Vec<Vector3<i32>> = atop
         .bases
         .iter()
         .map(|base_entity| {
@@ -65,9 +65,9 @@ pub fn velocity<'s>(
             }
         })
         .collect();
-    atop_velocities.push(Vector3::new(0, GRAVITY_VELOCITY, 0));
+
     *atop_velocities
         .iter()
         .max_by_key(|velocity| velocity[1])
-        .unwrap()
+        .unwrap_or(&Vector3::new(0, GRAVITY_VELOCITY, 0))
 }
