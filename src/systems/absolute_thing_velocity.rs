@@ -65,9 +65,9 @@ pub fn velocity<'s>(
             }
         })
         .collect();
-    atop_velocities.push(Vector3::new(0, GRAVITY_VELOCITY, 0));
+
     *atop_velocities
         .iter()
         .max_by_key(|velocity| velocity[1])
-        .unwrap()
+        .unwrap_or(&Vector3::new(0, GRAVITY_VELOCITY, 0))
 }
