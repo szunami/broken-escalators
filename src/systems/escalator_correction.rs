@@ -78,19 +78,15 @@ impl<'s> System<'s> for EscalatorCorrectionSystem {
         for (_escalator, escalator_entity, escalator_grid_location) in
             (&escalators, &entities, &mut grid_locations).join()
         {
-            escalator_corrections
-                .get(&escalator_entity)
-                .map(|correction| {
-                    escalator_grid_location.x += correction;
-                });
+            if let Some(correction) = escalator_corrections.get(&escalator_entity) {
+                escalator_grid_location.x += correction;
+            }
         }
 
         for (step, step_grid_location) in (&steps, &mut grid_locations).join() {
-            escalator_corrections
-                .get(&step.escalator)
-                .map(|correction| {
-                    step_grid_location.x += correction;
-                });
+            if let Some(correction) = escalator_corrections.get(&step.escalator) {
+                step_grid_location.x += correction;
+            }
         }
     }
 }
