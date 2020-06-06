@@ -58,21 +58,15 @@ impl<'s> System<'s> for EscalatorCorrectionSystem {
 
                     // is step atop other_step's escalator?
                     for base_entity in step_atop.bases.iter() {
-                        match base_entity {
-                            BaseEntity::Step(entity) => {
-                                // we're atop a step; is that step in other_step's escalator?
-                                let step_step_is_atop = steps.get(*entity).unwrap();
-                                if step_step_is_atop.escalator == other_step.escalator {
-                                    // we're atop other step's escalator! we get corrected
-                                    debug!("Need to apply correction to this step");
-                                    escalator_corrections.insert(
-                                        step.escalator,
-                                        x_overlap(&step_box, &other_step_box),
-                                    );
-                                }
+                        if let BaseEntity::Step(entity) = base_entity {
+                            // we're atop a step; is that step in other_step's escalator?
+                            let step_step_is_atop = steps.get(*entity).unwrap();
+                            if step_step_is_atop.escalator == other_step.escalator {
+                                // we're atop other step's escalator! we get corrected
+                                debug!("Need to apply correction to this step");
+                                escalator_corrections
+                                    .insert(step.escalator, x_overlap(&step_box, &other_step_box));
                             }
-                            // not worried about other cases now
-                            _ => {}
                         }
                     }
                 }
